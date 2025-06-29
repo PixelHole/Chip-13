@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="Chippie_Lite_WPF.UI.Elements.WindowRibbon"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Elements"
+             mc:Ignorable="d"
+             Background="Transparent"
+             Height="32"
+             Width="96"
+             d:DesignHeight="32" d:DesignWidth="96">
+    <Grid>
+        <StackPanel Orientation="Horizontal">
+            <local:SquareButton x:Name="MinimizeBtn" Label="_" Width="32" Click="MinimizeBtn_OnClick"
+                                BackgroundHoverColor="{StaticResource 'Dark Green'}"/>
+            <local:SquareButton x:Name="FullscreenBtn" Label="O" Width="32" Click="FullscreenBtn_OnClick"
+                                BackgroundHoverColor="{StaticResource Brown}"/>
+            <local:SquareButton x:Name="CloseBtn" Label="X" Width="32" Click="CloseBtn_OnClick"
+                                BackgroundHoverColor="{StaticResource 'Red'}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

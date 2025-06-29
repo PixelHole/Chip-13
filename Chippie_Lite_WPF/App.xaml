@@ -1,0 +1,34 @@
+﻿<Application x:Class="Chippie_Lite_WPF.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Chippie_Lite_WPF"
+             StartupUri="/UI/Windows/MainWindow.xaml">
+    <Application.Resources>
+        <FontFamily x:Key="TextFont">/Resources/Fonts/#Kenney Mini Regular</FontFamily>
+        <FontFamily x:Key="TextFontAlt">/Resources/Fonts/#Kenney Mini Square Regular</FontFamily>
+        <Brush x:Key="Black">#000000</Brush>
+        <Brush x:Key="Dark Blue">#1d2b53</Brush>
+        <Brush x:Key="Deep Purple">#7e2553</Brush>
+        <Brush x:Key="Dark Green">#008751</Brush>
+        <Brush x:Key="Brown">#ab5236</Brush>
+        <Brush x:Key="Weird Grey">#5f574f</Brush>
+        <Brush x:Key="Light Grey">#c2c3c7</Brush>
+        <Brush x:Key="White">#fff1e8</Brush>
+        <Brush x:Key="Red">#ff004d</Brush>
+        <Brush x:Key="Orange">#ffa300</Brush>
+        <Brush x:Key="Yellow">#ffec27</Brush>
+        <Brush x:Key="Green">#00e436</Brush>
+        <Brush x:Key="Light Blue">#29adff</Brush>
+        <Brush x:Key="Faded Purple">#83769c</Brush>
+        <Brush x:Key="Pink">#ff77a8</Brush>
+        <Brush x:Key="Bisque">#ffccaa</Brush>
+        <ImageSource x:Key="LogoWhiteBig">Resources\Images\logoLight32.png</ImageSource>
+        <ImageSource x:Key="LogoWhiteMed">Resources\Images\logoLight16.png</ImageSource>
+        <ImageSource x:Key="LogoWhiteSml">Resources\Images\logoLight8.png</ImageSource>
+        <ImageSource x:Key="LogoPinkBig">Resources\Images\logoPink32.png</ImageSource>
+        <ImageSource x:Key="LogoPinkMed">Resources\Images\logoPink16.png</ImageSource>
+        <ImageSource x:Key="LogoPinkSml">Resources\Images\logoPink8.png</ImageSource>
+        <ImageSource x:Key="LogoNegativePinkMed">Resources\Images\logoNegativePink16.png</ImageSource>
+        <ImageSource x:Key="LogoNegativeWhiteMed">Resources\Images\logoNegativeWhite16.png</ImageSource>
+    </Application.Resources>
+</Application>
