@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Windows.Development"
+             xmlns:syntax="clr-namespace:UI.SyntaxBox;assembly=UI.SyntaxBox"
              mc:Ignorable="d"
              Background="Transparent"
              d:DesignHeight="300" d:DesignWidth="400">
@@ -26,7 +27,17 @@
                          Background="Transparent" Foreground="{StaticResource White}" 
                          BorderBrush="Transparent" BorderThickness="0" SelectionBrush="{StaticResource Pink}"
                          FontFamily="{StaticResource TextFont}" FontSize="22"
-                         AcceptsReturn="True" AcceptsTab="True"/>
+                         AcceptsReturn="True" AcceptsTab="True" SnapsToDevicePixels="True"
+                         syntax:SyntaxBox.Enable="True"
+                         syntax:SyntaxBox.AutoIndent="True"
+                         syntax:SyntaxBox.ExpandTabs="True"
+                         syntax:SyntaxBox.ShowLineNumbers="False">
+                    <syntax:SyntaxBox.SyntaxDrivers>
+                        <syntax:SyntaxConfig>
+                            <syntax:KeywordRule Foreground="{StaticResource Pink}" Keywords="add"/>
+                        </syntax:SyntaxConfig>
+                    </syntax:SyntaxBox.SyntaxDrivers>
+                </TextBox>
                 
                 <Border Grid.Column="0" BorderThickness="0, 0, 4, 0" BorderBrush="{StaticResource 'Faded Purple'}">
                     <TextBlock x:Name="LineDisplay" Background="{StaticResource 'Dark Blue'}" Margin="4, 0, 0, 0"

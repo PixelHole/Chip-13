@@ -1,4 +1,4 @@
-﻿using Chippie_Lite.Computer.Components.Registers;
+﻿using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite.Computer.Instructions;
 
 namespace Chippie_Lite.Internal

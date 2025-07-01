@@ -89,4 +89,8 @@
       <Resource Include="Resources\Images\logo8.png" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="UI.SyntaxBox" Version="1.0.0" />
+    </ItemGroup>
+
 </Project>

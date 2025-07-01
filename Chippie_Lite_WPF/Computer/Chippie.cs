@@ -1,6 +1,4 @@
-﻿using Chippie_Lite.Computer.Components.InstructionBanks;
-using Chippie_Lite.Computer.Components.Processing;
-using Chippie_Lite.Computer.Components.Registers;
+﻿using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite.Computer.Instructions;
 using Chippie_Lite.Internal;
 

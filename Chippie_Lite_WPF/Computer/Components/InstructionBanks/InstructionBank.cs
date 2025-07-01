@@ -1,7 +1,6 @@
 ﻿using Chippie_Lite.Computer.Instructions;
-using Chippie_Lite.Internal;
 
-namespace Chippie_Lite.Computer.Components.InstructionBanks;
+namespace Chippie_Lite_WPF.Computer.Components;
 
 public static class InstructionBank
 {

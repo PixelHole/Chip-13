@@ -1,9 +1,6 @@
-﻿using Chippie_Lite.Computer.Components.InstructionBanks;
-using Chippie_Lite.Computer.Components.Registers;
-using Chippie_Lite.Computer.Instructions;
-using Chippie_Lite.Internal;
+﻿using Chippie_Lite.Computer.Instructions;
 
-namespace Chippie_Lite.Computer.Components.Processing
+namespace Chippie_Lite_WPF.Computer.Components
 {
     public static class InstructionProcessor
     { 

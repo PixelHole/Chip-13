@@ -1,7 +1,7 @@
-﻿namespace Chippie_Lite.Computer.Components.Memory;
+﻿namespace Chippie_Lite_WPF.Computer.Components;
 
 public class Memory 
 {
-    public bool[] Storage { get; private set; }
+    public int[] Storage { get; private set; }
     public bool ReadOnly { get; private set; }
 }

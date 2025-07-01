@@ -1,4 +1,4 @@
-﻿namespace Chippie_Lite.Computer.Components.Registers
+﻿namespace Chippie_Lite_WPF.Computer.Components
 {
     public static class RegisterBank
     {
