@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Chippie_Lite_WPF.UI.Elements;
 
 namespace Chippie_Lite_WPF;
 
@@ -29,19 +30,19 @@ public partial class MainWindow : Window
     }
     
     
-    private void ToolbarFileBtn_OnClick()
+    private void ToolbarFileBtn_OnClick(SquareButton sender)
     {
         
     }
-    private void ToolbarRunBtn_OnClick()
+    private void ToolbarRunBtn_OnClick(SquareButton sender)
     {
         
     }
-    private void ToolbarHelpBtn_OnClick()
+    private void ToolbarHelpBtn_OnClick(SquareButton sender)
     {
         
     }
-    private void ToolbarLogoBtn_OnClick()
+    private void ToolbarLogoBtn_OnClick(SquareButton sender)
     {
         
     }

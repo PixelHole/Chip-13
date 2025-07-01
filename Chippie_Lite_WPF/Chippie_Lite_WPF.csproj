@@ -17,21 +17,57 @@
       <None Remove="Resources\Images\logo16.png" />
       <None Remove="Resources\Images\logo32.png" />
       <None Remove="Resources\Images\logoLight8.png" />
-      <Resource Include="Resources\Images\logoLight8.png" />
       <None Remove="Resources\Images\logoLight16.png" />
-      <Resource Include="Resources\Images\logoLight16.png" />
       <None Remove="Resources\Images\logoLight32.png" />
-      <Resource Include="Resources\Images\logoLight32.png" />
       <None Remove="Resources\Images\logoPink8.png" />
-      <Resource Include="Resources\Images\logoPink8.png" />
       <None Remove="Resources\Images\logoPink16.png" />
-      <Resource Include="Resources\Images\logoPink16.png" />
       <None Remove="Resources\Images\logoPink32.png" />
-      <Resource Include="Resources\Images\logoPink32.png" />
       <None Remove="Resources\Images\logoNegativePink16.png" />
-      <Resource Include="Resources\Images\logoNegativePink16.png" />
       <None Remove="Resources\Images\logoNegativewhite16.png" />
-      <Resource Include="Resources\Images\logoNegativeWhite16.png" />
+      <None Remove="Resources\Images\Icons\BigI.png" />
+      <Resource Include="Resources\Images\Icons\BigI.png" />
+      <None Remove="Resources\Images\Icons\cross.png" />
+      <Resource Include="Resources\Images\Icons\cross.png" />
+      <None Remove="Resources\Images\Icons\Divide.png" />
+      <Resource Include="Resources\Images\Icons\Divide.png" />
+      <None Remove="Resources\Images\Icons\edit.png" />
+      <Resource Include="Resources\Images\Icons\edit.png" />
+      <None Remove="Resources\Images\Icons\FourSquares.png" />
+      <Resource Include="Resources\Images\Icons\FourSquares.png" />
+      <None Remove="Resources\Images\Icons\HorizontalLine.png" />
+      <Resource Include="Resources\Images\Icons\HorizontalLine.png" />
+      <None Remove="Resources\Images\Icons\LineDown.png" />
+      <Resource Include="Resources\Images\Icons\LineDown.png" />
+      <None Remove="Resources\Images\Icons\LineUp.png" />
+      <Resource Include="Resources\Images\Icons\LineUp.png" />
+      <None Remove="Resources\Images\Icons\pause.png" />
+      <Resource Include="Resources\Images\Icons\pause.png" />
+      <None Remove="Resources\Images\Icons\percent.png" />
+      <Resource Include="Resources\Images\Icons\percent.png" />
+      <None Remove="Resources\Images\Icons\play.png" />
+      <Resource Include="Resources\Images\Icons\play.png" />
+      <None Remove="Resources\Images\Icons\plus.png" />
+      <Resource Include="Resources\Images\Icons\plus.png" />
+      <None Remove="Resources\Images\Icons\questionMark.png" />
+      <Resource Include="Resources\Images\Icons\questionMark.png" />
+      <None Remove="Resources\Images\Icons\smalli.png" />
+      <Resource Include="Resources\Images\Icons\smalli.png" />
+      <None Remove="Resources\Images\Icons\square.png" />
+      <Resource Include="Resources\Images\Icons\square.png" />
+      <None Remove="Resources\Images\Icons\threeLinesDown.png" />
+      <Resource Include="Resources\Images\Icons\threeLinesDown.png" />
+      <None Remove="Resources\Images\Icons\threeLinesThick.png" />
+      <Resource Include="Resources\Images\Icons\threeLinesThick.png" />
+      <None Remove="Resources\Images\Icons\threeLinesup.png" />
+      <Resource Include="Resources\Images\Icons\threeLinesup.png" />
+      <None Remove="Resources\Images\Icons\Underline.png" />
+      <Resource Include="Resources\Images\Icons\Underline.png" />
+      <None Remove="Resources\Images\Icons\VerticalLine.png" />
+      <Resource Include="Resources\Images\Icons\VerticalLine.png" />
+      <None Remove="Resources\Images\Icons\ThumbDown.png" />
+      <Resource Include="Resources\Images\Icons\ThumbDown.png" />
+      <None Remove="Resources\Images\Icons\ThumbUp.png" />
+      <Resource Include="Resources\Images\Icons\ThumbUp.png" />
     </ItemGroup>
 
     <ItemGroup>
@@ -40,6 +76,17 @@
         <XamlRuntime>Wpf</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
+      <Page Update="UI\Elements\PageSelect\PageSelect.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="Resources\Images\logo16.png" />
+      <Resource Include="Resources\Images\logo32.png" />
+      <Resource Include="Resources\Images\logo8.png" />
     </ItemGroup>
 
 </Project>

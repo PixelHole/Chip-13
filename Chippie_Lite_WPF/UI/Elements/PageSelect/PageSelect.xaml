@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="Chippie_Lite_WPF.UI.Elements.PageSelect"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Elements"
+             mc:Ignorable="d"
+             Background="{StaticResource 'Dark Blue'}"
+             Height="32"
+             d:DesignWidth="300">
+    <Grid x:Name="Body">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <local:PageTab Grid.Row="0" Grid.Column="0" Text="Code" IconSource="../../../Resources/Images/Icons/BigI.png"
+                       BackgroundHoverColor="{StaticResource 'Deep Purple'}"
+                       BackgroundClickColor="{StaticResource Red}"
+                       BackgroundHighLightColor="{StaticResource Pink}"/>
+        <local:PageTab Grid.Row="0" Grid.Column="1" Text="Memory" IconSource="../../../Resources/Images/Icons/FourSquares.png"
+                       BackgroundHoverColor="{StaticResource 'Deep Purple'}"
+                       BackgroundClickColor="{StaticResource Red}"
+                       BackgroundHighLightColor="{StaticResource Pink}"/>
+        <local:PageTab Grid.Row="0" Grid.Column="2" Text="Run" IconSource="../../../Resources/Images/Icons/play.png"
+                       BackgroundHoverColor="{StaticResource 'Deep Purple'}"
+                       BackgroundClickColor="{StaticResource Red}"
+                       BackgroundHighLightColor="{StaticResource Pink}"/>
+        
+    </Grid>
+</UserControl>

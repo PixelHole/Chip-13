@@ -11,7 +11,10 @@ public partial class SquareButton : UserControl
     private string _label;
     private ImageSource _icon;
 
-    public delegate void ClickAction();
+    public bool Sticky { get; set; }
+    public bool Selected { get; private set; }
+    
+    public delegate void ClickAction(SquareButton sender);
     public event ClickAction Click;
     
     
@@ -35,17 +38,40 @@ public partial class SquareButton : UserControl
     }
 
     public Brush BackgroundHoverColor { get; set; } = new SolidColorBrush(Color.FromRgb(131, 118, 156));
-    public Brush BackgroundDefaultColor { get; set; } = new SolidColorBrush(Color.FromRgb(29, 43, 83));
+    public Brush BackgroundDefaultColor { get; set; } = new SolidColorBrush(Colors.Transparent);
     public Brush BackgroundClickColor { get; set; } = new SolidColorBrush(Color.FromRgb(255, 119, 168));
+    public Brush BackgroundHighLightColor { get; set; } = new SolidColorBrush(Color.FromRgb(255, 241, 232));
     
     
     public SquareButton()
     {
         InitializeComponent();
-        
+        // SetColor(BackgroundDefaultColor);
     }
-    
-    
+
+
+    public void SetSelected(bool selected)
+    {
+        Selected = selected;
+        switch (MouseInside)
+        {
+            case true when Selected:
+                SetColor(BackgroundHighLightColor);
+                break;
+            
+            case true when !Selected:
+                SetColor(BackgroundClickColor);
+                break;
+            
+            case false when Selected:
+                SetColor(BackgroundHoverColor);
+                break;
+            
+            case false when !Selected:
+                SetColor(BackgroundDefaultColor);
+                break;
+        }
+    }
     private void SetColor(Brush color)
     {
         Body.Background = color;
@@ -54,12 +80,34 @@ public partial class SquareButton : UserControl
     private void Body_OnMouseEnter(object sender, MouseEventArgs e)
     {
         MouseInside = true;
-        SetColor(BackgroundHoverColor);
+        switch (Sticky)
+        {
+            case true when !Selected:
+                SetColor(BackgroundHoverColor);
+                break;
+            case true when Selected:
+                SetColor(BackgroundClickColor);
+                break;
+            case false :
+                SetColor(BackgroundHoverColor);
+                break;
+        }
     }
     private void Body_OnMouseLeave(object sender, MouseEventArgs e)
     {
         MouseInside = false;
-        SetColor(BackgroundDefaultColor);
+        switch (Sticky)
+        {
+            case true when !Selected:
+                SetColor(BackgroundDefaultColor);
+                break;
+            case true when Selected:
+                SetColor(BackgroundHoverColor);
+                break;
+            case false :
+                SetColor(BackgroundDefaultColor);
+                break;
+        }
     }
     private void Body_OnMouseDown(object sender, MouseButtonEventArgs e)
     {
@@ -69,9 +117,22 @@ public partial class SquareButton : UserControl
     {
         if (MouseInside)
         {
-            Click?.Invoke();
+            Click?.Invoke(this);
+            Selected = !Selected;
             // Console.Beep(500, 50);
         }
-        SetColor(BackgroundHoverColor);
+
+        switch (Sticky)
+        {
+            case false :
+                SetColor(BackgroundHoverColor);
+                break;
+            case true when Selected :
+                SetColor(BackgroundClickColor);
+                break;
+            case true when !Selected :
+                SetColor(BackgroundHoverColor);
+                break;
+        }
     }
 }
