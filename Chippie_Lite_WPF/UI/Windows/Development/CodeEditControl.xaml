@@ -34,7 +34,10 @@
                          syntax:SyntaxBox.ShowLineNumbers="False">
                     <syntax:SyntaxBox.SyntaxDrivers>
                         <syntax:SyntaxConfig>
-                            <syntax:KeywordRule Foreground="{StaticResource Pink}" Keywords="add"/>
+                            <!-- <syntax:KeywordRule Foreground="{StaticResource Pink}" Keywords="" WholeWordsOnly="True"/> -->
+                            <syntax:RegexRule Foreground="{StaticResource 'Faded Purple'}" Op="Line" Pattern="#.*"/>
+                            <syntax:RegexRule Foreground="{StaticResource Bisque}" Op="Line" Pattern="@[A-Za-z]+"/>
+                            <syntax:RegexRule Foreground="{StaticResource Yellow}" Op="Line" Pattern="[0-9]+"/>
                         </syntax:SyntaxConfig>
                     </syntax:SyntaxBox.SyntaxDrivers>
                 </TextBox>

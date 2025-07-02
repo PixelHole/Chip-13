@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Chippie_Lite.Internal;
+namespace Chippie_Lite_WPF.Computer.Internal;
 
 public static class NumberUtility
 {

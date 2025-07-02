@@ -93,4 +93,8 @@
       <PackageReference Include="UI.SyntaxBox" Version="1.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Computer\Internal\Exceptions\Label\" />
+    </ItemGroup>
+
 </Project>

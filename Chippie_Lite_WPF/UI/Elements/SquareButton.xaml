@@ -5,14 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Elements"
              Background="Transparent"
-             mc:Ignorable="d"
-             d:DesignHeight="32" d:DesignWidth="32">
+             mc:Ignorable="d">
     <Grid Name="Body" MouseEnter="Body_OnMouseEnter" MouseLeave="Body_OnMouseLeave"
           MouseDown="Body_OnMouseDown" MouseUp="Body_OnMouseUp">
-        <Label x:Name="TextDisplay" Foreground="{StaticResource White}"
+        
+        <Label x:Name="TextDisplay" Foreground="{StaticResource White}" Margin="0"
                FontFamily="{StaticResource TextFontAlt}" FontSize="16"
                VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        
         <Image x:Name="ImageDisplay" Margin="8"/>
+        
     </Grid>
 </UserControl>

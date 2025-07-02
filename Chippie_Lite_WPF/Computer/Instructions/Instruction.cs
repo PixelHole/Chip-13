@@ -1,18 +1,36 @@
-﻿namespace Chippie_Lite.Computer.Instructions;
+﻿using Chippie_Lite_WPF.Computer.Instructions.Arguments.Base;
+
+namespace Chippie_Lite_WPF.Computer.Instructions;
 
 public struct Instruction
 {
     public string Header { get; private set; }
-    public IList<InstructionArgument> Arguments { get; private set; }
+    public List<InstructionArgument> Arguments { get; private set; } = new List<InstructionArgument>();
+    public List<InstructionAction> Actions { get; private set; } = new List<InstructionAction>();
+    public int ScriptLine { get; set; }
 
 
-    public Instruction(string header, IList<InstructionArgument> arguments)
+    public Instruction(string header, IEnumerable<InstructionArgument> arguments, IEnumerable<InstructionAction> actions)
     {
         Header = header;
-        Arguments = arguments;
+        AddArguments(arguments);
+        AddActions(actions);
     }
-    public Instruction(string header) : this(header, []) {}
 
+    private void AddArguments(IEnumerable<InstructionArgument> arguments)
+    {
+        foreach (var argument in arguments)
+        {
+            Arguments.Add(argument);
+        }
+    }
+    private void AddActions(IEnumerable<InstructionAction> actions)
+    {
+        foreach (var action in actions)
+        {
+            Actions.Add(action);
+        }
+    }
 
     public override string ToString()
     {

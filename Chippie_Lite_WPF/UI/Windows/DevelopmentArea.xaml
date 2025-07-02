@@ -21,8 +21,10 @@
         </Border>
         
         <development:CodeEditControl x:Name="CodeEditControl" Grid.Row="1" Margin="0"/>
-        <development:MemoryEditControl x:Name="MemoryEditControl" Grid.Row="1" Visibility="Hidden"/>
-        <development:RunWindow x:Name="RunWindow" Grid.Row="1" Visibility="Hidden"/>
+        <development:MemoryEditControl x:Name="MemoryEditControl" Grid.Row="1" Visibility="Collapsed"/>
+        <development:RunWindow x:Name="RunWindow" Grid.Row="1" Visibility="Collapsed"/>
+        
+        <elements:ErrorBox x:Name="ErrorBox" Grid.Row="1" Visibility="Collapsed" IsHitTestVisible="True"/>
         
     </Grid>
 </UserControl>

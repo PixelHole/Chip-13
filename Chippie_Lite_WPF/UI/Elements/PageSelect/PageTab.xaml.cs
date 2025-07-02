@@ -21,7 +21,21 @@ public partial class PageTab : UserControl
         set => TextDisplay.Content = value;
     }
 
-    public bool Selected { get; private set; } = false;
+    private bool _selected = false;
+
+    public bool Selected
+    {
+        get
+        {
+            return _selected;
+        } 
+        set
+        {
+            _selected = value;
+            UpdateColor();
+        }
+    }
+
     private bool MouseInside { get; set; } = false;
 
     public delegate void SelectedAction(PageTab sender);
@@ -33,9 +47,8 @@ public partial class PageTab : UserControl
         InitializeComponent();
     }
 
-    public void SetSelected(bool selected)
+    private void UpdateColor()
     {
-        Selected = selected;
         if (Selected)
         {
             SetColor(MouseInside? BackgroundClickColor : BackgroundHoverColor);
@@ -54,20 +67,19 @@ public partial class PageTab : UserControl
     private void Body_OnMouseEnter(object sender, MouseEventArgs e)
     {
         MouseInside = true;
-        SetColor(Selected ? BackgroundClickColor : BackgroundHoverColor);
+        UpdateColor();
     }
     private void Body_OnMouseLeave(object sender, MouseEventArgs e)
     {
         MouseInside = false;
-        SetColor(Selected ? BackgroundHoverColor : BackgroundDefaultColor);
+        UpdateColor();
     }
     private void Body_OnMouseDown(object sender, MouseButtonEventArgs e)
     {
-        SetColor(Selected ? BackgroundHighLightColor : BackgroundClickColor);
+        UpdateColor();
     }
     private void Body_OnMouseUp(object sender, MouseButtonEventArgs e)
     {
-        SetColor(Selected ? BackgroundClickColor : BackgroundHoverColor);
         Selected = true;
         OnSelected?.Invoke(this);
     }

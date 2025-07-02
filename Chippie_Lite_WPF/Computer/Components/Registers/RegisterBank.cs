@@ -1,4 +1,6 @@
-﻿namespace Chippie_Lite_WPF.Computer.Components
+﻿using System.Text;
+
+namespace Chippie_Lite_WPF.Computer.Components
 {
     public static class RegisterBank
     {
@@ -74,10 +76,8 @@
             }
         }
         
-        public static Register? GetRegister(int index)
+        public static Register GetRegister(int index)
         {
-            if (Registers.Count == 0) return null;
-        
             return Registers[WrapIndex(index)];
         }
         public static Register? GetRegister(string name)
@@ -139,6 +139,20 @@
             if (index >= Registers.Count) return index % Registers.Count;
             if (index < 0) return (Registers.Count - 1) -index % Registers.Count;
             return index;
+        }
+
+        public static string GetRegistersCsv()
+        {
+            StringBuilder res = new StringBuilder();
+
+            for (int i = 0; i < Registers.Count; i++)
+            {
+                var reg = Registers[i];
+                res.Append($"{reg.Id},{reg.Id.ToLower()},${reg.Id},${reg.Id.ToLower()},${i}");
+                if (i < Registers.Count - 1) res.Append(',');
+            }
+            
+            return res.ToString();
         }
     }
 }

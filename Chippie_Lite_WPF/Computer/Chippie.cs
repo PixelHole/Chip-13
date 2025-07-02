@@ -1,57 +1,99 @@
 ﻿using Chippie_Lite_WPF.Computer.Components;
-using Chippie_Lite.Computer.Instructions;
-using Chippie_Lite.Internal;
+using Chippie_Lite_WPF.Computer.Instructions;
+using Chippie_Lite_WPF.Computer.Internal;
 
-namespace Chippie_Lite.Computer;
+namespace Chippie_Lite_WPF.Computer;
 
 public static class Chippie
 {
     public static bool IsRunning { get; private set; }
+    public static bool CanRun { get; private set; }
     public static bool SingleStep { get; set; }
     public static Register InstructionPointer { get; private set; }
-    private static Thread ExecutionThread { get; set; } = new Thread(ExecutionLoop);
+    private static Thread ExecutionThread { get; set; }
     private static bool CanGoToNextStep { get; set; } = false;
 
+
+    public delegate void RunFinishedAction();
+    public static event RunFinishedAction OnRunFinish;
+
+    public delegate void RunStartAction();
+    public static event RunStartAction OnRunStarted;
 
     public static void Initialize()
     {
         InstructionPointer = RegisterBank.GetRegister("Instruction Pointer")!;
     }
-    
-    public static string CompileAndLoadAssembly(string raw)
+
+    public static int RunRawAssembly(string raw)
     {
-        if (IsRunning) return "cannot compile while running";
-        List<Instruction> instructions = new List<Instruction>();
-        try
+        if (!FullFlush()) return 1;
+        if (!CompileAndLoadAssembly(raw)) return 2;
+        if (!Run()) return 3;
+        return 0;
+    }
+    public static int Restart()
+    {
+        while (IsRunning)
         {
-            instructions = AssemblyTranslator.TranslateMultiline(raw);
-            InstructionBank.ClearInstructions();
-            InstructionBank.AddInstructions(instructions);
-        }
-        catch (Exception)
-        {
-            return "error occured while compiling";
+            HaltOperation();
         }
 
-        return "Successfully compiled";
+        if (!FlushRuntimeStorage()) return 1;
+        if (!Run()) return 2;
+        return 0;
     }
-    public static string Run()
+    public static int HaltOperation()
     {
-        if (IsRunning) return "Already Running";
+        CanRun = false;
+        return 0;
+    }
+    
+    private static bool CompileAndLoadAssembly(string raw)
+    {
+        if (IsRunning) return false;
+        List<Instruction> instructions = new List<Instruction>();
+        
+        instructions = AssemblyTranslator.ParseScript(raw);
+        InstructionBank.ClearInstructions();
+        InstructionBank.AddInstructions(instructions);
+
+        return true;
+    }
+    private static bool FullFlush()
+    {
+        if (IsRunning) return false;
+        InstructionBank.ClearInstructions();
+        FlushRuntimeStorage();
+        return true;
+    }
+    private static bool FlushRuntimeStorage()
+    {
+        if (IsRunning) return false;
+        RegisterBank.ResetRegisters();
+        // Memory.clear();
+        return true;
+    }
+    private static bool Run()
+    {
+        if (IsRunning) return false;
         
         IsRunning = true;
+        ExecutionThread = new Thread(ExecutionLoop);
         ExecutionThread.Start();
-        return "Started running";
+        return true;
     }
 
-    public static void NextStep()
+    public static void ProceedStep()
     {
         CanGoToNextStep = true;
     }
     
     private static void ExecutionLoop()
     {
-        while (true)
+        OnRunStarted?.Invoke();
+        
+        while (CanRun)
         {
             if (SingleStep && !CanGoToNextStep) continue;
             ExecutionStep();
@@ -59,6 +101,7 @@ public static class Chippie
         }
 
         IsRunning = false;
+        OnRunFinish?.Invoke();
     }
     private static void ExecutionStep()
     {
