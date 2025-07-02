@@ -1,4 +1,5 @@
 ﻿using Chippie_Lite_WPF.Computer.Instructions;
+using Chippie_Lite_WPF.Computer.Internal.Exceptions.Interpretation;
 
 namespace Chippie_Lite_WPF.Computer.Components
 {
@@ -7,14 +8,7 @@ namespace Chippie_Lite_WPF.Computer.Components
         public static void ExecuteNextInstruction(Register pointer)
         {
             Instruction instruction = InstructionBank.GetInstruction(pointer.Content);
-            try
-            {
-                InstructionInterpreter.Interpret(instruction);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            InstructionInterpreter.Interpret(instruction);
             pointer.AddToContent(1);
         }
     }

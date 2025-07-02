@@ -4,9 +4,82 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Windows.Development"
+             xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             Background="Transparent"
+             d:DesignHeight="300" d:DesignWidth="400">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="32"/>
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel Grid.Column="1" Background="{StaticResource 'Deep Purple'}">
+            
+            <elements:ToggleButton x:Name="ToggleInstructionBtn" OnSelected="ToggleInstructionBtn_OnOnSelected"
+                                   Icon="../../../Resources/Images/Icons/BigI.png" Label=""
+                                   UnselectedHoverColor="{StaticResource Red}" 
+                                   UnselectedClickColor="{StaticResource Pink}"
+                                   SelectedDefaultColor="{StaticResource Red}"
+                                   SelectedHoverColor="{StaticResource Pink}"
+                                   SelectedClickColor="{StaticResource Bisque}"
+                                   Selected="True"/>
+            
+            <elements:ToggleButton x:Name="ToggleMemoryBtn" OnSelected="ToggleMemoryBtn_OnOnSelected"
+                                   Icon="../../../Resources/Images/Icons/FourSquares.png" Label=""
+                                   UnselectedHoverColor="{StaticResource Red}" 
+                                   UnselectedClickColor="{StaticResource Pink}"
+                                   SelectedDefaultColor="{StaticResource Red}"
+                                   SelectedHoverColor="{StaticResource Pink}"
+                                   SelectedClickColor="{StaticResource Bisque}"
+                                   Selected="True"/>
+            
+            <elements:ToggleButton x:Name="ToggleRegistersBtn" OnSelected="ToggleRegistersBtn_OnOnSelected"
+                                   Icon="../../../Resources/Images/Icons/threeLinesThick.png" Label=""
+                                   UnselectedHoverColor="{StaticResource Red}" 
+                                   UnselectedClickColor="{StaticResource Pink}"
+                                   SelectedDefaultColor="{StaticResource Red}"
+                                   SelectedHoverColor="{StaticResource Pink}"
+                                   SelectedClickColor="{StaticResource Bisque}"
+                                   Selected="True"/>
+        </StackPanel>
+        
+        <Grid x:Name="RowGrid" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1.5*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            
+            <Grid x:Name="ColumnGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
+                <Border BorderThickness="4" Margin="4, 4, 0, 0"
+                        BorderBrush="{StaticResource 'Deep Purple'}">
+                    <elements:InstructionDisplayList x:Name="InstructionDisplayList"/>
+                </Border>
+                
+                <Border Grid.Column="1" BorderThickness="4" Margin="4, 4, 0, 0"
+                        BorderBrush="{StaticResource 'Deep Purple'}">
+                    
+                </Border>
+                
+                <Border Grid.Column="2" BorderThickness="4" Margin="4, 4, 4, 0"
+                        BorderBrush="{StaticResource 'Deep Purple'}">
+                    
+                </Border>
+                
+            </Grid>
+            
+            <Border Grid.Row="1" BorderThickness="4" Margin="4"
+                    BorderBrush="{StaticResource 'Deep Purple'}">
+                    
+            </Border>
+            
+        </Grid>
         
     </Grid>
 </UserControl>

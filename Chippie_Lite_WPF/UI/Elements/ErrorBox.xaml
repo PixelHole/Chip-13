@@ -6,11 +6,11 @@
              xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Elements"
              xmlns:syntax="clr-namespace:UI.SyntaxBox;assembly=UI.SyntaxBox"
              mc:Ignorable="d"
-             MaxWidth="400" MaxHeight="300">
+             MaxWidth="500" MaxHeight="600">
     <Grid Background="{StaticResource 'Dark Blue'}">
         <Grid.RowDefinitions>
             <RowDefinition Height="32"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         
         <Grid Grid.Row="0" Background="{StaticResource Red}">
@@ -37,14 +37,8 @@
                           Background="Transparent" Style="{StaticResource StyledScrollViewer}">
                 
                 <TextBlock x:Name="MessageBox" Background="Transparent" Foreground="{StaticResource White}"
-                           FontFamily="{StaticResource TextFont}" FontSize="16" Margin="4" TextWrapping="WrapWithOverflow"
-                           >
-                    <!-- <syntax:SyntaxBox.SyntaxDrivers> -->
-                    <!--     <syntax:SyntaxConfig> -->
-                    <!--         <syntax:KeywordRule Keywords="Register, Registers, Number" Foreground="{StaticResource Orange}"/> -->
-                    <!--     </syntax:SyntaxConfig> -->
-                    <!-- </syntax:SyntaxBox.SyntaxDrivers> -->
-                </TextBlock>
+                           FontFamily="{StaticResource TextFont}" FontSize="16" Margin="4" 
+                           TextWrapping="WrapWithOverflow"/>
                 
             </ScrollViewer>
             

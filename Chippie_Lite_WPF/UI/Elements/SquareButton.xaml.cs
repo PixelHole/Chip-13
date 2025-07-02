@@ -7,16 +7,10 @@ namespace Chippie_Lite_WPF.UI.Elements;
 
 public partial class SquareButton : UserControl
 {
-    private bool MouseInside = false;
+    private bool mouseDown = false;
+    private bool mouseInside = false;
     private string _label;
     private ImageSource _icon;
-
-    public bool Sticky { get; set; }
-    public bool Selected { get; private set; }
-    
-    public delegate void ClickAction(SquareButton sender);
-    public event ClickAction Click;
-    
     
     public required string Label
     {
@@ -40,99 +34,53 @@ public partial class SquareButton : UserControl
     public Brush BackgroundHoverColor { get; set; } = new SolidColorBrush(Color.FromRgb(131, 118, 156));
     public Brush BackgroundDefaultColor { get; set; } = new SolidColorBrush(Colors.Transparent);
     public Brush BackgroundClickColor { get; set; } = new SolidColorBrush(Color.FromRgb(255, 119, 168));
-    public Brush BackgroundHighLightColor { get; set; } = new SolidColorBrush(Color.FromRgb(255, 241, 232));
+    
+    public delegate void ClickAction(SquareButton sender);
+    public event ClickAction Click;
     
     
     public SquareButton()
     {
         InitializeComponent();
-        // SetColor(BackgroundDefaultColor);
     }
-
-
-    public void SetSelected(bool selected)
-    {
-        Selected = selected;
-        switch (MouseInside)
-        {
-            case true when Selected:
-                SetColor(BackgroundHighLightColor);
-                break;
-            
-            case true when !Selected:
-                SetColor(BackgroundClickColor);
-                break;
-            
-            case false when Selected:
-                SetColor(BackgroundHoverColor);
-                break;
-            
-            case false when !Selected:
-                SetColor(BackgroundDefaultColor);
-                break;
-        }
-    }
+    
     private void SetColor(Brush color)
     {
         Body.Background = color;
     }
+    private void UpdateColor()
+    {
+        switch (mouseDown)
+        {
+            case true :
+                SetColor(mouseInside ? BackgroundClickColor : BackgroundHoverColor);
+                break;
+            case false :
+                SetColor(mouseInside ? BackgroundHoverColor : BackgroundDefaultColor);
+                break;
+        }
+    }
     
     private void Body_OnMouseEnter(object sender, MouseEventArgs e)
     {
-        MouseInside = true;
-        switch (Sticky)
-        {
-            case true when !Selected:
-                SetColor(BackgroundHoverColor);
-                break;
-            case true when Selected:
-                SetColor(BackgroundClickColor);
-                break;
-            case false :
-                SetColor(BackgroundHoverColor);
-                break;
-        }
+        mouseInside = true;
+        UpdateColor();
     }
     private void Body_OnMouseLeave(object sender, MouseEventArgs e)
     {
-        MouseInside = false;
-        switch (Sticky)
-        {
-            case true when !Selected:
-                SetColor(BackgroundDefaultColor);
-                break;
-            case true when Selected:
-                SetColor(BackgroundHoverColor);
-                break;
-            case false :
-                SetColor(BackgroundDefaultColor);
-                break;
-        }
+        mouseInside = false;
+        UpdateColor();
     }
     private void Body_OnMouseDown(object sender, MouseButtonEventArgs e)
     {
-        SetColor(BackgroundClickColor);
+        mouseDown = true;
+        UpdateColor();
     }
     private void Body_OnMouseUp(object sender, MouseButtonEventArgs e)
     {
-        if (MouseInside)
-        {
-            Click?.Invoke(this);
-            Selected = !Selected;
-            // Console.Beep(500, 50);
-        }
-
-        switch (Sticky)
-        {
-            case false :
-                SetColor(BackgroundHoverColor);
-                break;
-            case true when Selected :
-                SetColor(BackgroundClickColor);
-                break;
-            case true when !Selected :
-                SetColor(BackgroundHoverColor);
-                break;
-        }
+        mouseDown = false;
+        UpdateColor();
+        // Console.Beep(500, 50);
+        Click?.Invoke(this);
     }
 }

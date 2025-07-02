@@ -9,7 +9,7 @@ public static class InstructionSet
         new InstructionTemplate("Add",
             "add",
             [
-                InstructionArgumentType.RegisterAndNumber, InstructionArgumentType.RegisterAndNumber,
+                InstructionArgumentType.Register, InstructionArgumentType.RegisterAndNumber,
                 InstructionArgumentType.RegisterAndNumber
             ],
             [

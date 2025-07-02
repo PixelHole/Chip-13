@@ -16,21 +16,20 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         
-        <Grid x:Name="Toolbar" Background="{StaticResource 'Deep Purple'}">
+        <Grid x:Name="Toolbar" Grid.Row="0">
+            <Rectangle x:Name="DragBox" Fill="{StaticResource 'Deep Purple'}" MouseDown="DragBox_OnMouseDown"/>
+            
             <StackPanel Grid.Column="0" Orientation="Horizontal">
                 <elements:SquareButton x:Name="ToolbarLogoBtn" Label="" Click="ToolbarLogoBtn_OnClick" 
                                        Icon="{StaticResource LogoWhiteSml}"
                                        BackgroundHoverColor="{StaticResource Red}"
-                                       BackgroundClickColor="{StaticResource Pink}"
-                                       BackgroundHighLightColor="{StaticResource Bisque}"/>
+                                       BackgroundClickColor="{StaticResource Pink}"/>
                 <elements:SquareButton x:Name="ToolbarFileBtn" Label="File" Click="ToolbarFileBtn_OnClick"
                                        BackgroundHoverColor="{StaticResource Red}"
-                                       BackgroundClickColor="{StaticResource Pink}"
-                                       BackgroundHighLightColor="{StaticResource Bisque}"/>
+                                       BackgroundClickColor="{StaticResource Pink}"/>
                 <elements:SquareButton x:Name="ToolbarHelpBtn" Label="Help" Click="ToolbarHelpBtn_OnClick"
                                        BackgroundHoverColor="{StaticResource Red}"
-                                       BackgroundClickColor="{StaticResource Pink}"
-                                       BackgroundHighLightColor="{StaticResource Bisque}"/>
+                                       BackgroundClickColor="{StaticResource Pink}"/>
             </StackPanel>
             
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">

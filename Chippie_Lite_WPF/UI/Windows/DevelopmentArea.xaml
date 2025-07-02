@@ -16,7 +16,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         
-        <Border Grid.Row="0" BorderThickness="0, 0, 0, 2" BorderBrush="{StaticResource 'Deep Purple'}">
+        <Border Grid.Row="0" BorderThickness="0, 0, 0, 4" BorderBrush="{StaticResource 'Deep Purple'}">
             <elements:PageSelect x:Name="PageSelect"/>
         </Border>
         
@@ -24,7 +24,9 @@
         <development:MemoryEditControl x:Name="MemoryEditControl" Grid.Row="1" Visibility="Collapsed"/>
         <development:RunWindow x:Name="RunWindow" Grid.Row="1" Visibility="Collapsed"/>
         
-        <elements:ErrorBox x:Name="ErrorBox" Grid.Row="1" Visibility="Collapsed" IsHitTestVisible="True"/>
+        <Canvas Background="Transparent">
+            <elements:ErrorBox x:Name="ErrorBox" Grid.Row="1" Visibility="Collapsed" IsHitTestVisible="True"/>
+        </Canvas>
         
     </Grid>
 </UserControl>

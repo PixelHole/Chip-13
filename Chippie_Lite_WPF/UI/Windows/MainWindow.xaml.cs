@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions.Base;
+using Chippie_Lite_WPF.Computer.Internal.Exceptions.Interpretation;
 using Chippie_Lite_WPF.Linkers;
 using Chippie_Lite_WPF.UI.Elements;
 
@@ -33,35 +34,50 @@ public partial class MainWindow : Window
 
     public void ChangeDevAreaPage(int index)
     {
-        DevArea.SetSelectedTab(index);
+        RunDispatcher(() => DevArea.SetSelectedTab(index));
     }
     public void SetMode(AppMode mode)
     {
-        Dispatcher.Invoke(() =>
+        RunDispatcher(() =>
         {
             Mode = mode;
-            DevArea.SetMode(mode);
+            DevArea.SetMode(Mode);
             switch (Mode)
             {
-                case AppMode.Edit :
+                case AppMode.Edit:
                     RunBtn.Visibility = Visibility.Visible;
                     StopBtn.Visibility = Visibility.Collapsed;
                     RestartBtn.Visibility = Visibility.Collapsed;
                     break;
-            
-                case AppMode.Run :
+
+                case AppMode.Run:
                     RunBtn.Visibility = Visibility.Collapsed;
                     StopBtn.Visibility = Visibility.Visible;
                     RestartBtn.Visibility = Visibility.Visible;
                     break;
-            } 
+            }
         });
     }
 
     public void ShowExceptionInCode(InvalidInstructionException exception)
     {
-        ChangeDevAreaPage(0);
-        DevArea.ShowExceptionError(exception);
+        RunDispatcher(() =>
+        {
+            DevArea.SetSelectedTab(0);
+            DevArea.ShowExceptionError(exception);
+        });
+    }
+    public void ShowExceptionInCode(InstructionInterpretationException exception)
+    {
+        RunDispatcher(() =>
+        {
+            DevArea.SetSelectedTab(0);
+            DevArea.ShowExceptionError(exception);
+        });
+    }
+    public void ShowError(string title, string msg)
+    {
+        RunDispatcher(() => DevArea.ShowError(title, msg));
     }
     
     private void StopBtn_OnClick(SquareButton sender)
@@ -107,5 +123,19 @@ public partial class MainWindow : Window
     private void WindowRibbon_OnClose()
     {
         Application.Current.Shutdown();
+    }
+
+    private void RunDispatcher(Action action)
+    {
+        Dispatcher.Invoke(action);
+    }
+    private void DragBox_OnMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (WindowState == WindowState.Maximized)
+        {
+            WindowState = WindowState.Normal;
+            // TODO : window repositions upon resizing
+        }
+        DragMove();
     }
 }

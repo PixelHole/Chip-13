@@ -14,8 +14,14 @@ public static class Chippie
     private static bool CanGoToNextStep { get; set; } = false;
 
 
+    public delegate void CompileStartAction();
+    public static event CompileStartAction OnCompileStarted;
+    
+    public delegate void CompileEndAction();
+    public static event CompileEndAction OnCompileEnded;
+    
     public delegate void RunFinishedAction();
-    public static event RunFinishedAction OnRunFinish;
+    public static event RunFinishedAction OnRunFinished;
 
     public delegate void RunStartAction();
     public static event RunStartAction OnRunStarted;
@@ -101,7 +107,7 @@ public static class Chippie
         }
 
         IsRunning = false;
-        OnRunFinish?.Invoke();
+        OnRunFinished?.Invoke();
     }
     private static void ExecutionStep()
     {
