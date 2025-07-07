@@ -1,4 +1,6 @@
-﻿namespace Chippie_Lite_WPF.Computer.Instructions.Templates;
+﻿using System.Text.Json.Serialization;
+
+namespace Chippie_Lite_WPF.Computer.Instructions.Templates;
 
 public class InstructionTemplate
 {
@@ -8,11 +10,18 @@ public class InstructionTemplate
     public InstructionAction[] Actions { get; private set; }
 
 
+    
+    [JsonConstructor]
     public InstructionTemplate(string name, string header, InstructionArgumentType[] argumentTypes, InstructionAction[] actions)
     {
         Name = name;
         Header = header;
         ArgumentTypes = argumentTypes;
         Actions = actions;
+    }
+
+    public override string ToString()
+    {
+        return $"{Name} [{Header}]";
     }
 }

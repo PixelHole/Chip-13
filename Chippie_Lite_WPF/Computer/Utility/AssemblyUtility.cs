@@ -59,7 +59,10 @@ namespace Chippie_Lite_WPF.Computer.Internal
         {
             string body = ExtractMainBody(arg);
 
-            if (!body.StartsWith('$')) return new RegisterNumberArgument(null, ParseNumber(body));
+            if (!body.StartsWith('$') && NumberUtility.TryParseNumber(body, out int num))
+            {
+                return new RegisterNumberArgument(null, num);
+            }
             
             var register = ParseRegister(body);
 

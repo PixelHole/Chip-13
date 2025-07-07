@@ -80,7 +80,7 @@ namespace Chippie_Lite_WPF.Computer.Internal
         }
         private static Instruction ParseInstruction(string raw)
         {
-            string[] parts = raw.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            string[] parts = raw.Split(' ', '\t', StringSplitOptions.RemoveEmptyEntries);
             string header = parts[0].Trim();
 
             var template = InstructionSet.FindTemplate(header);

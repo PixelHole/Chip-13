@@ -6,10 +6,15 @@ namespace Chippie_Lite_WPF.Computer.Components
     {
         private static List<Register> Registers { get; set; } = new List<Register>(new []
         {
-            new Register("Instruction Pointer", "ID"),
+            new Register("Instruction Pointer", "IP"),
             new Register("A", "A"),
             new Register("B", "B"),
             new Register("C", "C"),
+            new Register("D", "D"),
+            new Register("High", "HG"),
+            new Register("Low", "LW"),
+            new Register("Stack Base", "SB"),
+            new Register("Stack Pointer", "SP"),
         });
         public static bool Locked { get; private set; } = false;
     
@@ -75,6 +80,15 @@ namespace Chippie_Lite_WPF.Computer.Components
                 register.ResetContent();
             }
         }
+
+        public static Register[] GetAllRegisters()
+        {
+            Register[] registers = new Register[Registers.Count];
+
+            Registers.CopyTo(0, registers, 0, Registers.Count);
+            
+            return registers;
+        }
         
         public static Register GetRegister(int index)
         {
@@ -114,7 +128,7 @@ namespace Chippie_Lite_WPF.Computer.Components
 
             return registers;
         }
-    
+        
         public static Register? FindRegister(Predicate<Register> predicate)
         {
             return Registers.Find(predicate);
@@ -136,6 +150,7 @@ namespace Chippie_Lite_WPF.Computer.Components
 
         private static int WrapIndex(int index)
         {
+            if (Registers.Count == 0) return 0;
             if (index >= Registers.Count) return index % Registers.Count;
             if (index < 0) return (Registers.Count - 1) -index % Registers.Count;
             return index;

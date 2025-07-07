@@ -6,11 +6,11 @@
              xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Elements.InstructionDisplay"
              mc:Ignorable="d"
              Background="Transparent"
-             MinHeight="32" d:DesignWidth="256">
+             MinHeight="16" d:DesignWidth="256">
     <Grid x:Name="Body">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="32"/>
             <ColumnDefinition/>
-            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         
         <Label x:Name="LineLabel" FontFamily="{StaticResource TextFont}" FontSize="14" 
@@ -18,9 +18,9 @@
                HorizontalContentAlignment="Right" VerticalContentAlignment="Center"
                Margin="0, 0, 4, 0"/>
         
-        <TextBox x:Name="InstructionBox" Grid.Column="1" FontFamily="{StaticResource TextFont}" FontSize="16"
-               Foreground="{StaticResource White}" Background="Transparent" 
-               BorderBrush="Transparent" BorderThickness="0"
+        <TextBox x:Name="InstructionBox" Grid.Column="1" FontFamily="{StaticResource TextFont}" FontSize="14"
+               Foreground="{StaticResource White}" Background="Transparent" IsEnabled="False" 
+               BorderBrush="Transparent" BorderThickness="0" TextWrapping="WrapWithOverflow"
                HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
         
     </Grid>

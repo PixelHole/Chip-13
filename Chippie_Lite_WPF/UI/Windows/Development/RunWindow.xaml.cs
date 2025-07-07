@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using Chippie_Lite_WPF.Computer;
+using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.UI.Elements;
 
 namespace Chippie_Lite_WPF.UI.Windows.Development;
@@ -9,11 +11,16 @@ public partial class RunWindow : UserControl
     public RunWindow()
     {
         InitializeComponent();
+        ConnectEvents();
+    }
+    private void ConnectEvents()
+    {
+        Chippie.OnCompileEnded += LoadRunData;
     }
 
-    public void LoadDataForRun()
+    public void LoadRunData()
     {
-        
+        InstructionDisplayList.SetListItems(InstructionBank.Instructions);
     }
 
     private void ToggleRegistersBtn_OnOnSelected(ToggleButton sender, bool selected)

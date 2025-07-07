@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Windows.Development"
              xmlns:syntax="clr-namespace:UI.SyntaxBox;assembly=UI.SyntaxBox"
              mc:Ignorable="d"
+             SnapsToDevicePixels="True"
              Background="Transparent"
              d:DesignHeight="300" d:DesignWidth="400">
     <Grid>
@@ -26,6 +27,7 @@
                 <TextBox x:Name="InputBox" Grid.Column="1" Margin="4, 0 ,0 ,0"
                          Background="Transparent" Foreground="{StaticResource White}" 
                          BorderBrush="Transparent" BorderThickness="0" SelectionBrush="{StaticResource Pink}"
+                         CaretBrush="{StaticResource White}" SelectionTextBrush="{StaticResource Bisque}"
                          FontFamily="{StaticResource TextFont}" FontSize="22"
                          AcceptsReturn="True" AcceptsTab="True" SnapsToDevicePixels="True"
                          syntax:SyntaxBox.Enable="True"
@@ -34,10 +36,14 @@
                          syntax:SyntaxBox.ShowLineNumbers="False">
                     <syntax:SyntaxBox.SyntaxDrivers>
                         <syntax:SyntaxConfig>
-                            <!-- <syntax:KeywordRule Foreground="{StaticResource Pink}" Keywords="" WholeWordsOnly="True"/> -->
                             <syntax:RegexRule Foreground="{StaticResource 'Faded Purple'}" Op="Line" Pattern="#.*"/>
                             <syntax:RegexRule Foreground="{StaticResource Bisque}" Op="Line" Pattern="@[A-Za-z]+"/>
-                            <syntax:RegexRule Foreground="{StaticResource Yellow}" Op="Line" Pattern="[0-9]+"/>
+                            <syntax:RegexRule Foreground="{StaticResource Orange}" Op="Line" Pattern="[0-9]+"/>
+                            <syntax:RegexRule Foreground="{StaticResource 'Light Blue'}" Op="Line" Pattern="0x([A-Za-z]|[0-9]|_)+"/>
+                            <syntax:RegexRule Foreground="{StaticResource 'Light Blue'}" Op="Line" Pattern="0h([A-Za-z]|[0-9]|_)+"/>
+                            <syntax:RegexRule Foreground="{StaticResource 'Deep Purple'}" Op="Line" Pattern="((1|0|_)+)b"/>
+                            <syntax:RegexRule Foreground="{StaticResource 'Deep Purple'}" Op="Line" Pattern="(0b(1|0|_)+)"/>
+                            <syntax:RegexRule Foreground="{StaticResource 'Deep Purple'}" Op="Line" Pattern="(0y(1|0|_)+)"/>
                         </syntax:SyntaxConfig>
                     </syntax:SyntaxBox.SyntaxDrivers>
                 </TextBox>

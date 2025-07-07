@@ -10,7 +10,7 @@ namespace Chippie_Lite_WPF.UI.Windows;
 
 public partial class MainWindow : Window
 {
-    private ChippieRunLinker RunLinker { get; set; }
+    private MainWindowControl Control { get; set; }
     public AppMode Mode { get; private set; }
     
     
@@ -18,23 +18,22 @@ public partial class MainWindow : Window
     {
         WindowStyle = WindowStyle.None;
         InitializeComponent();
-        RunLinker = new ChippieRunLinker(this);
+        Control = new MainWindowControl(this);
     }
 
 
     public void Run()
     {
-        RunLinker.RunScript(DevArea.GetInputString());
+        Control.RunScript(DevArea.GetInputString());
     }
     public void Halt()
     {
-        RunLinker.Halt();
-        SetMode(AppMode.Edit);
+        Control.Halt();
     }
 
     public void ChangeDevAreaPage(int index)
     {
-        RunDispatcher(() => DevArea.SetSelectedTab(index));
+        RunDispatcher(() => DevArea.ChangePage(index));
     }
     public void SetMode(AppMode mode)
     {
@@ -63,7 +62,7 @@ public partial class MainWindow : Window
     {
         RunDispatcher(() =>
         {
-            DevArea.SetSelectedTab(0);
+            DevArea.ChangePage(0);
             DevArea.ShowExceptionError(exception);
         });
     }
@@ -71,7 +70,7 @@ public partial class MainWindow : Window
     {
         RunDispatcher(() =>
         {
-            DevArea.SetSelectedTab(0);
+            DevArea.ChangePage(0);
             DevArea.ShowExceptionError(exception);
         });
     }

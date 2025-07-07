@@ -9,7 +9,9 @@
         mc:Ignorable="d"
         AllowsTransparency="True"
         Background="Transparent"
+        SnapsToDevicePixels="True"
         Title="MainWindow" Height="450" Width="800">
+    
     <Grid Background="{StaticResource 'Dark Blue'}">
         <Grid.RowDefinitions>
             <RowDefinition Height="32"/>
@@ -42,8 +44,8 @@
                 <elements:SquareButton x:Name="StopBtn" Label="Stop" Click="StopBtn_OnClick" Visibility="Collapsed"
                                        BackgroundHoverColor="{StaticResource 'Red'}" />
                 <Separator Width="64" Background="Transparent"/>
-                <elements:WindowRibbon x:Name="WindowRibbons" Minimize="WindowRibbon_OnMinimize" 
-                                       Fullscreen="WindowRibbon_OnFullscreen" Close="WindowRibbon_OnClose"/>
+                <!-- <elements:WindowRibbon x:Name="WindowRibbons" Minimize="WindowRibbon_OnMinimize"  -->
+                <!--                        Fullscreen="WindowRibbon_OnFullscreen" Close="WindowRibbon_OnClose"/> -->
             </StackPanel>
             
         </Grid>

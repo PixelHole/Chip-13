@@ -21,7 +21,7 @@ public class RegisterNumberArgument : InstructionArgument
         if (RegisterArgument.Register == null) return NumberArgument.Number;
         return NumberArgument.Number + RegisterArgument.Register.Content;
     }
-    public Register? GetRegister()
+    public Register GetRegister()
     {
         int index = NumberArgument.Number;
         if (RegisterArgument.Register != null) index += RegisterBank.IndexOf(RegisterArgument.Register);
@@ -30,6 +30,7 @@ public class RegisterNumberArgument : InstructionArgument
     
     public override string ToString()
     {
-        return $"{RegisterArgument.ToString()} : {NumberArgument.ToString()}";
+        if (RegisterArgument.Register == null) return NumberArgument.Number.ToString();
+        return $"{RegisterArgument.Register.Name} + {NumberArgument.Number}";
     }
 }

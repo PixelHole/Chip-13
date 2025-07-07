@@ -5,11 +5,10 @@ namespace Chippie_Lite_WPF.Computer.Components
 {
     public static class InstructionProcessor
     { 
-        public static void ExecuteNextInstruction(Register pointer)
+        public static void ExecuteNextInstruction(int index)
         {
-            Instruction instruction = InstructionBank.GetInstruction(pointer.Content);
+            Instruction instruction = InstructionBank.GetInstruction(index);
             InstructionInterpreter.Interpret(instruction);
-            pointer.AddToContent(1);
         }
     }
 }

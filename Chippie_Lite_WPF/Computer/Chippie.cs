@@ -1,5 +1,6 @@
 ﻿using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.Instructions;
+using Chippie_Lite_WPF.Computer.Instructions.Templates;
 using Chippie_Lite_WPF.Computer.Internal;
 
 namespace Chippie_Lite_WPF.Computer;
@@ -7,7 +8,7 @@ namespace Chippie_Lite_WPF.Computer;
 public static class Chippie
 {
     public static bool IsRunning { get; private set; }
-    public static bool CanRun { get; private set; }
+    public static bool CanRun { get; private set; } = true;
     public static bool SingleStep { get; set; }
     public static Register InstructionPointer { get; private set; }
     private static Thread ExecutionThread { get; set; }
@@ -29,10 +30,12 @@ public static class Chippie
     public static void Initialize()
     {
         InstructionPointer = RegisterBank.GetRegister("Instruction Pointer")!;
+        InstructionSet.LoadSet(InstructionSet.SavePath);
     }
-
+    
     public static int RunRawAssembly(string raw)
     {
+        if (IsRunning) return -1;
         if (!FullFlush()) return 1;
         if (!CompileAndLoadAssembly(raw)) return 2;
         if (!Run()) return 3;
@@ -44,7 +47,7 @@ public static class Chippie
         {
             HaltOperation();
         }
-
+        
         if (!FlushRuntimeStorage()) return 1;
         if (!Run()) return 2;
         return 0;
@@ -60,10 +63,14 @@ public static class Chippie
         if (IsRunning) return false;
         List<Instruction> instructions = new List<Instruction>();
         
+        OnCompileStarted?.Invoke();
+        
         instructions = AssemblyTranslator.ParseScript(raw);
         InstructionBank.ClearInstructions();
         InstructionBank.AddInstructions(instructions);
 
+        OnCompileEnded?.Invoke();
+        
         return true;
     }
     private static bool FullFlush()
@@ -77,6 +84,7 @@ public static class Chippie
     {
         if (IsRunning) return false;
         RegisterBank.ResetRegisters();
+        SerialIO.FullFlush();
         // Memory.clear();
         return true;
     }
@@ -84,7 +92,7 @@ public static class Chippie
     {
         if (IsRunning) return false;
         
-        IsRunning = true;
+        CanRun = true;
         ExecutionThread = new Thread(ExecutionLoop);
         ExecutionThread.Start();
         return true;
@@ -97,6 +105,7 @@ public static class Chippie
     
     private static void ExecutionLoop()
     {
+        IsRunning = true;
         OnRunStarted?.Invoke();
         
         while (CanRun)
@@ -111,7 +120,9 @@ public static class Chippie
     }
     private static void ExecutionStep()
     {
-        InstructionProcessor.ExecuteNextInstruction(InstructionPointer);
+        if (InstructionBank.Count == 0) return;
+        InstructionProcessor.ExecuteNextInstruction(InstructionPointer.Content);
+        InstructionPointer.Content++;
         if (SingleStep) CanGoToNextStep = false;
     }
 }

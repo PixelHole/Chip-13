@@ -7,18 +7,18 @@ using Chippie_Lite_WPF.UI.Windows;
 
 namespace Chippie_Lite_WPF.Linkers;
 
-public class ChippieRunLinker
+public class MainWindowControl
 {
     private MainWindow Owner { get; set; }
 
 
-    public ChippieRunLinker(MainWindow owner)
+    public MainWindowControl(MainWindow owner)
     {
         Owner = owner;
         ConnectEvents();
     }
 
-    private void ConnectEvents()
+    protected void ConnectEvents()
     {
         Chippie.OnRunStarted += ChippieOnOnRunStarted;
         Chippie.OnRunFinished += ChippieOnOnRunFinished;
@@ -28,22 +28,24 @@ public class ChippieRunLinker
     {
         try
         {
-            Owner.SetMode(AppMode.Run);
             Chippie.RunRawAssembly(script);
-            Owner.ChangeDevAreaPage(2);
         }
         catch (Exception e)
         {
+            Chippie.HaltOperation();
+            
             switch (e)
             {
                 case InvalidInstructionException parseException :
-                    Owner.SetMode(AppMode.Edit);
                     Owner.ShowExceptionInCode(parseException);
                     break;
                 
                 case InstructionInterpretationException interpretationException :
-                    Owner.SetMode(AppMode.Edit);
                     Owner.ShowExceptionInCode(interpretationException);
+                    break;
+                
+                default:
+                    Owner.ShowError("internal error", $"An internal error occured : {e.Message}");
                     break;
             }
         }
@@ -60,6 +62,7 @@ public class ChippieRunLinker
     }
     private void ChippieOnOnRunStarted()
     {
-        
+        Owner.SetMode(AppMode.Run);
+        Owner.ChangeDevAreaPage(2);
     }
 }

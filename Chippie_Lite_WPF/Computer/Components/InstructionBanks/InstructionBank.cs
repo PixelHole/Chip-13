@@ -42,6 +42,7 @@ public static class InstructionBank
 
     private static int WrapIndex(int index)
     {
+        if (Count == 0) return 0;
         if (index >= Instructions.Count) return index % Instructions.Count;
         if (index < 0) return (Instructions.Count - 1) - (-index % Instructions.Count);
         return index;

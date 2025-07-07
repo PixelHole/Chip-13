@@ -35,7 +35,7 @@ public partial class CodeEditControl : UserControl
         KeywordRule registersRule = new KeywordRule()
         {
             Keywords = registers,
-            Foreground = Application.Current.Resources["Green"] as Brush,
+            Foreground = Application.Current.Resources["Dark Green"] as Brush,
             WholeWordsOnly = true,
         };
         

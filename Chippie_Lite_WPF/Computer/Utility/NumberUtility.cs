@@ -11,7 +11,7 @@ public static class NumberUtility
             num = ParseNumber(input);
             return true;
         }
-        catch (Exception e)
+        catch (Exception)
         {
             num = -1;
             return false;
@@ -30,7 +30,7 @@ public static class NumberUtility
     }
     public static int ParseHex(string num)
     {
-        num = RemoveFlags(num, "0x", "0h", "0x", "_");
+        num = RemoveFlags(num, "0x", "0h", "_");
         return int.Parse(num, NumberStyles.HexNumber);
     }
     public static int ParseDecimal(string num)

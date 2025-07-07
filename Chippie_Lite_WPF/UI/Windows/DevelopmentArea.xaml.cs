@@ -12,11 +12,6 @@ public partial class DevelopmentArea : UserControl
     public DevelopmentArea()
     {
         InitializeComponent();
-        ConnectEvents();
-    }
-    private void ConnectEvents()
-    {
-        PageSelect.OnPageChanged += OnPageTabChanged;
     }
 
     public void SetMode(AppMode mode)
@@ -49,13 +44,7 @@ public partial class DevelopmentArea : UserControl
         return CodeEditControl.InputText;
     }
     
-
-    // page select
-    public void SetSelectedTab(int index)
-    {
-        PageSelect.ChangeSelectedTab(index);
-    }
-    private void ChangePage(int index)
+    public void ChangePage(int index)
     {
         switch (index)
         {
@@ -83,10 +72,6 @@ public partial class DevelopmentArea : UserControl
                 RunWindow.Visibility = Visibility.Collapsed;
                 break;
         }
-    }
-    private void OnPageTabChanged(int index)
-    {
-        ChangePage(index);
     }
     
     // Error box

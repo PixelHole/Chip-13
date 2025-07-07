@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Elements"
              xmlns:syntax="clr-namespace:UI.SyntaxBox;assembly=UI.SyntaxBox"
              mc:Ignorable="d"
-             MaxWidth="500" MaxHeight="600">
+             MaxWidth="500" MaxHeight="600"
+             Loaded="ErrorBox_OnLoaded">
     <Grid Background="{StaticResource 'Dark Blue'}">
         <Grid.RowDefinitions>
             <RowDefinition Height="32"/>
@@ -19,7 +20,9 @@
                 <ColumnDefinition Width="32"/>
             </Grid.ColumnDefinitions>
             
-            <Rectangle Name="DragBox" Fill="{StaticResource Red}" MouseDown="DragBox_OnMouseDown"/>
+            <Rectangle Name="DragBox" Fill="{StaticResource Red}" 
+                       MouseDown="DragBox_OnMouseDown" MouseUp="DragBox_OnMouseUp"
+                       MouseMove="DragBox_OnMouseMove"/>
             
             <Label x:Name="TitleLabel" Grid.Column="0" 
                    FontFamily="{StaticResource TextFontAlt}" FontSize="16"

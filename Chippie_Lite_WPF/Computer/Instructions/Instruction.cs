@@ -39,7 +39,7 @@ public struct Instruction
 
         if (Arguments.Count > 0)
         {
-            insText.Append($" : {Arguments[0]}");
+            insText.Append($" : [{Arguments[0]}]");
 
             for (int i = 1; i < Arguments.Count; i++)
             {

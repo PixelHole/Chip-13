@@ -7,12 +7,12 @@ namespace Chippie_Lite_WPF.Computer.Instructions.Arguments.Base;
 
 public abstract class InstructionArgument
 {
-    public static Register? GetRegister(InstructionArgument argument)
+    public static Register GetRegister(InstructionArgument argument)
     {
         switch (argument)
         {
             case RegisterArgument registerArgument:
-                return registerArgument.Register;
+                return registerArgument.Register!;
             case NumberArgument numberArgument:
                 return RegisterBank.GetRegister(numberArgument.Number);
             case RegisterNumberArgument registerNumberArgument:

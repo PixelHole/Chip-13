@@ -68,6 +68,12 @@
       <Resource Include="Resources\Images\Icons\ThumbDown.png" />
       <None Remove="Resources\Images\Icons\ThumbUp.png" />
       <Resource Include="Resources\Images\Icons\ThumbUp.png" />
+      <None Remove="Resources\Images\Icons\square filled.png" />
+      <Resource Include="Resources\Images\Icons\square filled.png" />
+      <None Remove="Resources\Images\Icons\Floppy.png" />
+      <Resource Include="Resources\Images\Icons\Floppy.png" />
+      <None Remove="Resources\Images\Icons\File.png" />
+      <Resource Include="Resources\Images\Icons\File.png" />
     </ItemGroup>
 
     <ItemGroup>
@@ -77,6 +83,21 @@
         <SubType>Designer</SubType>
       </Page>
       <Page Update="UI\Elements\PageSelect\PageSelect.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="UI\Elements\ErrorBox\ErrorBox.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="UI\Elements\Buttons\SquareButton.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="UI\Elements\Buttons\ToggleButton.xaml">
         <Generator>MSBuild:Compile</Generator>
         <XamlRuntime>Wpf</XamlRuntime>
         <SubType>Designer</SubType>

@@ -8,24 +8,18 @@
              xmlns:development="clr-namespace:Chippie_Lite_WPF.UI.Windows.Development"
              mc:Ignorable="d"
              Background="Transparent"
+             SnapsToDevicePixels="True"
              d:DesignHeight="300" d:DesignWidth="400">
     
-    <Grid Background="{StaticResource 'Dark Blue'}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="32"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
+    <Grid>
+        <Grid Background="{StaticResource 'Dark Blue'}">
+            <development:CodeEditControl x:Name="CodeEditControl" Margin="0"/>
+            <development:MemoryEditControl x:Name="MemoryEditControl" Visibility="Collapsed"/>
+            <development:RunWindow x:Name="RunWindow" Visibility="Collapsed"/>
+        </Grid>
         
-        <Border Grid.Row="0" BorderThickness="0, 0, 0, 4" BorderBrush="{StaticResource 'Deep Purple'}">
-            <elements:PageSelect x:Name="PageSelect"/>
-        </Border>
-        
-        <development:CodeEditControl x:Name="CodeEditControl" Grid.Row="1" Margin="0"/>
-        <development:MemoryEditControl x:Name="MemoryEditControl" Grid.Row="1" Visibility="Collapsed"/>
-        <development:RunWindow x:Name="RunWindow" Grid.Row="1" Visibility="Collapsed"/>
-        
-        <Canvas Background="Transparent">
-            <elements:ErrorBox x:Name="ErrorBox" Grid.Row="1" Visibility="Collapsed" IsHitTestVisible="True"/>
+        <Canvas>
+            <elements:ErrorBox x:Name="ErrorBox" Visibility="Collapsed" IsHitTestVisible="True"/>
         </Canvas>
         
     </Grid>

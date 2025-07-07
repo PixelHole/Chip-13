@@ -2,74 +2,39 @@
 {
     public class Register
     {
+        private int _content;
+        
         public string Name { get; private set; }
         public string Id { get; private set; }
-        public int Content { get; private set; }
+
+        public int Content
+        {
+            get => _content;
+            set
+            {
+                _content = value;
+                OnContentChanged?.Invoke(_content);
+            }
+        }
+
         public int DefaultValue { get; private set; }
 
-
+        public delegate void ContentChangeAction(int newValue);
+        public event ContentChangeAction OnContentChanged;
+        
+        
         public Register(string name, string id, int content = 0, int defaultValue = 0)
         {
             Name = name;
             Id = id;
-            SetContent(content);
+            Content = content;
             DefaultValue = defaultValue;
         }
 
         public void ResetContent()
         {
-            SetContent(DefaultValue);
+            Content = DefaultValue;
         }
-        
-        public void SetContent(int content)
-        {
-            Content = content;
-        }
-        public void SetContent(Register register)
-        {
-            SetContent(register.Content);
-        }
-        public void AddToContent(int amount)
-        {
-            if (amount < 0)
-            {
-                ReduceFromContent(-amount);
-                return;
-            }
-        
-            if (int.MaxValue - amount < Content)
-            {
-                Content = int.MinValue + (int.MaxValue - amount);
-                return;
-            }
-
-            Content += amount;
-        }
-        public void AddToContent(Register register)
-        {
-            AddToContent(register.Content);
-        }
-        public void ReduceFromContent(int amount)
-        {
-            if (amount < 0)
-            {
-                AddToContent(-amount);
-                return;
-            }
-        
-            if (int.MinValue + amount > Content)
-            {
-                Content = int.MaxValue - (int.MinValue + amount);
-                return;
-            }
-
-            Content -= amount;
-        }
-        public void ReduceFromContent(Register register)
-        {
-            ReduceFromContent(register.Content);
-        }
-
 
         public override string ToString()
         {

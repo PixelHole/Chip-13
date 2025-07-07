@@ -7,6 +7,7 @@
              xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
              mc:Ignorable="d"
              Background="Transparent"
+             SnapsToDevicePixels="True"
              d:DesignHeight="300" d:DesignWidth="400">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -64,12 +65,13 @@
                 
                 <Border Grid.Column="1" BorderThickness="4" Margin="4, 4, 0, 0"
                         BorderBrush="{StaticResource 'Deep Purple'}">
-                    
+                    <local:SerialIOConsole/>
+                    <!-- <local:VideoIO/> -->
                 </Border>
                 
                 <Border Grid.Column="2" BorderThickness="4" Margin="4, 4, 4, 0"
                         BorderBrush="{StaticResource 'Deep Purple'}">
-                    
+                    <elements:RegisterList x:Name="RegisterList"/>
                 </Border>
                 
             </Grid>

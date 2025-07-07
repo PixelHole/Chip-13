@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using Chippie_Lite_WPF.Computer.Components.Actions;
 using Chippie_Lite_WPF.Computer.Instructions;
 using Chippie_Lite_WPF.Computer.Instructions.Arguments.Base;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions;
@@ -13,24 +14,122 @@ public static class InstructionActions
         switch (action.Header.ToLower())
         {
             case "add" :
-                Add(action, arguments);
+                InstructionValueActions.Add(action, arguments);
+                break;
+            
+            case "subtract" :
+                InstructionValueActions.Subtract(action, arguments);
+                break;
+            
+            case "multiply" :
+                InstructionValueActions.Multiply(action, arguments);
+                break;
+            
+            case "divide" :
+                InstructionValueActions.Divide(action, arguments);
+                break;
+            
+            case "remainder" :
+                InstructionValueActions.Remainder(action, arguments);
+                break;
+
+            case "shift left logic" :
+                InstructionValueActions.ShiftLeftLogic(action, arguments);
+                break;
+
+            case "shift right logic" :
+                InstructionValueActions.ShiftRightLogic(action, arguments);
+                break;
+            
+            case "shift left arithmatic" :
+                InstructionValueActions.ShiftLeftArithmatic(action, arguments);
+                break;
+
+            case "shift right arithmatic" :
+                InstructionValueActions.ShiftRightArithmatic(action, arguments);
+                break;
+            
+            case "not" :
+                InstructionLogicActions.Not(action, arguments);
+                break;
+            
+            case "and" :
+                InstructionLogicActions.And(action, arguments);
+                break;
+            
+            case "nand" :
+                InstructionLogicActions.Nand(action, arguments);
+                break;
+            
+            case "or" :
+                InstructionLogicActions.Or(action, arguments);
+                break;
+            
+            case "xor" :
+                InstructionLogicActions.Xor(action, arguments);
+                break;
+            
+            case "nor" :
+                InstructionLogicActions.Nor(action, arguments);
+                break;
+            
+            case "nxor" :
+                InstructionLogicActions.Nxor(action, arguments);
+                break;
+            
+            case "jump" :
+                InstructionJumpActions.Jump(action, arguments);
+                break;
+            
+            case "jump relative" :
+                InstructionJumpActions.JumpRelative(action, arguments);
+                break;
+            
+            case "jump if equal" :
+                InstructionJumpActions.JumpIfEqual(action, arguments);
+                break;
+            
+            case "jump if equal relative" :
+                InstructionJumpActions.JumpIfEqualRelative(action, arguments);
+                break;
+            
+            case "jump if less" :
+                InstructionJumpActions.JumpIfLess(action, arguments);
+                break;
+            
+            case "jump if less relative" :
+                InstructionJumpActions.JumpIfLessRelative(action, arguments);
+                break;
+            
+            case "jump if greater" :
+                InstructionJumpActions.JumpIfGreater(action, arguments);
+                break;
+            
+            case "jump if greater relative" :
+                InstructionJumpActions.JumpIfGreaterRelative(action, arguments);
+                break;
+            
+            case "serial input" :
+                InstructionIOActions.GetSerialInput(action, arguments);
+                break;
+            
+            case "serial output" :
+                InstructionIOActions.SendSerialOutput(action, arguments);
+                break;
+            
+            case "wait" :
+                InstructionMiscActions.Wait(action, arguments);
+                break;
+            
+            case "beep" :
+                InstructionMiscActions.Beep(action, arguments);
                 break;
         }
     }
+    
 
-    private static void Add(InstructionAction action, IList<InstructionArgument> arguments)
-    {
-        CheckArgumentAndActionIndexCount(action, arguments, 3);
-        
-        var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        var a = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-        var b = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
-        
-        dest.SetContent(a);
-        dest.AddToContent(b);
-    }
-
-    private static void CheckArgumentAndActionIndexCount(InstructionAction action, IList<InstructionArgument> arguments,
+    
+    internal static void CheckArgumentAndActionIndexCount(InstructionAction action, IList<InstructionArgument> arguments,
         int expected)
     {
         CheckActionIndexCount(action, expected);
