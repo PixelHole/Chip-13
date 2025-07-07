@@ -7,12 +7,34 @@ namespace Chippie_Lite_WPF.Computer;
 
 public static class Chippie
 {
-    public static bool IsRunning { get; private set; }
+    private static bool _singleStep = true;
+    private static bool _isRunning = false;
+    
+    public static bool IsRunning
+    {
+        get => _isRunning;
+        private set
+        {
+            _isRunning = value;
+            if (IsRunning) OnRunStarted?.Invoke();
+            else OnRunFinished?.Invoke();
+        }
+        
+    }
     public static bool CanRun { get; private set; } = true;
-    public static bool SingleStep { get; set; }
+    public static bool SingleStep
+    {
+        get => _singleStep;
+        set
+        {
+            _singleStep = value;
+            OnSingleStepChanged?.Invoke(SingleStep);
+        } 
+    }
+    private static bool CanGoToNextStep { get; set; } = false;
     public static Register InstructionPointer { get; private set; }
     private static Thread ExecutionThread { get; set; }
-    private static bool CanGoToNextStep { get; set; } = false;
+    private static Thread StepThread { get; set; }
 
 
     public delegate void CompileStartAction();
@@ -27,30 +49,27 @@ public static class Chippie
     public delegate void RunStartAction();
     public static event RunStartAction OnRunStarted;
 
+    public delegate void SingleStepChangeAction(bool enabled);
+    public static event SingleStepChangeAction OnSingleStepChanged;
+
     public static void Initialize()
     {
         InstructionPointer = RegisterBank.GetRegister("Instruction Pointer")!;
         InstructionSet.LoadSet(InstructionSet.SavePath);
     }
     
-    public static int RunRawAssembly(string raw)
+    public static void RunRawAssembly(string raw)
     {
-        if (IsRunning) return -1;
-        if (!FullFlush()) return 1;
-        if (!CompileAndLoadAssembly(raw)) return 2;
-        if (!Run()) return 3;
-        return 0;
+        if (IsRunning) return;
+        FullFlush();
+        CompileAndLoadAssembly(raw);
+        Run();
     }
-    public static int Restart()
+    public static void Restart()
     {
-        while (IsRunning)
-        {
-            HaltOperation();
-        }
-        
-        if (!FlushRuntimeStorage()) return 1;
-        if (!Run()) return 2;
-        return 0;
+        while (IsRunning) HaltOperation();
+        FlushRuntimeStorage();
+        Run();
     }
     public static int HaltOperation()
     {
@@ -94,6 +113,7 @@ public static class Chippie
         
         CanRun = true;
         ExecutionThread = new Thread(ExecutionLoop);
+        StepThread = new Thread(ExecutionStep);
         ExecutionThread.Start();
         return true;
     }
@@ -106,21 +126,21 @@ public static class Chippie
     private static void ExecutionLoop()
     {
         IsRunning = true;
-        OnRunStarted?.Invoke();
         
         while (CanRun)
         {
-            if (SingleStep && !CanGoToNextStep) continue;
-            ExecutionStep();
-            if (InstructionPointer.Content >= InstructionBank.Count || InstructionPointer.Content < 0) break;
+            if (InstructionBank.Count == 0 || InstructionPointer.Content >= InstructionBank.Count || InstructionPointer.Content < 0) break;
+            
+            if ((SingleStep && !CanGoToNextStep) || StepThread.IsAlive) continue;
+            
+            StepThread = new Thread(ExecutionStep);
+            StepThread.Start();
         }
 
         IsRunning = false;
-        OnRunFinished?.Invoke();
     }
     private static void ExecutionStep()
     {
-        if (InstructionBank.Count == 0) return;
         InstructionProcessor.ExecuteNextInstruction(InstructionPointer.Content);
         InstructionPointer.Content++;
         if (SingleStep) CanGoToNextStep = false;

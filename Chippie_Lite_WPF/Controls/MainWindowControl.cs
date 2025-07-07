@@ -21,6 +21,7 @@ public class MainWindowControl
     {
         Chippie.OnRunStarted += ChippieOnOnRunStarted;
         Chippie.OnRunFinished += ChippieOnOnRunFinished;
+        Chippie.OnSingleStepChanged += OnSingleChanged;
     }
 
     public void RunScript(string script)
@@ -53,7 +54,19 @@ public class MainWindowControl
     {
         Chippie.HaltOperation();
     }
-
+    public void Restart()
+    {
+        Chippie.Restart();
+    }
+    public void NextStep()
+    {
+        Chippie.ProceedStep();
+    }
+    public void RunToEnd()
+    {
+        Chippie.SingleStep = false;
+    }
+    
     public void SaveInstance()
     {
         
@@ -65,6 +78,11 @@ public class MainWindowControl
     public void NewInstance()
     {
         
+    }
+
+    private void OnSingleChanged(bool singleStep)
+    {
+        Owner.RunToEndButtonVisible(singleStep);
     }
 
     private void ChippieOnOnRunFinished()

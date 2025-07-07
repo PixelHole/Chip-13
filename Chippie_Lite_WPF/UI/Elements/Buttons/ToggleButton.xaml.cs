@@ -101,6 +101,7 @@ public partial class ToggleButton : UserControl
     private void Body_OnMouseLeave(object sender, MouseEventArgs e)
     {
         mouseInside = false;
+        mouseDown = false;
         UpdateColor();
     }
     private void Body_OnMouseDown(object sender, MouseButtonEventArgs e)

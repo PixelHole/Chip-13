@@ -27,22 +27,16 @@
       <None Remove="Resources\Images\Icons\BigI.png" />
       <Resource Include="Resources\Images\Icons\BigI.png" />
       <None Remove="Resources\Images\Icons\cross.png" />
-      <Resource Include="Resources\Images\Icons\cross.png" />
       <None Remove="Resources\Images\Icons\Divide.png" />
-      <Resource Include="Resources\Images\Icons\Divide.png" />
       <None Remove="Resources\Images\Icons\edit.png" />
       <Resource Include="Resources\Images\Icons\edit.png" />
       <None Remove="Resources\Images\Icons\FourSquares.png" />
       <None Remove="Resources\Images\Icons\HorizontalLine.png" />
-      <Resource Include="Resources\Images\Icons\HorizontalLine.png" />
       <None Remove="Resources\Images\Icons\LineDown.png" />
-      <Resource Include="Resources\Images\Icons\LineDown.png" />
       <None Remove="Resources\Images\Icons\LineUp.png" />
-      <Resource Include="Resources\Images\Icons\LineUp.png" />
       <None Remove="Resources\Images\Icons\pause.png" />
       <Resource Include="Resources\Images\Icons\pause.png" />
       <None Remove="Resources\Images\Icons\percent.png" />
-      <Resource Include="Resources\Images\Icons\percent.png" />
       <None Remove="Resources\Images\Icons\play.png" />
       <Resource Include="Resources\Images\Icons\play.png" />
       <None Remove="Resources\Images\Icons\plus.png" />
@@ -50,19 +44,16 @@
       <None Remove="Resources\Images\Icons\questionMark.png" />
       <Resource Include="Resources\Images\Icons\questionMark.png" />
       <None Remove="Resources\Images\Icons\smalli.png" />
-      <Resource Include="Resources\Images\Icons\smalli.png" />
       <None Remove="Resources\Images\Icons\square.png" />
       <Resource Include="Resources\Images\Icons\square.png" />
       <None Remove="Resources\Images\Icons\threeLinesDown.png" />
       <Resource Include="Resources\Images\Icons\threeLinesDown.png" />
       <None Remove="Resources\Images\Icons\threeLinesThick.png" />
-      <Resource Include="Resources\Images\Icons\threeLinesThick.png" />
       <None Remove="Resources\Images\Icons\threeLinesup.png" />
       <Resource Include="Resources\Images\Icons\threeLinesup.png" />
       <None Remove="Resources\Images\Icons\Underline.png" />
       <Resource Include="Resources\Images\Icons\Underline.png" />
       <None Remove="Resources\Images\Icons\VerticalLine.png" />
-      <Resource Include="Resources\Images\Icons\VerticalLine.png" />
       <None Remove="Resources\Images\Icons\ThumbDown.png" />
       <Resource Include="Resources\Images\Icons\ThumbDown.png" />
       <None Remove="Resources\Images\Icons\ThumbUp.png" />
@@ -87,6 +78,10 @@
       <None Remove="Resources\Images\Icons\strike.png" />
       <None Remove="Resources\Images\Icons\file2.png" />
       <Resource Include="Resources\Images\Icons\file2.png" />
+      <None Remove="Resources\Images\Icons\FastForward.png" />
+      <Resource Include="Resources\Images\Icons\FastForward.png" />
+      <None Remove="Resources\Images\Icons\RightArrow.png" />
+      <Resource Include="Resources\Images\Icons\RightArrow.png" />
     </ItemGroup>
 
     <ItemGroup>
@@ -139,6 +134,10 @@
 
     <ItemGroup>
       <Resource Include="Resources\Images\Icons\FourSquares.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="Resources\Images\Icons\threeLinesThick.png" />
     </ItemGroup>
 
 </Project>

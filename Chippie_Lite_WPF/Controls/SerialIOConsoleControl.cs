@@ -62,6 +62,7 @@ public class SerialIOConsoleControl
     }
     private void OnRunEnd()
     {
+        LastSource = -1;
         Owner.SetInputEnabled(false);
     }
 }

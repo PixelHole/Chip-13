@@ -23,13 +23,13 @@
                     <ColumnDefinition Width="64"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                
                 <TextBox x:Name="InputBox" Grid.Column="1" Margin="4, 0 ,0 ,0"
                          Background="Transparent" Foreground="{StaticResource White}" 
                          BorderBrush="Transparent" BorderThickness="0" SelectionBrush="{StaticResource Pink}"
                          CaretBrush="{StaticResource White}" SelectionTextBrush="{StaticResource Bisque}"
                          FontFamily="{StaticResource TextFont}" FontSize="22"
                          AcceptsReturn="True" AcceptsTab="True" SnapsToDevicePixels="True"
+                         TextOptions.TextFormattingMode="Display"
                          syntax:SyntaxBox.Enable="True"
                          syntax:SyntaxBox.AutoIndent="True"
                          syntax:SyntaxBox.ExpandTabs="True"
@@ -47,7 +47,7 @@
                         </syntax:SyntaxConfig>
                     </syntax:SyntaxBox.SyntaxDrivers>
                 </TextBox>
-                
+
                 <Border Grid.Column="0" BorderThickness="0, 0, 4, 0" BorderBrush="{StaticResource 'Faded Purple'}">
                     <TextBlock x:Name="LineDisplay" Background="{StaticResource 'Dark Blue'}" Margin="4, 0, 0, 0"
                                FontFamily="{StaticResource TextFont}" FontSize="22" Text="."

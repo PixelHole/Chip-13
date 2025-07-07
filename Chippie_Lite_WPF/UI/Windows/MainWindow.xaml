@@ -70,11 +70,17 @@
             </StackPanel>
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <!-- <elements:SquareButton x:Name="SingleStepBtn" Click="RunBtn_OnClick" -->
-                <!--                        Icon="./../../Resources/Images/Icons/play.png" -->
-                <!--                        BackgroundHoverColor="{StaticResource 'Dark Green'}"/> -->
+                
                 <elements:SquareButton x:Name="RunBtn" Click="RunBtn_OnClick"
                                        Icon="./../../Resources/Images/Icons/play.png"
+                                       BackgroundHoverColor="{StaticResource 'Dark Green'}"/>
+                
+                <elements:SquareButton x:Name="RunToEndBtn" Click="RunToEndBtn_OnClick" Visibility="Collapsed"
+                                       Icon="./../../Resources/Images/Icons/FastForward.png"
+                                       BackgroundHoverColor="{StaticResource 'Dark Green'}"/>
+                
+                <elements:SquareButton x:Name="SingleStepBtn" Click="SingleStepBtn_OnClick" Visibility="Collapsed"
+                                       Icon="./../../Resources/Images/Icons/RightArrow.png"
                                        BackgroundHoverColor="{StaticResource 'Dark Green'}"/>
                 
                 <elements:SquareButton x:Name="RestartBtn"  Click="RestartBtn_OnClick" Visibility="Collapsed"
@@ -86,7 +92,9 @@
                                        BackgroundHoverColor="{StaticResource 'Red'}" />
                 
                 <Separator Width="64" Background="Transparent"/>
+                
                 <elements:WindowRibbon x:Name="WindowRibbons"/>
+                
             </StackPanel>
             
         </Grid>

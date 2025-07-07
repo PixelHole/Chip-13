@@ -69,6 +69,7 @@ public partial class SquareButton : UserControl
     private void Body_OnMouseLeave(object sender, MouseEventArgs e)
     {
         mouseInside = false;
+        mouseDown = false;
         UpdateColor();
     }
     private void Body_OnMouseDown(object sender, MouseButtonEventArgs e)
@@ -80,7 +81,6 @@ public partial class SquareButton : UserControl
     {
         mouseDown = false;
         UpdateColor();
-        // Console.Beep(500, 50);
         Click?.Invoke(this);
     }
 }

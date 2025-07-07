@@ -8,10 +8,10 @@ using Chippie_Lite_WPF.UI.Elements;
 namespace Chippie_Lite_WPF.UI.Windows;
 
 
-public partial class MainWindow : Window
+public partial class MainWindow
 {
-    private MainWindowControl Control { get; set; }
-    public AppMode Mode { get; private set; }
+    private MainWindowControl Control { get; }
+    private AppMode Mode { get; set; }
     
     
     public MainWindow()
@@ -22,13 +22,17 @@ public partial class MainWindow : Window
     }
 
 
-    public void Run()
+    private void Run()
     {
         Control.RunScript(DevArea.GetInputString());
     }
-    public void Halt()
+    private void Halt()
     {
         Control.Halt();
+    }
+    private void Restart()
+    {
+        Control.Restart();
     }
 
     public void ChangeDevAreaPage(int index)
@@ -57,12 +61,16 @@ public partial class MainWindow : Window
                     RunBtn.Visibility = Visibility.Visible;
                     StopBtn.Visibility = Visibility.Collapsed;
                     RestartBtn.Visibility = Visibility.Collapsed;
+                    RunToEndBtn.Visibility = Visibility.Collapsed;
+                    SingleStepBtn.Visibility = Visibility.Collapsed;
                     break;
 
                 case AppMode.Run:
                     RunBtn.Visibility = Visibility.Collapsed;
                     StopBtn.Visibility = Visibility.Visible;
                     RestartBtn.Visibility = Visibility.Visible;
+                    RunToEndBtn.Visibility = Visibility.Visible;
+                    SingleStepBtn.Visibility = Visibility.Visible;
                     break;
             }
         });
@@ -88,6 +96,11 @@ public partial class MainWindow : Window
     {
         RunDispatcher(() => DevArea.ShowError(title, msg));
     }
+
+    public void RunToEndButtonVisible(bool visible)
+    {
+        RunDispatcher(() => RunWindowBtn.Visibility = visible ? Visibility.Visible : Visibility.Collapsed);
+    }
     
     private void StopBtn_OnClick(SquareButton sender)
     {
@@ -99,8 +112,15 @@ public partial class MainWindow : Window
     }
     private void RestartBtn_OnClick(SquareButton sender)
     {
-        Halt();
-        Run();
+        Restart();
+    }
+    private void SingleStepBtn_OnClick(SquareButton sender)
+    {
+        Control.NextStep();
+    }
+    private void RunToEndBtn_OnClick(SquareButton sender)
+    {
+        Control.RunToEnd();
     }
     
     private void ToolbarLogoBtn_OnClick(SquareButton sender)

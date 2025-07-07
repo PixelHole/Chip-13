@@ -14,7 +14,7 @@
         </Grid.ColumnDefinitions>
         
         <Label x:Name="LineLabel" FontFamily="{StaticResource TextFont}" FontSize="14" 
-               Foreground="{StaticResource 'Weird Grey'}"
+               Foreground="{StaticResource White}"
                HorizontalContentAlignment="Right" VerticalContentAlignment="Center"
                Margin="0, 0, 4, 0"/>
         
