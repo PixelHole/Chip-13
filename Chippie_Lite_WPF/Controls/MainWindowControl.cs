@@ -11,7 +11,6 @@ public class MainWindowControl
 {
     private MainWindow Owner { get; set; }
 
-
     public MainWindowControl(MainWindow owner)
     {
         Owner = owner;
@@ -33,17 +32,17 @@ public class MainWindowControl
         catch (Exception e)
         {
             Chippie.HaltOperation();
-            
+
             switch (e)
             {
-                case InvalidInstructionException parseException :
+                case InvalidInstructionException parseException:
                     Owner.ShowExceptionInCode(parseException);
                     break;
-                
-                case InstructionInterpretationException interpretationException :
+
+                case InstructionInterpretationException interpretationException:
                     Owner.ShowExceptionInCode(interpretationException);
                     break;
-                
+
                 default:
                     Owner.ShowError("internal error", $"An internal error occured : {e.Message}");
                     break;
@@ -54,8 +53,20 @@ public class MainWindowControl
     {
         Chippie.HaltOperation();
     }
-    
-    
+
+    public void SaveInstance()
+    {
+        
+    }
+    public void LoadInstance()
+    {
+        
+    }
+    public void NewInstance()
+    {
+        
+    }
+
     private void ChippieOnOnRunFinished()
     {
         Owner.SetMode(AppMode.Edit);

@@ -19,14 +19,21 @@ public partial class WindowRibbon : UserControl
     }
     private void MinimizeBtn_OnClick(SquareButton sender)
     {
-        Minimize?.Invoke();
+        if (Application.Current.MainWindow != null) Application.Current.MainWindow.WindowState = WindowState.Minimized;
     }
     private void FullscreenBtn_OnClick(SquareButton sender)
     {
-        Fullscreen?.Invoke();
+        if (Application.Current.MainWindow == null) return;
+
+        Application.Current.MainWindow.WindowState = Application.Current.MainWindow.WindowState switch
+        {
+            WindowState.Maximized => WindowState.Normal,
+            WindowState.Normal => WindowState.Maximized,
+            _ => Application.Current.MainWindow.WindowState
+        };
     }
     private void CloseBtn_OnClick(SquareButton sender)
     {
-        Close?.Invoke();
+        Application.Current.Shutdown();
     }
 }

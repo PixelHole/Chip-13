@@ -22,30 +22,71 @@
             <Rectangle x:Name="DragBox" Fill="{StaticResource 'Deep Purple'}" MouseDown="DragBox_OnMouseDown"/>
             
             <StackPanel Grid.Column="0" Orientation="Horizontal">
-                <elements:SquareButton x:Name="ToolbarLogoBtn" Label="" Click="ToolbarLogoBtn_OnClick" 
-                                       Icon="{StaticResource LogoWhiteSml}"
+                <elements:SquareButton x:Name="ToolbarLogoBtn"  Click="ToolbarLogoBtn_OnClick" 
+                                       Icon="./../../Resources/Images/Icons/logo.png"
                                        BackgroundHoverColor="{StaticResource Red}"
                                        BackgroundClickColor="{StaticResource Pink}"/>
-                <elements:SquareButton x:Name="ToolbarFileBtn" Label="File" Click="ToolbarFileBtn_OnClick"
+                <elements:SquareButton x:Name="ToolbarNewBtn" Click="ToolbarNewBtn_OnClick"
+                                       Icon="../../Resources/Images/Icons/File.png"
                                        BackgroundHoverColor="{StaticResource Red}"
                                        BackgroundClickColor="{StaticResource Pink}"/>
-                <elements:SquareButton x:Name="ToolbarHelpBtn" Label="Help" Click="ToolbarHelpBtn_OnClick"
+                <elements:SquareButton x:Name="ToolbarOpenBtn" Click="ToolbarOpenBtn_OnClick"
+                                       Icon="../../Resources/Images/Icons/file2.png"
                                        BackgroundHoverColor="{StaticResource Red}"
                                        BackgroundClickColor="{StaticResource Pink}"/>
+                <elements:SquareButton x:Name="ToolbarSaveBtn" Click="ToolbarSaveBtn_OnClick"
+                                       Icon="../../Resources/Images/Icons/Floppy.png"
+                                       BackgroundHoverColor="{StaticResource Red}"
+                                       BackgroundClickColor="{StaticResource Pink}"/>
+                <elements:SquareButton x:Name="ToolbarHelpBtn" Click="ToolbarHelpBtn_OnClick"
+                                       Icon="../../Resources/Images/Icons/questionMark.png"
+                                       BackgroundHoverColor="{StaticResource Red}"
+                                       BackgroundClickColor="{StaticResource Pink}"/>
+                <Rectangle Width="32"/>
+                <elements:ToggleButton x:Name="CodeWindowBtn" OnSelected="CodeWindowBtn_OnOnSelected"
+                                       Icon="../../../Resources/Images/Icons/BigI.png" 
+                                       UnselectedHoverColor="{StaticResource Red}" 
+                                       UnselectedClickColor="{StaticResource Pink}"
+                                       SelectedDefaultColor="{StaticResource Red}"
+                                       SelectedHoverColor="{StaticResource Pink}"
+                                       SelectedClickColor="{StaticResource Bisque}"
+                                       Selected="True"/>
+                <elements:ToggleButton x:Name="MemoryWindowBtn" OnSelected="MemoryWindowBtn_OnOnSelected"
+                                       Icon="../../../Resources/Images/Icons/FourSquares.png"
+                                       UnselectedHoverColor="{StaticResource Red}" 
+                                       UnselectedClickColor="{StaticResource Pink}"
+                                       SelectedDefaultColor="{StaticResource Red}"
+                                       SelectedHoverColor="{StaticResource Pink}"
+                                       SelectedClickColor="{StaticResource Bisque}"
+                                       Selected="False"/>
+                <elements:ToggleButton x:Name="RunWindowBtn" OnSelected="RunWindowBtn_OnOnSelected"
+                                       Icon="../../../Resources/Images/Icons/monitor.png" 
+                                       UnselectedHoverColor="{StaticResource Red}" 
+                                       UnselectedClickColor="{StaticResource Pink}"
+                                       SelectedDefaultColor="{StaticResource Red}"
+                                       SelectedHoverColor="{StaticResource Pink}"
+                                       SelectedClickColor="{StaticResource Bisque}"
+                                       Selected="False"/>
             </StackPanel>
             
-            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <elements:SquareButton x:Name="RunBtn" Label="Run" Click="RunBtn_OnClick"
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <!-- <elements:SquareButton x:Name="SingleStepBtn" Click="RunBtn_OnClick" -->
+                <!--                        Icon="./../../Resources/Images/Icons/play.png" -->
+                <!--                        BackgroundHoverColor="{StaticResource 'Dark Green'}"/> -->
+                <elements:SquareButton x:Name="RunBtn" Click="RunBtn_OnClick"
+                                       Icon="./../../Resources/Images/Icons/play.png"
                                        BackgroundHoverColor="{StaticResource 'Dark Green'}"/>
                 
-                <elements:SquareButton x:Name="RestartBtn" Label="Restart" Click="RestartBtn_OnClick" Visibility="Collapsed"
+                <elements:SquareButton x:Name="RestartBtn"  Click="RestartBtn_OnClick" Visibility="Collapsed"
+                                       Icon="./../../Resources/Images/Icons/restart.png"
                                        BackgroundHoverColor="{StaticResource 'Dark Green'}"/>
                 
-                <elements:SquareButton x:Name="StopBtn" Label="Stop" Click="StopBtn_OnClick" Visibility="Collapsed"
+                <elements:SquareButton x:Name="StopBtn"  Click="StopBtn_OnClick" Visibility="Collapsed"
+                                       Icon="./../../Resources/Images/Icons/pause.png"
                                        BackgroundHoverColor="{StaticResource 'Red'}" />
+                
                 <Separator Width="64" Background="Transparent"/>
-                <!-- <elements:WindowRibbon x:Name="WindowRibbons" Minimize="WindowRibbon_OnMinimize"  -->
-                <!--                        Fullscreen="WindowRibbon_OnFullscreen" Close="WindowRibbon_OnClose"/> -->
+                <elements:WindowRibbon x:Name="WindowRibbons"/>
             </StackPanel>
             
         </Grid>

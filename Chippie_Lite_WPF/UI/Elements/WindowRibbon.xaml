@@ -11,11 +11,14 @@
              d:DesignHeight="32" d:DesignWidth="96">
     <Grid>
         <StackPanel Orientation="Horizontal">
-            <local:SquareButton x:Name="MinimizeBtn" Label="_" Width="32" Click="MinimizeBtn_OnClick"
+            <local:SquareButton x:Name="MinimizeBtn" Label="" Width="32" Click="MinimizeBtn_OnClick"
+                                Icon="../../Resources/Images/Icons/Underline.png"
                                 BackgroundHoverColor="{StaticResource 'Dark Green'}"/>
-            <local:SquareButton x:Name="FullscreenBtn" Label="O" Width="32" Click="FullscreenBtn_OnClick"
+            <local:SquareButton x:Name="FullscreenBtn" Label="" Width="32" Click="FullscreenBtn_OnClick"
+                                Icon="../../Resources/Images/Icons/square.png"
                                 BackgroundHoverColor="{StaticResource Brown}"/>
-            <local:SquareButton x:Name="CloseBtn" Label="X" Width="32" Click="CloseBtn_OnClick"
+            <local:SquareButton x:Name="CloseBtn" Label="" Width="32" Click="CloseBtn_OnClick"
+                                Icon="../../Resources/Images/Icons/strike_invert.png"
                                 BackgroundHoverColor="{StaticResource 'Red'}"/>
         </StackPanel>
     </Grid>

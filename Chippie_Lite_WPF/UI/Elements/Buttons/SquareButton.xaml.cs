@@ -12,13 +12,13 @@ public partial class SquareButton : UserControl
     private string _label;
     private ImageSource _icon;
     
-    public required string Label
+    public string Label
     {
         get => _label;
         set
         {
             _label = value;
-            TextDisplay.Content = _label;
+            TextDisplay.Text = _label;
         }
     }
     public ImageSource Icon

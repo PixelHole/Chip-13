@@ -9,12 +9,11 @@
     <Grid Name="Body" MouseEnter="Body_OnMouseEnter" MouseLeave="Body_OnMouseLeave"
           MouseDown="Body_OnMouseDown" MouseUp="Body_OnMouseUp">
         
-        <Label x:Name="TextDisplay" Foreground="{StaticResource White}" Margin="0"
-               FontFamily="{StaticResource TextFontAlt}" FontSize="16"
-               VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+        <TextBlock x:Name="TextDisplay" Foreground="{StaticResource White}" Margin="4"
+               FontFamily="{StaticResource TextFontAlt}" FontSize="18"
                VerticalAlignment="Center" HorizontalAlignment="Center"/>
         
-        <Image x:Name="ImageDisplay" Margin="8"/>
+        <Image x:Name="ImageDisplay" Margin="4" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
         
     </Grid>
 </UserControl>

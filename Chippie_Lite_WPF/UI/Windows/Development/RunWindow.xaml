@@ -27,7 +27,7 @@
                                    Selected="True"/>
             
             <elements:ToggleButton x:Name="ToggleMemoryBtn" OnSelected="ToggleMemoryBtn_OnOnSelected"
-                                   Icon="../../../Resources/Images/Icons/FourSquares.png" Label=""
+                                   Icon="../../../Resources/Images/Icons/boxes.png" Label=""
                                    UnselectedHoverColor="{StaticResource Red}" 
                                    UnselectedClickColor="{StaticResource Pink}"
                                    SelectedDefaultColor="{StaticResource Red}"

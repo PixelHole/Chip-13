@@ -34,6 +34,16 @@ public partial class MainWindow : Window
     public void ChangeDevAreaPage(int index)
     {
         RunDispatcher(() => DevArea.ChangePage(index));
+        RunDispatcher(() => UpdateTabButtons(index));
+    }
+    private void UpdateTabButtons(int index)
+    {
+        ToggleButton[] buttons = [CodeWindowBtn, MemoryWindowBtn, RunWindowBtn];
+
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            buttons[i].Selected = i == index;
+        }
     }
     public void SetMode(AppMode mode)
     {
@@ -93,7 +103,19 @@ public partial class MainWindow : Window
         Run();
     }
     
-    private void ToolbarFileBtn_OnClick(SquareButton sender)
+    private void ToolbarLogoBtn_OnClick(SquareButton sender)
+    {
+        
+    }
+    private void ToolbarNewBtn_OnClick(SquareButton sender)
+    {
+        
+    }
+    private void ToolbarSaveBtn_OnClick(SquareButton sender)
+    {
+        
+    }
+    private void ToolbarOpenBtn_OnClick(SquareButton sender)
     {
         
     }
@@ -101,27 +123,21 @@ public partial class MainWindow : Window
     {
         
     }
-    private void ToolbarLogoBtn_OnClick(SquareButton sender)
-    {
-        
-    }
     
-    private void WindowRibbon_OnMinimize()
+    private void CodeWindowBtn_OnOnSelected(ToggleButton sender, bool selected)
     {
-        WindowState = WindowState.Minimized;
+        ChangeDevAreaPage(0);
+        UpdateTabButtons(0);
     }
-    private void WindowRibbon_OnFullscreen()
+    private void MemoryWindowBtn_OnOnSelected(ToggleButton sender, bool selected)
     {
-        WindowState = WindowState switch
-        {
-            WindowState.Maximized => WindowState.Normal,
-            WindowState.Normal => WindowState.Maximized,
-            _ => WindowState
-        };
+        ChangeDevAreaPage(1);
+        UpdateTabButtons(1);
     }
-    private void WindowRibbon_OnClose()
+    private void RunWindowBtn_OnOnSelected(ToggleButton sender, bool selected)
     {
-        Application.Current.Shutdown();
+        ChangeDevAreaPage(2);
+        UpdateTabButtons(2);
     }
 
     private void RunDispatcher(Action action)
