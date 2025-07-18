@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions.Base;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions.Interpretation;
-using Chippie_Lite_WPF.Linkers;
+using Chippie_Lite_WPF.Controls;
 using Chippie_Lite_WPF.UI.Elements;
 
 namespace Chippie_Lite_WPF.UI.Windows;
@@ -24,7 +24,7 @@ public partial class MainWindow
 
     private void Run()
     {
-        Control.RunScript(DevArea.GetInputString());
+        Control.RunScript(DevArea.GetInputCode());
     }
     private void Halt()
     {
@@ -34,7 +34,7 @@ public partial class MainWindow
     {
         Control.Restart();
     }
-
+    
     public void ChangeDevAreaPage(int index)
     {
         RunDispatcher(() => DevArea.ChangePage(index));
@@ -76,27 +76,6 @@ public partial class MainWindow
         });
     }
 
-    public void ShowExceptionInCode(InvalidInstructionException exception)
-    {
-        RunDispatcher(() =>
-        {
-            DevArea.ChangePage(0);
-            DevArea.ShowExceptionError(exception);
-        });
-    }
-    public void ShowExceptionInCode(InstructionInterpretationException exception)
-    {
-        RunDispatcher(() =>
-        {
-            DevArea.ChangePage(0);
-            DevArea.ShowExceptionError(exception);
-        });
-    }
-    public void ShowError(string title, string msg)
-    {
-        RunDispatcher(() => DevArea.ShowError(title, msg));
-    }
-
     public void RunToEndButtonVisible(bool visible)
     {
         RunDispatcher(() => RunToEndBtn.Visibility = visible ? Visibility.Visible : Visibility.Collapsed);
@@ -129,15 +108,19 @@ public partial class MainWindow
     }
     private void ToolbarNewBtn_OnClick(SquareButton sender)
     {
-        
+        Control.RequestNewInstance();
     }
     private void ToolbarSaveBtn_OnClick(SquareButton sender)
     {
-        
+        Control.RequestSave();
+    }
+    private void ToolbarSaveAsBtn_OnClick(SquareButton sender)
+    {
+        Control.RequestSaveAs();
     }
     private void ToolbarOpenBtn_OnClick(SquareButton sender)
     {
-        
+        Control.RequestLoad();
     }
     private void ToolbarHelpBtn_OnClick(SquareButton sender)
     {

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Elements"
+             xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
              mc:Ignorable="d"
              Background="Transparent"
              Height="32"
@@ -11,13 +11,13 @@
              d:DesignHeight="32" d:DesignWidth="96">
     <Grid>
         <StackPanel Orientation="Horizontal">
-            <local:SquareButton x:Name="MinimizeBtn" Label="" Width="32" Click="MinimizeBtn_OnClick"
+            <elements:SquareButton x:Name="MinimizeBtn" Label="" Width="32" Click="MinimizeBtn_OnClick"
                                 Icon="../../Resources/Images/Icons/Underline.png"
                                 BackgroundHoverColor="{StaticResource 'Dark Green'}"/>
-            <local:SquareButton x:Name="FullscreenBtn" Label="" Width="32" Click="FullscreenBtn_OnClick"
+            <elements:SquareButton x:Name="FullscreenBtn" Label="" Width="32" Click="FullscreenBtn_OnClick"
                                 Icon="../../Resources/Images/Icons/square.png"
                                 BackgroundHoverColor="{StaticResource Brown}"/>
-            <local:SquareButton x:Name="CloseBtn" Label="" Width="32" Click="CloseBtn_OnClick"
+            <elements:SquareButton x:Name="CloseBtn" Label="" Width="32" Click="CloseBtn_OnClick"
                                 Icon="../../Resources/Images/Icons/strike_invert.png"
                                 BackgroundHoverColor="{StaticResource 'Red'}"/>
         </StackPanel>

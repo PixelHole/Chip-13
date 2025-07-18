@@ -2,7 +2,7 @@
 
 public enum InstructionArgumentType
 {
-    Number,
+    Value,
     Register,
-    RegisterAndNumber
+    RegisterAndValue
 }

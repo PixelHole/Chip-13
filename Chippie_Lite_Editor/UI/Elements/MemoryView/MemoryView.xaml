@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="Chippie_Lite_WPF.UI.Elements.MemoryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
+             mc:Ignorable="d"
+             Background=" Transparent"
+             d:DesignHeight="300" d:DesignWidth="500"
+             MinHeight="152" MinWidth="430">
+    
+    <Border BorderThickness="4" BorderBrush="{StaticResource 'Deep Purple'}">
+             
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="24"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+        
+            <Rectangle Fill="{StaticResource 'Deep Purple'}"/>
+        
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <TextBlock Margin="4, 0, 0, 2" VerticalAlignment="Center" 
+                           Text="Memory" FontSize="22" FontFamily="{StaticResource TextFontAlt}"
+                           Foreground="{StaticResource White}" Background="Transparent"/>
+                
+                <Rectangle Fill="Transparent" Width="32"/>
+                
+                <elements:SquareButton x:Name="PageDownBtn" Click="PageDownBtn_OnClick"
+                    Icon="/Resources/Images/Icons/ThumbLeft.png"
+                    BackgroundHoverColor="{StaticResource Red}"
+                    BackgroundClickColor="{StaticResource Pink}"/>
+                
+                <TextBox x:Name="PageIndexBox" MinWidth="32" VerticalContentAlignment="Center" 
+                         FontSize="18" FontFamily="{StaticResource TextFont}"
+                         BorderThickness="0" BorderBrush="Transparent" 
+                         Background="{StaticResource 'Dark Blue'}"
+                         Foreground="{StaticResource White}"
+                         TextChanged="PageIndexBox_OnTextChanged"
+                         LostFocus="PageIndexBox_OnLostFocus"
+                         KeyDown="PageIndexBox_OnKeyDown"/>
+                
+                <TextBlock x:Name="PageCountBlock" Text=" / 00"
+                           FontSize="18" FontFamily="{StaticResource TextFont}"
+                           Background="Transparent"
+                           Foreground="{StaticResource White}"/>
+                
+                <elements:SquareButton x:Name="PageUpBtn" Click="PageUpBtn_OnClick"
+                    Icon="/Resources/Images/Icons/ThumbRight.png"
+                    BackgroundHoverColor="{StaticResource Red}"
+                    BackgroundClickColor="{StaticResource Pink}"/>
+            </StackPanel>
+        
+            <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal">
+                
+                <TextBox x:Name="SearchBox" MinWidth="160" VerticalContentAlignment="Center" 
+                         FontSize="18" FontFamily="{StaticResource TextFont}"
+                         BorderThickness="0" BorderBrush="Transparent" 
+                         Background="{StaticResource 'Dark Blue'}"
+                         Foreground="{StaticResource White}"
+                         TextChanged="SearchBox_OnTextChanged"/>
+                
+                <elements:SquareButton x:Name="SearchBtn" Click="SearchBtn_OnClick"
+                    Icon="/Resources/Images/Icons/MagnifyingGlass.png"
+                    BackgroundHoverColor="{StaticResource Red}"
+                    BackgroundClickColor="{StaticResource Pink}"/>
+            </StackPanel>
+        
+            <Border Grid.Row="1" BorderBrush="{StaticResource 'Deep Purple'}" BorderThickness="0, 4, 0 ,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="32"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    
+                    <Grid Margin="0, 0, 16, 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="128"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Grid Grid.Column="1" x:Name="OffsetLabelGrid" />
+                        
+                        <Border Grid.Column="0" BorderBrush="{StaticResource 'Deep Purple'}" BorderThickness="0, 0, 4, 4"/>
+                        
+                    </Grid>
+                    
+                    <ScrollViewer x:Name="CellGridViewer" Grid.Row="1" Style="{StaticResource StyledScrollViewer}" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="128"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Grid x:Name="AddressLabelGrid" Grid.Column="0"/>
+                            
+                            <Grid Grid.Column="1" x:Name="CellGrid" SizeChanged="CellGrid_OnSizeChanged"/>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+            
+        </Grid>
+        
+    </Border>
+</UserControl>

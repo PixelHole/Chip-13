@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Markup;
 
 namespace Chippie_Lite_WPF.UI.Elements;
 

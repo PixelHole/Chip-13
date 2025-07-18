@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Windows.Development"
              xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
+             xmlns:development="clr-namespace:Chippie_Lite_WPF.UI.Windows.Development"
              mc:Ignorable="d"
              Background="Transparent"
              SnapsToDevicePixels="True"
@@ -45,7 +45,7 @@
                                    Selected="True"/>
         </StackPanel>
         
-        <Grid x:Name="RowGrid" Grid.Column="0">
+        <Grid x:Name="RowGrid" Grid.Column="0" Margin="0, 0, 4, 0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1.5*"/>
                 <RowDefinition/>
@@ -58,28 +58,16 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 
-                <Border BorderThickness="4" Margin="4, 4, 0, 0"
-                        BorderBrush="{StaticResource 'Deep Purple'}">
-                    <elements:InstructionDisplayList x:Name="InstructionDisplayList"/>
-                </Border>
+                <elements:InstructionDisplayList x:Name="InstructionDisplayList" Grid.Column="0" Margin="4, 4, 0 ,0"/>
                 
-                <Border Grid.Column="1" BorderThickness="4" Margin="4, 4, 0, 0"
-                        BorderBrush="{StaticResource 'Deep Purple'}">
-                    <local:SerialIOConsole/>
-                    <!-- <local:VideoIO/> -->
-                </Border>
+                <development:SerialIOConsole Grid.Column="1" Margin="4, 4, 0, 0"/>
                 
-                <Border Grid.Column="2" BorderThickness="4" Margin="4, 4, 4, 0"
-                        BorderBrush="{StaticResource 'Deep Purple'}">
-                    <elements:RegisterList x:Name="RegisterList"/>
-                </Border>
+                <elements:RegisterList Grid.Column="2" x:Name="RegisterList" Margin="4, 4, 0, 0"/>
                 
             </Grid>
             
-            <Border Grid.Row="1" BorderThickness="4" Margin="4"
-                    BorderBrush="{StaticResource 'Deep Purple'}">
-                    
-            </Border>
+            
+            <elements:MemoryView Grid.Row="1" Margin="4, 4, 0, 4" Mode="View"/>
             
         </Grid>
         

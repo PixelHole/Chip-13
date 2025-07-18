@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-using Chippie_Lite_WPF.Computer.Components;
-using Chippie_Lite_WPF.Computer.Internal.Exceptions;
+﻿using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions.Interpretation;
 
 namespace Chippie_Lite_WPF.Computer.Instructions.Arguments.Base;

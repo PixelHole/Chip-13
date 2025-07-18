@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Chippie_Lite_WPF.Linkers;
+using Chippie_Lite_WPF.Controls;
 using Chippie_Lite_WPF.UI.Elements;
 
 namespace Chippie_Lite_WPF.UI.Windows.Development;

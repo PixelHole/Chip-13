@@ -2,7 +2,6 @@
 using System.Windows.Controls;
 using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.Instructions;
-using Chippie_Lite_WPF.UI.Elements.InstructionDisplay;
 
 namespace Chippie_Lite_WPF.UI.Elements;
 

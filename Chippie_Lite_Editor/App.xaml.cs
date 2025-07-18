@@ -1,8 +1,6 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using System.Windows;
 using Chippie_Lite_WPF.Computer;
-using Chippie_Lite_WPF.Computer.Instructions.Templates;
+using Chippie_Lite_WPF.Computer.Components;
 
 namespace Chippie_Lite_WPF;
 
@@ -14,6 +12,6 @@ public partial class App : Application
     private void App_OnStartup(object sender, StartupEventArgs e)
     {
         Chippie.Initialize();
-        
+        Memory.Write(1, 10);
     }
 }

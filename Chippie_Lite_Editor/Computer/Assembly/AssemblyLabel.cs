@@ -1,4 +1,4 @@
-﻿namespace Chippie_Lite_WPF.Computer.Internal;
+﻿namespace Chippie_Lite_WPF.Computer.Assembly;
 
 public class AssemblyLabel
 {

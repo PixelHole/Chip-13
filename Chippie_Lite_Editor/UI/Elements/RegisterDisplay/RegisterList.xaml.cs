@@ -2,14 +2,26 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 using Chippie_Lite_WPF.Computer.Components;
-using Chippie_Lite_WPF.UI.Elements.RegisterDisplay;
 
 namespace Chippie_Lite_WPF.UI.Elements;
 
 public partial class RegisterList : UserControl
 {
-    private Brush ParentBorderBrush; 
-    
+    private ControlMode mode = ControlMode.View;
+    private Brush ParentBorderBrush;
+
+
+    public ControlMode Mode
+    {
+        get => mode;
+        set
+        {
+            bool changed = mode != value;
+            mode = value;
+            if (!changed) return;
+            
+        }
+    }
     
     public RegisterList()
     {
@@ -45,7 +57,7 @@ public partial class RegisterList : UserControl
             BorderThickness = new Thickness(0, 0, 0, 4),
             BorderBrush = ParentBorderBrush
         };
-        RegisterListItem item = new RegisterListItem(register);
+        RegisterListItem item = new RegisterListItem(register, Mode);
         itemBorder.Child = item;
         RegisterListPanel.Children.Add(itemBorder);
     }

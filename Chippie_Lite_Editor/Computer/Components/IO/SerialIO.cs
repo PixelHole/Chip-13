@@ -1,4 +1,4 @@
-﻿using Chippie_Lite_WPF.Computer.Internal;
+﻿using Chippie_Lite_WPF.Computer.Utility;
 
 namespace Chippie_Lite_WPF.Computer.Components;
 

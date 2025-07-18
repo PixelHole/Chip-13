@@ -85,7 +85,10 @@ namespace Chippie_Lite_WPF.Computer.Components
         {
             Register[] registers = new Register[Registers.Count];
 
-            Registers.CopyTo(0, registers, 0, Registers.Count);
+            for (int i = 0; i < registers.Length; i++)
+            {
+                registers[i] = Registers[i];
+            }
             
             return registers;
         }

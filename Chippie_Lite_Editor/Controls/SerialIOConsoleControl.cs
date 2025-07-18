@@ -2,7 +2,7 @@
 using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.UI.Windows.Development;
 
-namespace Chippie_Lite_WPF.Linkers;
+namespace Chippie_Lite_WPF.Controls;
 
 public class SerialIOConsoleControl
 {

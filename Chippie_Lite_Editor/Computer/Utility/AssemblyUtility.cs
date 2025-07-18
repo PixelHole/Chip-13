@@ -1,11 +1,12 @@
-﻿using Chippie_Lite_WPF.Computer.Components;
+﻿using Chippie_Lite_WPF.Computer.Assembly;
+using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.Instructions;
 using Chippie_Lite_WPF.Computer.Instructions.Arguments;
 using Chippie_Lite_WPF.Computer.Instructions.Arguments.Base;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions.Base;
 
-namespace Chippie_Lite_WPF.Computer.Internal
+namespace Chippie_Lite_WPF.Computer.Utility
 {
     public static class AssemblyUtility
     {
@@ -42,11 +43,11 @@ namespace Chippie_Lite_WPF.Computer.Internal
             
             switch (argType)
             {
-                case InstructionArgumentType.RegisterAndNumber :
-                    return ParseRegisterNumberArgument(arg);
+                case InstructionArgumentType.RegisterAndValue :
+                    return ParseRegisterValueArgument(arg);
                 
-                case InstructionArgumentType.Number :
-                    return ParseNumberArgument(arg);
+                case InstructionArgumentType.Value :
+                    return ParseValueArgument(arg);
                 
                 case InstructionArgumentType.Register :
                     return ParseRegisterArgument(arg);
@@ -55,7 +56,7 @@ namespace Chippie_Lite_WPF.Computer.Internal
                     throw new InvalidArgumentTypeException(0, argType);
             }
         }
-        private static RegisterNumberArgument ParseRegisterNumberArgument(string arg)
+        private static RegisterNumberArgument ParseRegisterValueArgument(string arg)
         {
             string body = ExtractMainBody(arg);
 
@@ -68,7 +69,7 @@ namespace Chippie_Lite_WPF.Computer.Internal
 
             string offset = ExtractOffset(arg);
 
-            int val = string.IsNullOrEmpty(offset) ? 0 : ParseNumber(offset);
+            int val = string.IsNullOrEmpty(offset) ? 0 : ParseValue(offset);
 
             return new RegisterNumberArgument(register, val);
         }
@@ -76,9 +77,9 @@ namespace Chippie_Lite_WPF.Computer.Internal
         {
             return new RegisterArgument(ParseRegister(arg));
         }
-        private static NumberArgument ParseNumberArgument(string arg)
+        private static NumberArgument ParseValueArgument(string arg)
         {
-            return new NumberArgument(ParseNumber(arg));
+            return new NumberArgument(ParseValue(arg));
         }
 
         private static Register? ParseRegister(string arg)
@@ -106,14 +107,15 @@ namespace Chippie_Lite_WPF.Computer.Internal
 
             return register;
         }
-        private static int ParseNumber(string raw)
+        private static int ParseValue(string raw)
         {
-            if (!raw.StartsWith('@')) return NumberUtility.ParseNumber(raw);
+            if (NumberUtility.TryParseNumber(raw, out var num)) return num;
+
+            if (StringUtility.IsStringOrChar(raw)) return StringUtility.TextToInt(raw);
             
             var label = AssemblyLabelDatabase.GetLabel(raw[1..]);
             if (label == null) throw new InvalidInstructionException("Invalid label name", 0);
             return label.Value;
-
         }
         
         private static string ExtractOffset(string arg)

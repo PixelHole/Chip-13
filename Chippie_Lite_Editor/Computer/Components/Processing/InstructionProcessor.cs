@@ -1,5 +1,4 @@
 ﻿using Chippie_Lite_WPF.Computer.Instructions;
-using Chippie_Lite_WPF.Computer.Internal.Exceptions.Interpretation;
 
 namespace Chippie_Lite_WPF.Computer.Components
 {

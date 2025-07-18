@@ -1,9 +1,10 @@
 ﻿using System.IO;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
+using Chippie_Lite_WPF.Computer.Instructions;
+using Chippie_Lite_WPF.Computer.Instructions.Templates;
 
-namespace Chippie_Lite_WPF.Computer.Instructions.Templates;
+namespace Chippie_Lite_WPF.Computer.Components;
 
 public static class InstructionSet
 {
@@ -12,8 +13,8 @@ public static class InstructionSet
         new InstructionTemplate("Add",
             "add",
             [
-                InstructionArgumentType.Register, InstructionArgumentType.RegisterAndNumber,
-                InstructionArgumentType.RegisterAndNumber
+                InstructionArgumentType.Register, InstructionArgumentType.RegisterAndValue,
+                InstructionArgumentType.RegisterAndValue
             ],
             [
                 new InstructionAction("Add", [0, 1, 2])
@@ -21,8 +22,8 @@ public static class InstructionSet
         new InstructionTemplate("Subtract",
             "sub",
             [
-                InstructionArgumentType.Register, InstructionArgumentType.RegisterAndNumber,
-                InstructionArgumentType.RegisterAndNumber
+                InstructionArgumentType.Register, InstructionArgumentType.RegisterAndValue,
+                InstructionArgumentType.RegisterAndValue
             ],
             [
                 new InstructionAction("subtract", [0, 1, 2])
@@ -30,8 +31,8 @@ public static class InstructionSet
         new InstructionTemplate("shift left",
             "sll",
             [
-                InstructionArgumentType.Register, InstructionArgumentType.RegisterAndNumber,
-                InstructionArgumentType.RegisterAndNumber
+                InstructionArgumentType.Register, InstructionArgumentType.RegisterAndValue,
+                InstructionArgumentType.RegisterAndValue
             ],
             [
                 new InstructionAction("shift left logic", [0, 1, 2])
@@ -39,8 +40,8 @@ public static class InstructionSet
         new InstructionTemplate("shift right",
             "srl",
             [
-                InstructionArgumentType.Register, InstructionArgumentType.RegisterAndNumber,
-                InstructionArgumentType.RegisterAndNumber
+                InstructionArgumentType.Register, InstructionArgumentType.RegisterAndValue,
+                InstructionArgumentType.RegisterAndValue
             ],
             [
                 new InstructionAction("shift right logic", [0, 1, 2])
@@ -56,7 +57,7 @@ public static class InstructionSet
         new InstructionTemplate("serial output",
             "out",
             [
-                InstructionArgumentType.RegisterAndNumber,
+                InstructionArgumentType.RegisterAndValue,
             ],
             [
                 new InstructionAction("serial output", [0])

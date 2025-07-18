@@ -4,7 +4,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Chippie_Lite_WPF.Computer.Components;
 
-namespace Chippie_Lite_WPF.UI.Elements.RegisterDisplay;
+namespace Chippie_Lite_WPF.UI.Elements;
 
 public partial class RegisterListItem : UserControl
 {
@@ -12,7 +12,9 @@ public partial class RegisterListItem : UserControl
     private bool mouseDown;
 
     private int displayedContent;
-    private int displayMode;
+    private int displayFormat;
+
+    private Register assignedRegister;
     
     public Brush DefaultColor { get; set; } = new SolidColorBrush(Colors.Transparent);
     public Brush HoverColor { get; set; }
@@ -28,34 +30,40 @@ public partial class RegisterListItem : UserControl
         }
     }
 
-    public int DisplayMode
+    public int DisplayFormat
     {
-        get => displayMode;
+        get => displayFormat;
         set
         {
-            displayMode = value;
+            displayFormat = value;
             UpdateContentDisplay();
         }
     }
     
     
-    public RegisterListItem(Register register)
+    public RegisterListItem(Register register, ControlMode mode)
     {
+        assignedRegister = register;
         InitializeComponent();
         FetchColors();
-        ConnectToRegister(register);
+        LoadRegisterContent();
         UpdateContentDisplay();
+        SetMode(mode);
     }
     private void FetchColors()
     {
         HoverColor = (Application.Current.Resources["Faded Purple"] as Brush)!;
         ClickColor = (Application.Current.Resources["Pink"] as Brush)!;
     }
-    private void ConnectToRegister(Register register)
+    private void LoadRegisterContent()
     {
-        register.OnContentChanged += OnRegisterChanged;
-        IdLabel.Content = register.Id;
-        DisplayedContent = register.Content;
+        IdLabel.Content = assignedRegister.Id;
+        DisplayedContent = assignedRegister.Content;
+    }
+
+    public void SetMode(ControlMode mode)
+    {
+        assignedRegister.OnContentChanged += OnRegisterChanged;
     }
 
     private void OnRegisterChanged(int newValue)
@@ -63,7 +71,7 @@ public partial class RegisterListItem : UserControl
         displayedContent = newValue;
         try
         {
-            Application.Current.Dispatcher.Invoke(UpdateContentDisplay);
+            Dispatcher.Invoke(UpdateContentDisplay);
         }
         catch (Exception)
         {
@@ -72,7 +80,7 @@ public partial class RegisterListItem : UserControl
     }
     private void UpdateContentDisplay()
     {
-        string text = displayMode switch
+        string text = displayFormat switch
         {
             1 => DisplayContentToBinary(),
             2 => DisplayContentToHex(),
@@ -84,8 +92,8 @@ public partial class RegisterListItem : UserControl
 
     private void IncrementDisplayMode()
     {
-        DisplayMode++;
-        if (DisplayMode > 2) DisplayMode = 0;
+        DisplayFormat++;
+        if (DisplayFormat > 2) DisplayFormat = 0;
     }
     private void SetColor(Brush color)
     {

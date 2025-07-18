@@ -1,11 +1,10 @@
-﻿using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Chippie_Lite_WPF.Computer.Instructions;
 using UI.SyntaxBox;
 
-namespace Chippie_Lite_WPF.UI.Elements.InstructionDisplay;
+namespace Chippie_Lite_WPF.UI.Elements;
 
 public partial class InstructionDisplayItem : UserControl
 {

@@ -3,14 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Windows.Development"
              xmlns:syntax="clr-namespace:UI.SyntaxBox;assembly=UI.SyntaxBox"
              xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
              mc:Ignorable="d"
              Background="Transparent"
              SnapsToDevicePixels="True"
              d:DesignHeight="300" d:DesignWidth="400">
-    <Grid Margin="4">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="48"/>

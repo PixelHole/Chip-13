@@ -2,68 +2,90 @@
 
 public static class Memory
 {
-    private static int[] Storage { get; set; } = new int[8192];
+    private static readonly int BlockAddRange = 3;
+    private static List<MemoryBlock> Storage { get; set; } = [];
     public static bool ReadOnly { get; private set; }
+
+    public static readonly int Size = 8192;
 
     private static readonly Semaphore accessPool = new Semaphore(1, 1);
 
-    public delegate void StorageUpdateAction(int start, int end);
-    public static event StorageUpdateAction OnStorageUpdated;
+    public delegate void StorageUpdateAction(int index);
+    public static event StorageUpdateAction? OnStorageUpdated;
 
+
+    public static void Write(int index, int data)
+    {
+        accessPool.WaitOne();
+        
+        var block = GetBlock(index, BlockAddRange);
+        if (block == null)
+        {
+            block = new MemoryBlock(index, [data]);
+            Storage.Add(block);
+        }
+        else
+        {
+            block.InsertData(index, data);
+            ResolveBlockConflict(block);
+        }
+
+        accessPool.Release();
+        
+        OnStorageUpdated?.Invoke(index);
+    }
     public static int Read(int index)
     {
         accessPool.WaitOne();
+
+        var block = GetBlock(index, 0);
         
-        int result = Storage[WrapIndex(index)];
-
-        accessPool.Release();
-
-        return result;
-    }
-    public static void Write(int content, int index)
-    {
-        accessPool.WaitOne();
-
-        Storage[WrapIndex(index)] = content;
+        int data = block == null ? 0 : block.Data[index - block.StartIndex];
 
         accessPool.Release();
         
-        OnStorageUpdated?.Invoke(WrapIndex(index), WrapIndex(index));
+        return data;
     }
 
-    public static int[] ReadRange(int start, int count)
+    private static void ResolveBlockConflict(MemoryBlock block)
     {
-        int[] result = new int[count];
+        var endConflict = GetBlock(block.EndIndex, BlockAddRange);
         
-        accessPool.WaitOne();
-
-        for (int i = 0; i < count; i++)
+        if (endConflict != null)
         {
-            result[i] = Storage[WrapIndex(start + i)];
+            block.MergeWithBlock(endConflict);
+            Storage.Remove(endConflict);
         }
 
-        accessPool.Release();
-
-        return result;
-    }
-    public static void WriteRange(int[] content, int index)
-    {
-        accessPool.WaitOne();
-
-        for (int i = 0; i < content.Length; i++)
+        var startConflict = GetBlock(block.StartIndex, BlockAddRange);
+        
+        if (startConflict != null)
         {
-            Storage[WrapIndex(index + i)] = content[i];
+            block.MergeWithBlock(startConflict);
+            Storage.Remove(startConflict);
+        }
+    }
+
+    private static MemoryBlock? GetBlock(int memoryIndex, int offset)
+    {
+        return Storage.Find(block => block.IsIndexInRange(memoryIndex, offset));
+    }
+
+    internal static void AddBlock(MemoryBlock block)
+    {
+        Storage.Add(block);
+    }
+
+    public static MemoryBlock[] GetAllBlocks()
+    {
+        MemoryBlock[] blocks = new MemoryBlock[Storage.Count];
+
+        for (int i = 0; i < blocks.Length; i++)
+        {
+            var memBlock = Storage[i];
+            blocks[i] = new MemoryBlock(memBlock.StartIndex, memBlock.Data);
         }
 
-        accessPool.Release();
-        
-        OnStorageUpdated?.Invoke(WrapIndex(index), WrapIndex(index + content.Length));
-    }
-
-    private static int WrapIndex(int index)
-    {
-        if (index >= Storage.Length) return index % Storage.Length;
-        if (index < 0) return (Storage.Length) - -index % Storage.Length;
-        return index;
+        return blocks;
     }
 }

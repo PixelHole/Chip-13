@@ -7,6 +7,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <UseWPF>true</UseWPF>
         <RootNamespace>Chippie_Lite_WPF</RootNamespace>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <ItemGroup>
@@ -93,6 +94,13 @@
       <Resource Include="Resources\Fonts\PublicPixel.ttf" />
       <None Remove="Resources\Images\Icons\Bug.png" />
       <Resource Include="Resources\Images\Icons\Bug.png" />
+      <None Remove="Resources\Images\Icons\MagnifyingGlass.png" />
+      <None Remove="Resources\Images\Icons\ThumbLeft.png" />
+      <Resource Include="Resources\Images\Icons\ThumbLeft.png" />
+      <None Remove="Resources\Images\Icons\ThumbRight.png" />
+      <Resource Include="Resources\Images\Icons\ThumbRight.png" />
+      <None Remove="Resources\Images\Icons\SaveAs.png" />
+      <Resource Include="Resources\Images\Icons\SaveAs.png" />
     </ItemGroup>
 
     <ItemGroup>
@@ -121,6 +129,11 @@
         <XamlRuntime>Wpf</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
+      <Page Update="UI\Windows\Development\DevelopmentArea.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
     </ItemGroup>
 
     <ItemGroup>
@@ -130,11 +143,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="NAudio" Version="2.2.1" />
       <PackageReference Include="UI.SyntaxBox" Version="1.0.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Computer\Internal\Exceptions\Label\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -148,6 +158,10 @@
 
     <ItemGroup>
       <Resource Include="Resources\Images\Icons\threeLinesThick.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="Resources\Images\Icons\MagnifyingGlass.png" />
     </ItemGroup>
 
 </Project>

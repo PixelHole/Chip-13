@@ -3,14 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Elements.RegisterDisplay"
              mc:Ignorable="d"
              Background="Transparent"
              d:DesignHeight="400" d:DesignWidth="200">
     <Grid>
-        <ScrollViewer x:Name="ScrollView" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
-                      Style="{StaticResource StyledScrollViewer}">
-            <StackPanel x:Name="RegisterListPanel" Background="Transparent" Orientation="Vertical"/>
-        </ScrollViewer>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <Rectangle Fill="{StaticResource 'Deep Purple'}"/>
+        
+        <TextBlock Margin="4, 0, 0, 2" VerticalAlignment="Center" 
+                   Text="Registers" FontSize="22" FontFamily="{StaticResource TextFontAlt}"
+                   Foreground="{StaticResource White}" Background="Transparent"/>
+        
+        <Border Grid.Row="1" BorderThickness="4, 0, 4, 4" BorderBrush="{StaticResource 'Deep Purple'}">
+            <ScrollViewer x:Name="ScrollView" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                          Style="{StaticResource StyledScrollViewer}">
+                <StackPanel x:Name="RegisterListPanel" Background="Transparent" Orientation="Vertical"/>
+            </ScrollViewer>
+        </Border>
     </Grid>
 </UserControl>

@@ -1,7 +1,6 @@
-﻿using Chippie_Lite_WPF.Computer.Components;
+﻿using Chippie_Lite_WPF.Computer.Assembly;
+using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.Instructions;
-using Chippie_Lite_WPF.Computer.Instructions.Templates;
-using Chippie_Lite_WPF.Computer.Internal;
 
 namespace Chippie_Lite_WPF.Computer;
 
@@ -93,7 +92,7 @@ public static class Chippie
         
         return true;
     }
-    private static void FullFlush()
+    public static void FullFlush()
     {
         if (IsRunning) return;
         InstructionBank.ClearInstructions();
@@ -135,7 +134,7 @@ public static class Chippie
             StepThread = new Thread(ExecutionStep);
             StepThread.Start();
         }
-
+        
         IsRunning = false;
     }
     private static void ExecutionStep()

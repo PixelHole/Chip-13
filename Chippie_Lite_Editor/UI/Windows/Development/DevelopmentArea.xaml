@@ -3,24 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Windows"
-             xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
              xmlns:development="clr-namespace:Chippie_Lite_WPF.UI.Windows.Development"
+             xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
              mc:Ignorable="d"
              Background="Transparent"
              SnapsToDevicePixels="True"
              d:DesignHeight="300" d:DesignWidth="400">
     
-    <Grid>
-        <Grid Background="{StaticResource 'Dark Blue'}">
-            <development:CodeEditControl x:Name="CodeEditControl" Margin="0"/>
-            <development:MemoryEditControl x:Name="MemoryEditControl" Visibility="Collapsed"/>
-            <development:RunWindow x:Name="RunWindow" Visibility="Collapsed"/>
-        </Grid>
-        
-        <Canvas>
-            <elements:ErrorBox x:Name="ErrorBox" Visibility="Collapsed" IsHitTestVisible="True"/>
-        </Canvas>
-        
+    <Grid Background="{StaticResource 'Dark Blue'}">
+        <development:CodeEditControl x:Name="CodeEditControl" Margin="0"/>
+        <development:MemoryEditControl x:Name="MemoryEditControl" Visibility="Collapsed"/>
+        <development:RunWindow x:Name="RunWindow" Visibility="Collapsed"/>
     </Grid>
 </UserControl>

@@ -1,16 +1,18 @@
-﻿using System.Numerics;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Chippie_Lite_WPF.Computer.Components;
-using Chippie_Lite_WPF.Computer.Instructions.Templates;
 using UI.SyntaxBox;
 
 namespace Chippie_Lite_WPF.UI.Windows.Development;
 
-public partial class CodeEditControl : UserControl
+public partial class CodeEditControl
 {
-    public string InputText => InputBox.Text;
+    public string InputText
+    {
+        get => InputBox.Text;
+        set => InputBox.Text = value;
+    }
     
     
     public CodeEditControl()
@@ -45,7 +47,7 @@ public partial class CodeEditControl : UserControl
     }
     private void ConnectEvents()
     {
-        InputBox.TextChanged += InputBoxOnTextChanged;
+        
     }
 
     public void SetEditable(bool editable)
@@ -82,12 +84,15 @@ public partial class CodeEditControl : UserControl
         return InputBox.Text.Split("\r\n");
     }
 
-    public void HighlightLine(int lineIndex)
+    public Point HighlightLine(int lineIndex)
     {
         InputBox.ScrollToLine(lineIndex);
         int start = InputBox.GetCharacterIndexFromLineIndex(lineIndex);
         int length = InputBox.GetLineLength(lineIndex);
         InputBox.Select(start, length);
+
+        var rect = InputBox.GetRectFromCharacterIndex(start + length - 1);
+        return rect.BottomRight;
     }
     
     private void InputBoxOnTextChanged(object sender, TextChangedEventArgs e)

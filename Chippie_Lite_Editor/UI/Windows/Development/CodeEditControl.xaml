@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Windows.Development"
              xmlns:syntax="clr-namespace:UI.SyntaxBox;assembly=UI.SyntaxBox"
              mc:Ignorable="d"
              SnapsToDevicePixels="True"
@@ -23,12 +22,13 @@
                     <ColumnDefinition Width="64"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="InputBox" Grid.Column="1" Margin="4, 0 ,0 ,0"
+                <TextBox x:Name="InputBox" x:FieldModifier="public" Grid.Column="1" Margin="4, 0 ,0 ,0"
                          Background="Transparent" Foreground="{StaticResource White}" 
                          BorderBrush="Transparent" BorderThickness="0" SelectionBrush="{StaticResource Pink}"
                          CaretBrush="{StaticResource White}" SelectionTextBrush="{StaticResource Bisque}"
                          FontFamily="{StaticResource TextFont}" FontSize="24"
                          AcceptsReturn="True" AcceptsTab="True" SnapsToDevicePixels="True"
+                         TextChanged="InputBoxOnTextChanged"
                          TextOptions.TextFormattingMode="Display"
                          TextOptions.TextRenderingMode="ClearType"
                          syntax:SyntaxBox.Enable="True"
