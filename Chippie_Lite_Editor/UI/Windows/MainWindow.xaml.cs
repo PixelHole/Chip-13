@@ -37,8 +37,18 @@ public partial class MainWindow
     
     public void ChangeDevAreaPage(int index)
     {
-        RunDispatcher(() => DevArea.ChangePage(index));
-        RunDispatcher(() => UpdateTabButtons(index));
+        if (Dispatcher.CheckAccess())
+        {
+            DevArea.ChangePage(index);
+            UpdateTabButtons(index);
+            return;
+        }
+
+        Dispatcher.Invoke(() =>
+        {
+            DevArea.ChangePage(index);
+            UpdateTabButtons(index);
+        });
     }
     private void UpdateTabButtons(int index)
     {
@@ -159,5 +169,10 @@ public partial class MainWindow
             // TODO : window repositions upon resizing
         }
         DragMove();
+    }
+    private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
+    {
+        if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.S)) Control.RequestSave();
+        if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.L)) Control.RequestLoad();
     }
 }
