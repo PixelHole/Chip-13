@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="Chippie_Lite_WPF.UI.Elements.RegisterListDisplayItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             Background="Transparent"
+             d:DesignHeight="32" d:DesignWidth="256">
+    
+    <Grid Name="Body" MouseEnter="Body_OnMouseEnter" MouseLeave="Body_OnMouseLeave"
+          MouseDown="Body_OnMouseDown" MouseUp="Body_OnMouseUp"
+          Background="Transparent" IsHitTestVisible="True">
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="32"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <Label x:Name="IdLabel" Grid.Column="0" FontFamily="{StaticResource TextFont}" FontSize="16"
+               Foreground="{StaticResource White}" Background="Transparent" IsEnabled="False" 
+               HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+        
+        <TextBlock x:Name="ContentLabel" Grid.Column="1" FontFamily="{StaticResource TextFont}" FontSize="16"
+               Foreground="{StaticResource White}" Background="Transparent" IsEnabled="False" 
+               VerticalAlignment="Center" HorizontalAlignment="Left" 
+               TextWrapping="Wrap"/>
+        
+    </Grid>
+</UserControl>

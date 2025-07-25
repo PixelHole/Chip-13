@@ -11,7 +11,7 @@ public partial class RegisterList : UserControl
     private Brush ParentBorderBrush;
 
 
-    public ControlMode Mode
+    public required ControlMode Mode
     {
         get => mode;
         set
@@ -19,7 +19,7 @@ public partial class RegisterList : UserControl
             bool changed = mode != value;
             mode = value;
             if (!changed) return;
-            
+            UpdateListItems();
         }
     }
     
@@ -27,7 +27,7 @@ public partial class RegisterList : UserControl
     {
         InitializeComponent();
         FetchColors();
-        LoadRegisters();
+        UpdateListItems();
     }
 
     private void FetchColors()
@@ -41,15 +41,16 @@ public partial class RegisterList : UserControl
             ParentBorderBrush = (Application.Current.Resources["Deep Purple"] as Brush)!;
         }
     }
-    
-    private void LoadRegisters()
+
+    private void UpdateListItems()
     {
+        RegisterListPanel.Children.Clear();
+        
         foreach (var register in RegisterBank.GetAllRegisters())
         {
             AddRegisterItem(register);
         }
     }
-
     private void AddRegisterItem(Register register)
     {
         Border itemBorder = new Border()
@@ -57,8 +58,18 @@ public partial class RegisterList : UserControl
             BorderThickness = new Thickness(0, 0, 0, 4),
             BorderBrush = ParentBorderBrush
         };
-        RegisterListItem item = new RegisterListItem(register, Mode);
-        itemBorder.Child = item;
+        switch (Mode)
+        {
+            case ControlMode.View :
+                RegisterListDisplayItem viewItem = new RegisterListDisplayItem(register);
+                itemBorder.Child = viewItem;
+                break;
+            
+            case ControlMode.Edit :
+                RegisterListEditItem EditItem = new RegisterListEditItem(register);
+                itemBorder.Child = EditItem;
+                break;
+        }
         RegisterListPanel.Children.Add(itemBorder);
     }
 }

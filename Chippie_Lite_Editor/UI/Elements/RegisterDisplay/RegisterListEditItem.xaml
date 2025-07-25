@@ -1,12 +1,12 @@
-﻿<UserControl x:Class="Chippie_Lite_WPF.UI.Elements.RegisterListItem"
+﻿<UserControl x:Class="Chippie_Lite_WPF.UI.Elements.RegisterListEditItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Elements"
              mc:Ignorable="d"
              d:DesignHeight="32" d:DesignWidth="256">
-    <Grid Name="Body" MouseEnter="Body_OnMouseEnter" MouseLeave="Body_OnMouseLeave"
-          MouseDown="Body_OnMouseDown" MouseUp="Body_OnMouseUp">
+    <Grid Name="Body">
         
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="32"/>
@@ -17,10 +17,12 @@
                Foreground="{StaticResource White}" Background="Transparent" IsEnabled="False" 
                HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
         
-        <TextBox x:Name="ContentLabel" Grid.Column="1" FontFamily="{StaticResource TextFont}" FontSize="16"
-               Foreground="{StaticResource White}" Background="Transparent" IsEnabled="False" 
-               BorderBrush="Transparent" BorderThickness="0"
-               VerticalAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+        <local:ConditionalTextbox x:Name="ContentBox" Grid.Column="1" 
+                                  FontFamily="{StaticResource TextFont}" FontSize="16"
+                                  ValidTextBrush="{StaticResource White}" InvalidTextBrush="{StaticResource Red}"
+                                  Condition="TextBoxCondition"
+                                  RetainText="False" BufferSetDelay="300"
+                                  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
         
     </Grid>
 </UserControl>

@@ -12,7 +12,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         
-        <elements:MemoryView Grid.Column="0" Mode="Edit" Margin="4, 4, 0, 4"/>
-        
+        <elements:MemoryView Grid.Column="0" Mode="Edit" Margin="4, 4, 2, 4"/>
+        <elements:RegisterList Grid.Column="1" Mode="Edit" Margin="2, 4, 4, 4"/>
     </Grid>
 </UserControl>

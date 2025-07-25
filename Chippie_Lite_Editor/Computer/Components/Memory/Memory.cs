@@ -4,6 +4,7 @@ public static class Memory
 {
     private static readonly int BlockAddRange = 3;
     private static List<MemoryBlock> Storage { get; set; } = [];
+    private static List<MemoryBlock> InitialStorage { get; set; } = [];
     public static bool ReadOnly { get; private set; }
 
     public static readonly int Size = 8192;
@@ -12,23 +13,16 @@ public static class Memory
 
     public delegate void StorageUpdateAction(int index);
     public static event StorageUpdateAction? OnStorageUpdated;
+    
+    public delegate void InitialStorageUpdateAction(int index);
+    public static event InitialStorageUpdateAction? OnInitialStorageUpdated;
 
 
     public static void Write(int index, int data)
     {
         accessPool.WaitOne();
         
-        var block = GetBlock(index, BlockAddRange);
-        if (block == null)
-        {
-            block = new MemoryBlock(index, [data]);
-            Storage.Add(block);
-        }
-        else
-        {
-            block.InsertData(index, data);
-            ResolveBlockConflict(block);
-        }
+        WriteToStorage(index, data, Storage);
 
         accessPool.Release();
         
@@ -38,54 +32,99 @@ public static class Memory
     {
         accessPool.WaitOne();
 
-        var block = GetBlock(index, 0);
-        
-        int data = block == null ? 0 : block.Data[index - block.StartIndex];
+        int data = ReadFromStorage(index, Storage);
 
         accessPool.Release();
         
         return data;
     }
 
-    private static void ResolveBlockConflict(MemoryBlock block)
+    public static void WriteInitial(int index, int data)
     {
-        var endConflict = GetBlock(block.EndIndex, BlockAddRange);
+        accessPool.WaitOne();
+        
+        WriteToStorage(index, data, InitialStorage);
+
+        accessPool.Release();
+        
+        OnStorageUpdated?.Invoke(index);
+    }
+    public static int ReadInitial(int index)
+    {
+        accessPool.WaitOne();
+
+        int data = ReadFromStorage(index, InitialStorage);
+
+        accessPool.Release();
+        
+        return data;
+    }
+
+    private static void WriteToStorage(int index, int data, List<MemoryBlock> storage)
+    {
+        var block = GetBlock(storage, index, BlockAddRange);
+        if (block == null)
+        {
+            block = new MemoryBlock(index, [data]);
+            storage.Add(block);
+        }
+        else
+        {
+            block.InsertData(index, data);
+            ResolveBlockConflict(storage, block);
+        }
+    }
+    private static int ReadFromStorage(int index, List<MemoryBlock> storage)
+    {
+        var block = GetBlock(storage, index, 0);
+        
+        int data = block == null ? 0 : block.Data[index - block.StartIndex];
+
+        return data;
+    }
+
+    private static void ResolveBlockConflict(List<MemoryBlock> storage, MemoryBlock block)
+    {
+        var endConflict = GetBlock(storage, block.EndIndex, BlockAddRange);
         
         if (endConflict != null)
         {
             block.MergeWithBlock(endConflict);
-            Storage.Remove(endConflict);
+            storage.Remove(endConflict);
         }
 
-        var startConflict = GetBlock(block.StartIndex, BlockAddRange);
+        var startConflict = GetBlock(storage, block.StartIndex, BlockAddRange);
         
         if (startConflict != null)
         {
             block.MergeWithBlock(startConflict);
-            Storage.Remove(startConflict);
+            storage.Remove(startConflict);
         }
     }
 
-    private static MemoryBlock? GetBlock(int memoryIndex, int offset)
+    private static MemoryBlock? GetBlock(List<MemoryBlock> storage, int memoryIndex, int offset)
     {
-        return Storage.Find(block => block.IsIndexInRange(memoryIndex, offset));
+        return storage.Find(block => block.IsIndexInRange(memoryIndex, offset));
     }
 
-    internal static void AddBlock(MemoryBlock block)
+    public static MemoryBlock[] GetAllInitialBlocks()
     {
-        Storage.Add(block);
-    }
-
-    public static MemoryBlock[] GetAllBlocks()
-    {
-        MemoryBlock[] blocks = new MemoryBlock[Storage.Count];
+        MemoryBlock[] blocks = new MemoryBlock[InitialStorage.Count];
 
         for (int i = 0; i < blocks.Length; i++)
         {
-            var memBlock = Storage[i];
+            var memBlock = InitialStorage[i];
             blocks[i] = new MemoryBlock(memBlock.StartIndex, memBlock.Data);
         }
 
         return blocks;
+    }
+    public static void LoadInitialBlocks(MemoryBlock[] blocks)
+    {
+        InitialStorage.Clear();
+        foreach (var block in blocks)
+        {
+            InitialStorage.Add(block);
+        }
     }
 }

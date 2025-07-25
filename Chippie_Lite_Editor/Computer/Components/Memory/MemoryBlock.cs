@@ -4,7 +4,7 @@ public class MemoryBlock
 {
     public int StartIndex { get; private set; } = 0;
     public List<int> Data { get; } = [];
-    public int EndIndex => StartIndex + Data.Count;
+    public int EndIndex => StartIndex + Data.Count - 1;
 
 
     public MemoryBlock(int startIndex, IList<int> data)
@@ -13,45 +13,46 @@ public class MemoryBlock
         AddDataRange(startIndex, data);
     }
 
-    public void AddDataRange(int index, IList<int> data)
+    public void AddDataRange(int memIndex, IList<int> data)
     {
         for (int i = 0; i < data.Count; i++)
         {
             var num = data[i];
             
-            InsertData(index + i, num);
+            InsertData(memIndex + i, num);
         }
     }
-    public void InsertData(int index, int data)
+    
+    public void InsertData(int memIndex, int data)
     {
-        if (IsIndexInRange(index)) ReplaceData(index, data);
-        else if (index < StartIndex) InsertDataToStart(index, data);
-        else InsertDataToEnd(index, data);
+        if (IsIndexInRange(memIndex)) ReplaceData(memIndex, data);
+        else if (memIndex < StartIndex) InsertDataToStart(memIndex, data);
+        else InsertDataToEnd(memIndex, data);
     }
-    private void ReplaceData(int index, int data)
+    private void ReplaceData(int memIndex, int data)
     {
-        Data[data] = index;
+        Data[MemoryToInternalIndex(memIndex)] = data;
     }
-    private void InsertDataToEnd(int index, int data)
+    private void InsertDataToEnd(int memIndex, int data)
     {
         int end = EndIndex;
-        for (int i = end; i < index; i++)
+        for (int i = end; i < memIndex; i++)
         {
             Data.Add(0);
         }
 
         Data.Add(data);
     }
-    private void InsertDataToStart(int index, int data)
+    private void InsertDataToStart(int memIndex, int data)
     {
         Data.Insert(0, data);
         
-        for (int i = index; i < StartIndex; i++)
+        for (int i = memIndex; i < StartIndex; i++)
         {
             Data.Insert(0, 0);
         }
 
-        if (StartIndex < index) StartIndex = index;
+        if (StartIndex < memIndex) StartIndex = memIndex;
     }
     
 
@@ -63,6 +64,7 @@ public class MemoryBlock
 
     public bool IsIndexInRange(int index, int offset = 0)
     {
-        return index >= StartIndex - offset && index < EndIndex + offset;
+        return index >= StartIndex - offset && index <= EndIndex + offset;
     }
+    private int MemoryToInternalIndex(int memIndex) => memIndex - StartIndex;
 }

@@ -167,7 +167,7 @@ public partial class MemoryView : UserControl
 
             int data = Memory.Read(address);
             
-            cell.SetText("0x" + Convert.ToString(data, 16).PadLeft(8, '0'));
+            cell.SetText(NumberUtility.ToHex(data));
         }
     }
     private void UpdateAddressOffsetLabels()

@@ -62,7 +62,7 @@
                 
                 <development:SerialIOConsole Grid.Column="1" Margin="4, 4, 0, 0"/>
                 
-                <elements:RegisterList Grid.Column="2" x:Name="RegisterList" Margin="4, 4, 0, 0"/>
+                <elements:RegisterList Grid.Column="2" x:Name="RegisterList" Margin="4, 4, 0, 0" Mode="View"/>
                 
             </Grid>
             

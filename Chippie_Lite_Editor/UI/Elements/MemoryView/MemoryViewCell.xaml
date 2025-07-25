@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
              mc:Ignorable="d"
              Background="Transparent"
              MinHeight="48" MinWidth="128">
@@ -13,13 +14,12 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             
-            <TextBox x:Name="InputBox" Grid.Row="0" Margin="4, 0, 0, 0" VerticalAlignment="Center" 
-                     FontSize="16" FontFamily="{StaticResource TextFontAlt}"
-                     Foreground="{StaticResource White}" Background="Transparent"
-                     BorderThickness="0" BorderBrush="Transparent"
-                     Visibility="Visible" 
-                     LostFocus="InputBox_OnLostFocus" KeyDown="InputBox_OnKeyDown"
-                     TextChanged="InputBox_OnTextChanged"/>
+            <elements:ConditionalTextbox x:Name="InputBox" 
+                                         Grid.Row="0" Margin="4, 0, 0, 0" VerticalAlignment="Center" 
+                                         FontSize="16" FontFamily="{StaticResource TextFontAlt}"
+                                         InvalidTextBrush="{StaticResource Red}" 
+                                         ValidTextBrush="{StaticResource White}"
+                                         Condition="IsInputValid" RetainText="False" TextConfirmed="InputBox_OnTextConfirmed"/>
             
             <TextBlock x:Name="AddressBlock" Grid.Row="1" Margin="4, 0, 0, 0" VerticalAlignment="Center" 
                        Text="Memory" FontSize="16" FontFamily="{StaticResource TextFontAlt}"

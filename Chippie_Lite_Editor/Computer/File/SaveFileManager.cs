@@ -59,7 +59,7 @@ public static class SaveFileManager
      {
           List<MemoryBlockSaveInstance> blocks = [];
           
-          foreach (var block in Memory.GetAllBlocks())
+          foreach (var block in Memory.GetAllInitialBlocks())
           {
                blocks.Add(new MemoryBlockSaveInstance(block));
           }
@@ -68,9 +68,13 @@ public static class SaveFileManager
      }
      private static void DeserializeMemory(MemoryBlockSaveInstance[] memory)
      {
-          foreach (var block in memory)
+          MemoryBlock[] blocks = new MemoryBlock[memory.Length];
+
+          for (int i = 0; i < memory.Length; i++)
           {
-               Memory.AddBlock(block.ToBlock());
+               blocks[i] = memory[i].ToBlock();
           }
+
+          Memory.LoadInitialBlocks(blocks);
      }
 }
