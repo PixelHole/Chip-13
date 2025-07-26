@@ -3,7 +3,7 @@
 public static class Memory
 {
     private static readonly int BlockAddRange = 3;
-    private static List<MemoryBlock> Storage { get; set; } = [];
+    private static List<MemoryBlock> RuntimeStorage { get; set; } = [];
     private static List<MemoryBlock> InitialStorage { get; set; } = [];
     public static bool ReadOnly { get; private set; }
 
@@ -18,11 +18,24 @@ public static class Memory
     public static event InitialStorageUpdateAction? OnInitialStorageUpdated;
 
 
+    internal static void ResetRuntimeStorage()
+    {
+        RuntimeStorage.Clear();
+    }
+    internal static void CopyInitialStorageToRuntime()
+    {
+        ResetRuntimeStorage();
+        foreach (var block in InitialStorage)
+        {
+            RuntimeStorage.Add(block);
+        }
+    }
+
     public static void Write(int index, int data)
     {
         accessPool.WaitOne();
         
-        WriteToStorage(index, data, Storage);
+        WriteToStorage(index, data, RuntimeStorage);
 
         accessPool.Release();
         
@@ -32,7 +45,7 @@ public static class Memory
     {
         accessPool.WaitOne();
 
-        int data = ReadFromStorage(index, Storage);
+        int data = ReadFromStorage(index, RuntimeStorage);
 
         accessPool.Release();
         
@@ -65,6 +78,7 @@ public static class Memory
         var block = GetBlock(storage, index, BlockAddRange);
         if (block == null)
         {
+            if (data == 0) return;
             block = new MemoryBlock(index, [data]);
             storage.Add(block);
         }
@@ -72,22 +86,23 @@ public static class Memory
         {
             block.InsertData(index, data);
             ResolveBlockConflict(storage, block);
+            if (block.FilledCells <= 0) storage.Remove(block);
         }
     }
     private static int ReadFromStorage(int index, List<MemoryBlock> storage)
     {
         var block = GetBlock(storage, index, 0);
-        
-        int data = block == null ? 0 : block.Data[index - block.StartIndex];
 
-        return data;
+        if (block == null) return 0;
+
+        return block.Read(index);
     }
 
     private static void ResolveBlockConflict(List<MemoryBlock> storage, MemoryBlock block)
     {
         var endConflict = GetBlock(storage, block.EndIndex, BlockAddRange);
         
-        if (endConflict != null)
+        if (endConflict != null && endConflict != block)
         {
             block.MergeWithBlock(endConflict);
             storage.Remove(endConflict);
@@ -95,7 +110,7 @@ public static class Memory
 
         var startConflict = GetBlock(storage, block.StartIndex, BlockAddRange);
         
-        if (startConflict != null)
+        if (startConflict != null && startConflict != block)
         {
             block.MergeWithBlock(startConflict);
             storage.Remove(startConflict);
@@ -107,7 +122,7 @@ public static class Memory
         return storage.Find(block => block.IsIndexInRange(memoryIndex, offset));
     }
 
-    public static MemoryBlock[] GetAllInitialBlocks()
+    internal static MemoryBlock[] GetAllInitialBlocks()
     {
         MemoryBlock[] blocks = new MemoryBlock[InitialStorage.Count];
 
@@ -119,7 +134,7 @@ public static class Memory
 
         return blocks;
     }
-    public static void LoadInitialBlocks(MemoryBlock[] blocks)
+    internal static void LoadInitialBlocks(MemoryBlock[] blocks)
     {
         InitialStorage.Clear();
         foreach (var block in blocks)

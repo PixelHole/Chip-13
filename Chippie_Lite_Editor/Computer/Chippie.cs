@@ -103,7 +103,7 @@ public static class Chippie
         if (IsRunning) return;
         RegisterBank.ResetRegisters();
         SerialIO.FullFlush();
-        // Memory.clear();
+        Memory.CopyInitialStorageToRuntime();
     }
     private static void Run()
     {

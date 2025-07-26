@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using Chippie_Lite_WPF.Computer.Components;
 using UI.SyntaxBox;
@@ -100,5 +101,9 @@ public partial class CodeEditControl
         var lines = GetInputLines();
         UpdateLineDisplay(lines);
         UpdateLineCount(lines);
+    }
+    private void CodeEditControl_OnMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        
     }
 }

@@ -234,7 +234,7 @@ public partial class MemoryView : UserControl
 
         int address = CurrentPage * CellsPerPage + CellGrid.Children.IndexOf(sender);
         
-        Memory.Write(address, data);
+        Memory.WriteInitial(address, data);
     }
     private void OnMemoryUpdated(int index)
     {
@@ -242,11 +242,11 @@ public partial class MemoryView : UserControl
 
         int cellIndex = index % CellsPerPage;
 
-        var cell = CellGrid.Children[cellIndex] as MemoryViewCell;
+        var cell = GetViewCell(cellIndex);
 
         int data = Memory.Read(index);
         
-        cell!.SetText(Convert.ToString(data, 16).PadLeft(8, '0'));
+        cell!.SetText("0x" + Convert.ToString(data, 16).PadLeft(8, '0'));
     }
 
     private void GoToSearchedAddress()
@@ -262,6 +262,28 @@ public partial class MemoryView : UserControl
         var ip = (Grid)CellGridViewer.Content;
         var point = cell.TranslatePoint(new Point(), ip);
         CellGridViewer.ScrollToVerticalOffset(point.Y);
+    }
+
+    private MemoryViewCell? GetViewCell(int index)
+    {
+        MemoryViewCell? cell = null;
+        
+        if (CellGrid.CheckAccess())
+        {
+            if (index > CellGrid.Children.Count) return cell;
+            cell = CellGrid.Children[index] as MemoryViewCell;
+        }
+        else
+        {
+            CellGrid.Dispatcher.Invoke(() =>
+            {
+                if (index > CellGrid.Children.Count) return cell;
+                cell = CellGrid.Children[index] as MemoryViewCell;
+                return cell;
+            });
+        }
+
+        return cell;
     }
     
     

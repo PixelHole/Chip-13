@@ -119,12 +119,44 @@ public static class InstructionActions
                 InstructionIOActions.SendSerialOutput(action, arguments);
                 break;
             
+            case "memory write" :
+                InstructionMemoryActions.Write(action, arguments);
+                break;
+            
+            case "memory read" :
+                InstructionMemoryActions.Read(action, arguments);
+                break;
+            
             case "wait" :
                 InstructionMiscActions.Wait(action, arguments);
                 break;
             
             case "beep" :
                 InstructionMiscActions.Beep(action, arguments);
+                break;
+            
+            case "sine wave" :
+                InstructionMiscActions.SineWave(action, arguments);
+                break;
+            
+            case "triangle wave" :
+                InstructionMiscActions.TriangleWave(action, arguments);
+                break;
+            
+            case "square wave" :
+                InstructionMiscActions.SquareWave(action, arguments);
+                break;
+            
+            case "sawTooth wave" :
+                InstructionMiscActions.SawToothWave(action, arguments);
+                break;
+            
+            case "white noise" :
+                InstructionMiscActions.WhiteNoise(action, arguments);
+                break;
+            
+            case "pink noise" :
+                InstructionMiscActions.PinkNoise(action, arguments);
                 break;
         }
     }

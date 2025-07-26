@@ -4,7 +4,17 @@ public class MemoryBlock
 {
     public int StartIndex { get; private set; } = 0;
     public List<int> Data { get; } = [];
-    public int EndIndex => StartIndex + Data.Count - 1;
+
+    public int EndIndex
+    {
+        get
+        {
+            if (Data.Count < 1) return StartIndex;
+            return StartIndex + Data.Count - 1;
+        }
+    }
+
+    public int FilledCells { get; private set; } = 0;
 
 
     public MemoryBlock(int startIndex, IList<int> data)
@@ -13,6 +23,11 @@ public class MemoryBlock
         AddDataRange(startIndex, data);
     }
 
+    public int Read(int memIndex)
+    {
+        return Data[MemoryToInternalIndex(memIndex)];
+    }
+    
     public void AddDataRange(int memIndex, IList<int> data)
     {
         for (int i = 0; i < data.Count; i++)
@@ -25,9 +40,11 @@ public class MemoryBlock
     
     public void InsertData(int memIndex, int data)
     {
-        if (IsIndexInRange(memIndex)) ReplaceData(memIndex, data);
+        if (IsIndexInRange(memIndex) && Data.Count > 0) ReplaceData(memIndex, data);
         else if (memIndex < StartIndex) InsertDataToStart(memIndex, data);
         else InsertDataToEnd(memIndex, data);
+        if (data != 0) FilledCells++;
+        else FilledCells--;
     }
     private void ReplaceData(int memIndex, int data)
     {
@@ -36,7 +53,7 @@ public class MemoryBlock
     private void InsertDataToEnd(int memIndex, int data)
     {
         int end = EndIndex;
-        for (int i = end; i < memIndex; i++)
+        for (int i = end; i < memIndex - 1; i++)
         {
             Data.Add(0);
         }

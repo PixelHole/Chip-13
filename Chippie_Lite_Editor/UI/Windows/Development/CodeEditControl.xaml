@@ -7,6 +7,7 @@
              mc:Ignorable="d"
              SnapsToDevicePixels="True"
              Background="Transparent"
+             MouseWheel="CodeEditControl_OnMouseWheel"
              d:DesignHeight="300" d:DesignWidth="400">
     <Grid>
         
@@ -26,11 +27,10 @@
                          Background="Transparent" Foreground="{StaticResource White}" 
                          BorderBrush="Transparent" BorderThickness="0" SelectionBrush="{StaticResource Pink}"
                          CaretBrush="{StaticResource White}" SelectionTextBrush="{StaticResource Bisque}"
-                         FontFamily="{StaticResource TextFont}" FontSize="24"
+                         FontFamily="{StaticResource Monogram}" FontSize="32"
                          AcceptsReturn="True" AcceptsTab="True" SnapsToDevicePixels="True"
+                         TextOptions.TextRenderingMode="Aliased"
                          TextChanged="InputBoxOnTextChanged"
-                         TextOptions.TextFormattingMode="Display"
-                         TextOptions.TextRenderingMode="ClearType"
                          syntax:SyntaxBox.Enable="True"
                          syntax:SyntaxBox.AutoIndent="True"
                          syntax:SyntaxBox.ExpandTabs="True"
@@ -51,7 +51,8 @@
 
                 <Border Grid.Column="0" BorderThickness="0, 0, 4, 0" BorderBrush="{StaticResource 'Faded Purple'}">
                     <TextBlock x:Name="LineDisplay" Background="{StaticResource 'Dark Blue'}" Margin="4, 0, 0, 0"
-                               FontFamily="{StaticResource TextFont}" FontSize="24" Text="."
+                               FontFamily="{StaticResource Monogram}" FontSize="32" Text="." 
+                               TextOptions.TextRenderingMode="Aliased"
                                Foreground="{StaticResource White}"/>
                 </Border>
             </Grid>
