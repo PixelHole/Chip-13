@@ -158,10 +158,18 @@ public static class InstructionActions
             case "pink noise" :
                 InstructionMiscActions.PinkNoise(action, arguments);
                 break;
+            
+            case "terminate" :
+                Terminate();
+                return;
         }
     }
-    
 
+
+    private static void Terminate()
+    {
+        Chippie.HaltOperation();
+    }
     
     internal static void CheckArgumentAndActionIndexCount(InstructionAction action, IList<InstructionArgument> arguments,
         int expected)

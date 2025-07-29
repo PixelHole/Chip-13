@@ -20,7 +20,7 @@ public static class NumberUtility
     public static int ParseNumber(string num)
     {
         num = num.ToLower();
-        if (num.EndsWith('b') || num.StartsWith("0b") || num.StartsWith("0y")) return ParseBinary(num);
+        if ((num.EndsWith('b') && !num.StartsWith("0x")) || num.StartsWith("0b") || num.StartsWith("0y")) return ParseBinary(num);
         if (num.StartsWith("0x") || num.StartsWith("0h") || num.StartsWith("0c")) return ParseHex(num);
         return ParseDecimal(num);
     }
