@@ -8,12 +8,14 @@
              Background="Transparent"
              MinWidth="128" MinHeight="32">
     <StackPanel>
-        <Grid x:Name="Body" MouseEnter="Body_OnMouseEnter" MouseLeave="Body_OnMouseLeave"
+        <Grid x:Name="Body"
+              MouseEnter="Body_OnMouseEnter" MouseLeave="Body_OnMouseLeave"
               MouseDown="Body_OnMouseDown" MouseUp="Body_OnMouseUp">
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="32"/>
                 <ColumnDefinition Width="32"/>
-                <ColumnDefinition/>
+                <ColumnDefinition MaxWidth="256"/>
             </Grid.ColumnDefinitions>
             
             <TextBlock x:Name="ExpandIcon" Grid.Column="0" Margin="4"

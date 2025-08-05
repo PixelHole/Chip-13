@@ -36,7 +36,7 @@ public partial class InstructionDisplayList : UserControl
         for (int i = 0; i < instructions.Count; i++)
         {
             var instruction = instructions[i];
-            AddInstructionToList(instruction, i);
+            AddInstructionToList(instruction, i + 1);
         }
         HighlightListItem(0);
     }

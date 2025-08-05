@@ -174,8 +174,44 @@ public partial class MainWindow
     }
     private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
     {
-        if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.S)) Control.RequestSave();
-        if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.L)) Control.RequestLoad();
+        if (Keyboard.IsKeyDown(Key.LeftCtrl))
+        {
+            if (Keyboard.IsKeyDown(Key.S))
+            {
+                switch (Mode)
+                {
+                    case AppMode.Edit:
+                        Control.RequestSave();
+                        return;
+                    case AppMode.Run:
+                        Control.Restart();
+                        return;
+                }
+            }
+            else if (Keyboard.IsKeyDown(Key.L))
+            {
+                Control.RequestLoad();
+                return;
+            }
+            else if (Keyboard.IsKeyDown(Key.R) && Mode == AppMode.Run)
+            {
+                Control.Restart();
+            }
+        }
+        
+        switch (e.Key)
+        {
+            case Key.F5 or Key.F10:
+                Run();
+                break;
+            case Key.F8:
+                Control.NextStep();
+                break;
+            
+            case Key.F9:
+                Control.RunToEnd();
+                break;
+        } 
     }
     private void MainWindow_OnClosing(object? sender, CancelEventArgs e)
     {

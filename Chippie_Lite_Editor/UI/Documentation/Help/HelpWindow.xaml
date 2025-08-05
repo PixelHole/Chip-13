@@ -24,8 +24,8 @@
             <Border Grid.Row="1" BorderThickness="4, 0, 4, 4" BorderBrush="{StaticResource 'Deep Purple'}">
                 <Grid>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition MaxWidth="256"/>
                         <ColumnDefinition/>
-                        <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
         
                     <Border BorderThickness="0, 0, 4, 0" BorderBrush="{StaticResource 'Deep Purple'}">
@@ -60,7 +60,7 @@
                                 <!--            Foreground="{StaticResource White}" -->
                                 <!--            FontFamily="{StaticResource Monogram}" FontSize="24" -->
                                 <!--            Text="body text"/> -->
-                                <TextBlock x:Name="BodyBlock"
+                                <TextBlock x:Name="BodyBlock" TextWrapping="Wrap"
                                            Foreground="{StaticResource 'Light Grey'}"
                                            FontFamily="{StaticResource Monogram}" FontSize="24"
                                            Text="body text"/>

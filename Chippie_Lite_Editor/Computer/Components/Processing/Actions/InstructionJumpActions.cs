@@ -23,7 +23,7 @@ public static class InstructionJumpActions
 
         var ip = RegisterBank.GetRegister("Instruction Pointer")!;
 
-        ip!.Content += val - 2;
+        ip.Content += val - 1;
     }
     internal static void JumpIfEqualRelative(InstructionAction action, IList<InstructionArgument> arguments)
     {
@@ -37,7 +37,7 @@ public static class InstructionJumpActions
         
         var ip = RegisterBank.GetRegister("Instruction Pointer")!;
 
-        ip.Content += jump - 2;
+        ip.Content += jump - 1;
     }
     internal static void JumpIfEqual(InstructionAction action, IList<InstructionArgument> arguments)
     {
@@ -65,7 +65,7 @@ public static class InstructionJumpActions
         
         var ip = RegisterBank.GetRegister("Instruction Pointer")!;
 
-        ip.Content += jump - 2;
+        ip.Content += jump - 1;
     }
     internal static void JumpIfLess(InstructionAction action, IList<InstructionArgument> arguments)
     {
@@ -93,7 +93,7 @@ public static class InstructionJumpActions
         
         var ip = RegisterBank.GetRegister("Instruction Pointer")!;
 
-        ip.Content += jump - 2;
+        ip.Content += jump - 1;
     }
     internal static void JumpIfGreater(InstructionAction action, IList<InstructionArgument> arguments)
     {
