@@ -80,7 +80,7 @@ public class ConsoleControl
         switch (key)
         {
             case Key.Back :
-                if (Delete(true) && InputMode == ConsoleInputMode.Text) CursorLeft();
+                DeleteAction();
                 break;
             
             case Key.Enter:
@@ -92,22 +92,19 @@ public class ConsoleControl
                 break;
             
             case Key.Left :
-                BackAction();
+                LeftAction();
                 break;
             
             case Key.Right :
-                if (Mode == ConsoleMode.Simple && GetGlyphAt(Cursor) == null) return;
-                CursorRight();
+                RightAction();
                 break;
             
             case Key.Up :
-                if (Mode == ConsoleMode.Simple && GetGlyphAt(WrapPosition(Cursor + Vector2Int.Down)) == null) return;
-                CursorUp();
+                UpAction();
                 break;
             
             case Key.Down :
-                if (Mode == ConsoleMode.Simple && GetGlyphAt(WrapPosition(Cursor + Vector2Int.UpLeft)) == null) return;
-                CursorDown();
+                DownAction();
                 break;
         }
 
@@ -117,14 +114,43 @@ public class ConsoleControl
         }
     }
 
-    private void BackAction()
+    private void DeleteAction()
     {
-        
+        var back = GetGlyphAt(WrapPosition(Cursor + Vector2Int.Left));
+        if (back != null && back.Source != ConsoleInputSource.User) return;
+        if (Delete(true) && InputMode == ConsoleInputMode.Text) CursorLeft();
+    }
+    private void LeftAction()
+    {
+        var back = GetGlyphAt(WrapPosition(Cursor + Vector2Int.Left));
+        if (Mode == ConsoleMode.Simple && (back == null /*|| back.Source != ConsoleInputSource.User*/)) return;
+        CursorLeft();
+    }
+    private void RightAction()
+    {
+        var right = GetGlyphAt(WrapPosition(Cursor + Vector2Int.Right));
+        if (Mode == ConsoleMode.Simple && (GetGlyphAt(Cursor) == null /*|| right?.Source != ConsoleInputSource.User*/)) return;
+        CursorRight();
+    }
+    private void UpAction()
+    {
+        var up = GetGlyphAt(WrapPosition(Cursor + Vector2Int.Down));
+        if (Mode == ConsoleMode.Simple && (up == null /*|| up.Source != ConsoleInputSource.User*/)) return;
+        CursorUp();
+    }
+    private void DownAction()
+    {
+        var down = GetGlyphAt(WrapPosition(Cursor + Vector2Int.Up));
+        if (Mode == ConsoleMode.Simple && (down == null /*|| down.Source != ConsoleInputSource.User*/)) return;
+        CursorDown();
     }
     
     internal void ProcessUserText(string text)
     {
         if (InputMode is ConsoleInputMode.Key or ConsoleInputMode.None) return;
+
+        var current = GetGlyphAt(Cursor);
+        if (current != null && current.Source != ConsoleInputSource.User) return;
         
         foreach (var c in text.Where(c => !char.IsControl(c)))
         {

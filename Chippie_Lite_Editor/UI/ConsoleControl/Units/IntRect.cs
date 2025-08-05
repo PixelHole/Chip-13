@@ -42,6 +42,10 @@ public class IntRect
         if (obj is IntRect other) return Equals(other);
         return base.Equals(obj);
     }
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(TopLeft, BottomRight);
+    }
     public bool Equals(IntRect other)
     {
         return other.TopLeft == TopLeft && other.BottomRight == BottomRight;

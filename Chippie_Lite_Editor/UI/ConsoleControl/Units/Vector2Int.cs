@@ -93,6 +93,10 @@ namespace wpf_Console
             if (obj is Vector2Int other) return Equals(other);
             return base.Equals(obj);
         }
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(x, y);
+        }
         public bool Equals(Vector2Int other)
         {
             return other.x == x && other.y == y;

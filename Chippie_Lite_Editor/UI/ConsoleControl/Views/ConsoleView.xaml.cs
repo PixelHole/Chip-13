@@ -12,7 +12,7 @@ namespace ConsoleControlLibrary;
 public partial class ConsoleView : UserControl
 {
     private bool initialized = false;
-    private ConsoleControl Control;
+    private ConsoleControl Control = null!;
     
     public Vector2Int GlyphCount { get; set; } = new Vector2Int(32, 16);
     public int GlyphCountX
@@ -32,7 +32,7 @@ public partial class ConsoleView : UserControl
     private Size MinimumSize => new(GlyphCount.x, GlyphCount.y * 2);
     public Size GlyphSize => new(DisplaySize.Width / GlyphCount.x, DisplaySize.Height / GlyphCount.y);
 
-    private ConsoleGlyph Caret;
+    private ConsoleGlyph Caret = null!;
     
     public ConsoleView()
     {
@@ -69,8 +69,8 @@ public partial class ConsoleView : UserControl
         
         if (ConsoleCanvas.CheckAccess()) glyph = new ConsoleGlyph(text, foregroundIndex, backgroundIndex, position, source);
         else ConsoleCanvas.Dispatcher.Invoke(() => glyph = new ConsoleGlyph(text, foregroundIndex, backgroundIndex, position, source));
-        AddGlyph(glyph);
-        return glyph;
+        AddGlyph(glyph!);
+        return glyph!;
     }
     
     
