@@ -9,10 +9,10 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
-            <ColumnDefinition/>
+            <ColumnDefinition MaxWidth="384"/>
         </Grid.ColumnDefinitions>
         
-        <elements:MemoryView Grid.Column="0" Mode="Edit" Margin="4, 4, 2, 4"/>
-        <elements:RegisterList Grid.Column="1" Mode="Edit" Margin="2, 4, 4, 4"/>
+        <elements:MemoryView Grid.Column="0" Mode="Edit" Margin="0, 4, 2, 0"/>
+        <elements:RegisterList Grid.Column="1" Mode="Edit" Margin="2, 4, 0, 0"/>
     </Grid>
 </UserControl>

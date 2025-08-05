@@ -18,14 +18,15 @@ public partial class ConsoleView : UserControl
     public int GlyphCountX
     {
         get => GlyphCount.x;
-        set => GlyphCount.x = value;
+        set => GlyphCount.SetX(value);
     }
     public int GlyphCountY
     {
         get => GlyphCount.y;
-        set => GlyphCount.y = value;
+        set => GlyphCount.SetY(value);
     }
     private Vector2 GlyphAnchor { get; set; }
+    
     
     public Size DisplaySize { get; private set; }
     private Size MinimumSize => new(GlyphCount.x, GlyphCount.y * 2);
@@ -48,8 +49,10 @@ public partial class ConsoleView : UserControl
     }
     private void SetupCaret()
     {
-        Caret = new ConsoleGlyph('I', new SolidColorBrush(Colors.Black), new SolidColorBrush(Colors.Cornsilk),
-            Control.Cursor, ConsoleInputSource.User);
+        if (CheckAccess())
+            Caret = new ConsoleGlyph('I', 0, 7, Control.Cursor, ConsoleInputSource.User);
+        else
+            Dispatcher.Invoke(() => Caret = new ConsoleGlyph('I', 0, 7, Control.Cursor, ConsoleInputSource.User));
         
         Panel.SetZIndex(Caret, Int32.MaxValue);
         
@@ -60,19 +63,22 @@ public partial class ConsoleView : UserControl
         Control.OnCursorMoved += ControlOnOnCursorMoved;
     }
 
-    internal ConsoleGlyph CreateGlyph(char text, Brush foreground, Brush background, Vector2Int position, ConsoleInputSource source)
+    internal ConsoleGlyph CreateGlyph(char text, int foregroundIndex, int backgroundIndex, Vector2Int position, ConsoleInputSource source)
     {
         ConsoleGlyph? glyph = null;
-        if (ConsoleCanvas.CheckAccess()) glyph = new ConsoleGlyph(text, foreground, background, position, source);
-        else ConsoleCanvas.Dispatcher.Invoke(() => glyph = new ConsoleGlyph(text, foreground, background, position, source));
+        
+        if (ConsoleCanvas.CheckAccess()) glyph = new ConsoleGlyph(text, foregroundIndex, backgroundIndex, position, source);
+        else ConsoleCanvas.Dispatcher.Invoke(() => glyph = new ConsoleGlyph(text, foregroundIndex, backgroundIndex, position, source));
         AddGlyph(glyph);
         return glyph;
     }
-    internal void AddGlyph(ConsoleGlyph glyph)
+    
+    
+    private void AddGlyph(ConsoleGlyph glyph)
     {
+        UpdateGlyph(glyph);
         if (ConsoleCanvas.CheckAccess()) ConsoleCanvas.Children.Add(glyph);
         else ConsoleCanvas.Dispatcher.Invoke(() => ConsoleCanvas.Children.Add(glyph));
-        UpdateGlyph(glyph);
     }
     internal void RemoveGlyph(ConsoleGlyph glyph)
     {
@@ -88,31 +94,23 @@ public partial class ConsoleView : UserControl
         }
         UpdateGlyph(Caret);
     }
-    
     internal void UpdateGlyph(ConsoleGlyph glyph)
     {
+        if (glyph.CheckAccess()) UpdateGlyphAction(glyph);
+        else glyph.Dispatcher.Invoke(() => UpdateGlyphAction(glyph));
+    }
+    private void UpdateGlyphAction(ConsoleGlyph glyph)
+    {
         var pos = ToCanvasPosition(glyph.Position.ToVector2());
-
-        if (glyph.CheckAccess())
-        {
-            Canvas.SetLeft(glyph, pos.X);
-            Canvas.SetTop(glyph, pos.Y);
-            glyph.Width = GlyphSize.Width;
-            glyph.Height = GlyphSize.Height;
-        }
-        else
-        {
-            glyph.Dispatcher.Invoke(() =>
-            {
-                Canvas.SetLeft(glyph, pos.X);
-                Canvas.SetTop(glyph, pos.Y);
-                glyph.Width = GlyphSize.Width;
-                glyph.Height = GlyphSize.Height;
-            });
-        }
-
+        
+        Canvas.SetLeft(glyph, pos.X);
+        Canvas.SetTop(glyph, pos.Y);
+        glyph.Width = GlyphSize.Width;
+        glyph.Height = GlyphSize.Height;
+        
         glyph.FontSize = double.Min(GlyphSize.Width, GlyphSize.Height) * 2;
     }
+    
     private Vector2 ToCanvasPosition(Vector2 position)
     {
         return GlyphAnchor + new Vector2((float)(position.X * GlyphSize.Width), (float)(position.Y * GlyphSize.Height));
@@ -146,6 +144,11 @@ public partial class ConsoleView : UserControl
     }
     
     private void ControlOnOnCursorMoved(Vector2Int position)
+    {
+        if (CheckAccess()) UpdateCaret(position);
+        else Dispatcher.Invoke(() => UpdateCaret(position));
+    }
+    private void UpdateCaret(Vector2Int position)
     {
         Caret.Position = position;
         var glyph = Control.GetGlyphAt(position);

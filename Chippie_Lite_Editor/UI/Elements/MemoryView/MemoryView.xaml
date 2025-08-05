@@ -13,58 +13,63 @@
              
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="24"/>
+                <RowDefinition Height="28"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
         
             <Rectangle Fill="{StaticResource 'Deep Purple'}"/>
         
-            <StackPanel Grid.Row="0" Orientation="Horizontal">
-                <TextBlock Margin="4, 0, 0, 2" VerticalAlignment="Center" 
-                           Text="Memory" FontSize="22" FontFamily="{StaticResource TextFontAlt}"
-                           Foreground="{StaticResource White}" Background="Transparent"/>
+            <Border Grid.Row="0" BorderBrush="{StaticResource 'Deep Purple'}" BorderThickness="0, 0, 0, 4">
+                <Grid>
                 
-                <Rectangle Fill="Transparent" Width="32"/>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <TextBlock Margin="4, 0, 0, 2" VerticalAlignment="Center" 
+                                   Text="Memory" FontSize="22" FontFamily="{StaticResource TextFontAlt}"
+                                   Foreground="{StaticResource White}" Background="Transparent"/>
                 
-                <elements:SquareButton x:Name="PageDownBtn" Click="PageDownBtn_OnClick"
-                    Icon="/Resources/Images/Icons/ThumbLeft.png"
-                    BackgroundHoverColor="{StaticResource Red}"
-                    BackgroundClickColor="{StaticResource Pink}"/>
+                        <Rectangle Fill="Transparent" Width="32"/>
                 
-                <TextBox x:Name="PageIndexBox" MinWidth="32" VerticalContentAlignment="Center" 
-                         FontSize="18" FontFamily="{StaticResource TextFont}"
-                         BorderThickness="0" BorderBrush="Transparent" 
-                         Background="{StaticResource 'Dark Blue'}"
-                         Foreground="{StaticResource White}"
-                         TextChanged="PageIndexBox_OnTextChanged"
-                         LostFocus="PageIndexBox_OnLostFocus"
-                         KeyDown="PageIndexBox_OnKeyDown"/>
+                        <elements:SquareButton x:Name="PageDownBtn" Click="PageDownBtn_OnClick"
+                                               Icon="/Resources/Images/Icons/ThumbLeft.png"
+                                               BackgroundHoverColor="{StaticResource Red}"
+                                               BackgroundClickColor="{StaticResource Pink}"/>
                 
-                <TextBlock x:Name="PageCountBlock" Text=" / 00"
-                           FontSize="18" FontFamily="{StaticResource TextFont}"
-                           Background="Transparent"
-                           Foreground="{StaticResource White}"/>
+                        <TextBox x:Name="PageIndexBox" MinWidth="32" VerticalContentAlignment="Center" 
+                                 FontSize="18" FontFamily="{StaticResource TextFont}"
+                                 BorderThickness="0" BorderBrush="Transparent" 
+                                 Background="{StaticResource 'Dark Blue'}"
+                                 Foreground="{StaticResource White}"
+                                 TextChanged="PageIndexBox_OnTextChanged"
+                                 LostFocus="PageIndexBox_OnLostFocus"
+                                 KeyDown="PageIndexBox_OnKeyDown"/>
                 
-                <elements:SquareButton x:Name="PageUpBtn" Click="PageUpBtn_OnClick"
-                    Icon="/Resources/Images/Icons/ThumbRight.png"
-                    BackgroundHoverColor="{StaticResource Red}"
-                    BackgroundClickColor="{StaticResource Pink}"/>
-            </StackPanel>
+                        <TextBlock x:Name="PageCountBlock" Text=" / 00"
+                                   FontSize="18" FontFamily="{StaticResource TextFont}"
+                                   Background="Transparent"
+                                   Foreground="{StaticResource White}"/>
+                
+                        <elements:SquareButton x:Name="PageUpBtn" Click="PageUpBtn_OnClick"
+                                               Icon="/Resources/Images/Icons/ThumbRight.png"
+                                               BackgroundHoverColor="{StaticResource Red}"
+                                               BackgroundClickColor="{StaticResource Pink}"/>
+                    </StackPanel>
         
-            <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal">
+                    <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal">
                 
-                <TextBox x:Name="SearchBox" MinWidth="160" VerticalContentAlignment="Center" 
-                         FontSize="18" FontFamily="{StaticResource TextFont}"
-                         BorderThickness="0" BorderBrush="Transparent" 
-                         Background="{StaticResource 'Dark Blue'}"
-                         Foreground="{StaticResource White}"
-                         TextChanged="SearchBox_OnTextChanged"/>
+                        <TextBox x:Name="SearchBox" MinWidth="160" VerticalContentAlignment="Center" 
+                                 FontSize="18" FontFamily="{StaticResource TextFont}"
+                                 BorderThickness="0" BorderBrush="Transparent" 
+                                 Background="{StaticResource 'Dark Blue'}"
+                                 Foreground="{StaticResource White}"
+                                 TextChanged="SearchBox_OnTextChanged"/>
                 
-                <elements:SquareButton x:Name="SearchBtn" Click="SearchBtn_OnClick"
-                    Icon="/Resources/Images/Icons/MagnifyingGlass.png"
-                    BackgroundHoverColor="{StaticResource Red}"
-                    BackgroundClickColor="{StaticResource Pink}"/>
-            </StackPanel>
+                        <elements:SquareButton x:Name="SearchBtn" Click="SearchBtn_OnClick"
+                                               Icon="/Resources/Images/Icons/MagnifyingGlass.png"
+                                               BackgroundHoverColor="{StaticResource Red}"
+                                               BackgroundClickColor="{StaticResource Pink}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
         
             <Border Grid.Row="1" Margin="4" 
                     BorderBrush="{StaticResource 'Deep Purple'}" BorderThickness="4, 4, 4 ,4">

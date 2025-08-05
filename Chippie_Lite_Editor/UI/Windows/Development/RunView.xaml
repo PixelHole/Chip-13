@@ -6,6 +6,7 @@
              xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
              xmlns:development="clr-namespace:Chippie_Lite_WPF.UI.Windows.Development"
              xmlns:consoleControlLibrary="clr-namespace:ConsoleControlLibrary"
+             xmlns:console="clr-namespace:Chippie_Lite_WPF.UI.Elements.Console"
              mc:Ignorable="d"
              Background="Transparent"
              SnapsToDevicePixels="True"
@@ -54,23 +55,23 @@
             
             <Grid x:Name="ColumnGrid">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
+                    <ColumnDefinition MaxWidth="300"/>
                     <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition MaxWidth="300"/>
                 </Grid.ColumnDefinitions>
                 
-                <elements:InstructionDisplayList x:Name="InstructionDisplayList" Grid.Column="0" Margin="4, 4, 0 ,0"/>
+                <elements:InstructionDisplayList x:Name="InstructionDisplayList" Grid.Column="0" Margin="0, 4, 0 ,0"/>
                 
                 <!-- <development:SerialIOConsole Grid.Column="1" Margin="4, 4, 0, 0"/> -->
                 
-                <consoleControlLibrary:ConsoleView x:Name="ConsoleView" Grid.Column="1" Margin="4, 4, 0 ,0"/>
+                <console:ChippieConsole Grid.Column="1" Margin="4, 4, 0, 0"/>
                 
                 <elements:RegisterList Grid.Column="2" x:Name="RegisterList" Margin="4, 4, 0, 0" Mode="View"/>
                 
             </Grid>
             
             
-            <elements:MemoryView Grid.Row="1" Margin="4, 4, 0, 4" Mode="View"/>
+            <elements:MemoryView Grid.Row="1" Margin="0, 4, 0, 0" Mode="View"/>
             
         </Grid>
         

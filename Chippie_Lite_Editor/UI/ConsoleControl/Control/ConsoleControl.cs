@@ -4,6 +4,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Chippie_Lite_WPF.Computer;
 using Chippie_Lite_WPF.Computer.Components;
+using Chippie_Lite_WPF.Computer.Components.Actions;
 using ConsoleControlLibrary;
 using wpf_Console;
 
@@ -15,6 +16,10 @@ public class ConsoleControl
     private Vector2Int cursor = Vector2Int.Zero;
     private readonly ConsoleView View;
 
+    private int BackgroundIndex = 0;
+    private int ForegroundIndex = 7;
+    
+
     public ConsoleMode Mode { get; set; } = ConsoleMode.Simple;
     internal List<ConsoleGlyph> Glyphs { get; } = [];
 
@@ -24,17 +29,14 @@ public class ConsoleControl
     public Vector2Int Cursor
     {
         get => cursor;
-        set
+        private set
         {
             var newPos = WrapPosition(value);
-            bool changed = cursor != newPos;
-            if (!changed || !CanCursorGoTo(newPos)) return;
+            if (cursor == newPos || !CanCursorGoTo(newPos)) return;
             cursor = newPos;
             OnCursorMoved?.Invoke(Cursor);
         } 
     }
-    public Brush Foreground { get; set; } = new SolidColorBrush(Colors.Azure);
-    public Brush Background { get; set; } = new SolidColorBrush(Colors.Transparent);
 
     public Key SubmitKey { get; set; } = Key.Enter;
     public ConsoleInputMode InputMode { get; private set; } = ConsoleInputMode.None;
@@ -59,16 +61,10 @@ public class ConsoleControl
         SerialIO.OnOutputBuffered += SerialIOOnOnOutputBuffered;
         
         Chippie.OnRunStarted += ChippieOnOnRunStarted;
-    }
-    private void SerialIOOnOnOutputBuffered()
-    {
-        var output = SerialIO.GetOutput();
-        WriteLine(output, ConsoleInputSource.System);
-    }
-    private void ChippieOnOnRunStarted()
-    {
-        Clear();
-        SetInputMode(ConsoleInputMode.None);
+        
+        InstructionIOActions.SetBackgroundRequest += InstructionIOActionsOnSetBackgroundRequest;
+        InstructionIOActions.SetForegroundRequest += InstructionIOActionsOnSetForegroundRequest; 
+        InstructionIOActions.SetCursorRequest += InstructionIOActionsOnSetCursorRequest; 
     }
 
     internal void SetInputMode(ConsoleInputMode mode) => InputMode = mode;
@@ -96,8 +92,7 @@ public class ConsoleControl
                 break;
             
             case Key.Left :
-                if (Mode == ConsoleMode.Simple && GetGlyphAt(WrapPosition(Cursor + Vector2Int.Left)) == null) return;
-                CursorLeft();
+                BackAction();
                 break;
             
             case Key.Right :
@@ -121,6 +116,12 @@ public class ConsoleControl
             if (InputMode == ConsoleInputMode.Text) BufferTextInput();
         }
     }
+
+    private void BackAction()
+    {
+        
+    }
+    
     internal void ProcessUserText(string text)
     {
         if (InputMode is ConsoleInputMode.Key or ConsoleInputMode.None) return;
@@ -168,9 +169,9 @@ public class ConsoleControl
             if ((current.Processed != onlyUnprocessed) && current.Source == targetSource) buffer.Append(current.Text.ToString());
             else continue;
 
-            if (i == Glyphs.Count - 1) continue;
+            if (i >= Glyphs.Count - 1) continue;
             
-            var next = Glyphs[i + i];
+            var next = Glyphs[i + 1];
 
             if (LinearDistance(current, next) > 1 || next.Source != targetSource || (next.Processed && onlyUnprocessed))
             {
@@ -235,8 +236,10 @@ public class ConsoleControl
             }
             AddGlyphAt(c, source, position);
         }
+
+        var cur = position - Cursor + Vector2Int.Right;
         
-        MoveCursor(position - Cursor + Vector2Int.Right);
+        MoveCursor(cur);
     }
 
     public bool Delete(bool pull) => DeleteAt(WrapPosition(Cursor + Vector2Int.Left), pull);
@@ -256,7 +259,7 @@ public class ConsoleControl
 
     private void AddGlyphAt(char c, ConsoleInputSource source,Vector2Int position)
     {
-        ConsoleGlyph created = View.CreateGlyph(c, Foreground, Background, position, source);
+        ConsoleGlyph created = View.CreateGlyph(c, ForegroundIndex, BackgroundIndex, position, source);
         TrackGlyph(created);
     }
     public ConsoleGlyph? DeleteGlyphAt(Vector2Int position)
@@ -274,9 +277,14 @@ public class ConsoleControl
     }
     private void UpdateGlyphContent(ConsoleGlyph glyph, char c)
     {
+        if (glyph.CheckAccess()) UpdateGlyphContentAction(glyph, c);
+        else glyph.Dispatcher.Invoke(() => UpdateGlyphContentAction(glyph, c));
+    }
+    private void UpdateGlyphContentAction(ConsoleGlyph glyph, char c)
+    {
         glyph.Text = c;
-        glyph.Foreground = Foreground;
-        glyph.Background = Background;
+        glyph.SetForeground(ForegroundIndex);
+        glyph.SetBackground(BackgroundIndex);
     }
     public void Clear()
     {
@@ -343,12 +351,13 @@ public class ConsoleControl
             case 1:
             {
                 var other = Glyphs[0];
-                Glyphs.Insert(other.Position >= glyph.Position ? 0 : 1, glyph);
+                if (glyph.CheckAccess()) Glyphs.Insert(other.Position >= glyph.Position ? 0 : 1, glyph);
+                else glyph.Dispatcher.Invoke(() => Glyphs.Insert(other.Position >= glyph.Position ? 0 : 1, glyph));
                 return;
             }
         }
 
-        int start = 0, end = Glyphs.Count - 1;
+        int start = 0, end = Glyphs.Count;
         int mid;
         
         while (true)
@@ -423,7 +432,6 @@ public class ConsoleControl
     {
         return Glyphs.Find(g => g.Position == position);
     }
-    // ReSharper disable once UnusedMember.Local
     private int IndexOf(ConsoleGlyph glyph) => Glyphs.IndexOf(glyph);
     private Vector2Int WrapPosition(Vector2Int position)
     {
@@ -461,7 +469,15 @@ public class ConsoleControl
     {
         return int.Abs(LinearPosition(b) - LinearPosition(a));
     }
-    private int LinearPosition(ConsoleGlyph glyph) => glyph.Position.y * View.GlyphCount.x + glyph.Position.x;
+    private int LinearPosition(ConsoleGlyph glyph)
+    {
+        int pos = 0;
+
+        if (glyph.CheckAccess()) pos = glyph.Position.y * View.GlyphCount.x + glyph.Position.x;
+        else glyph.Dispatcher.Invoke(() => pos = glyph.Position.y * View.GlyphCount.x + glyph.Position.x);
+
+        return pos;
+    }
 
     private bool CanWriteAt(Vector2Int pos)
     {
@@ -470,5 +486,38 @@ public class ConsoleControl
     private bool CanCursorGoTo(Vector2Int pos)
     {
         return CursorForbidZones.Count == 0 || !CursorForbidZones.Any(zone => zone.IsPointInside(pos));
+    }
+    
+    private void SerialIOOnOnOutputBuffered()
+    {
+        var output = SerialIO.GetOutput();
+        Write(output, ConsoleInputSource.System, false);
+    }
+    private void ChippieOnOnRunStarted()
+    {
+        Clear();
+        SetInputMode(ConsoleInputMode.None);
+        Cursor = Vector2Int.Zero;
+    }
+    private void InstructionIOActionsOnSetCursorRequest(Vector2Int position)
+    {
+        position = WrapPosition(position);
+        
+        if (!CanCursorGoTo(position)) return;
+        
+        bool changed = Cursor != position;
+        
+        Cursor.SetX(position.x == -1 ? Cursor.x : position.x);
+        Cursor.SetY(position.y == -1 ? Cursor.y : position.y);
+        
+        if (changed) OnCursorMoved?.Invoke(position);
+    }
+    private void InstructionIOActionsOnSetForegroundRequest(int index)
+    {
+        ForegroundIndex = index;
+    }
+    private void InstructionIOActionsOnSetBackgroundRequest(int index)
+    {
+        BackgroundIndex = index;
     }
 }

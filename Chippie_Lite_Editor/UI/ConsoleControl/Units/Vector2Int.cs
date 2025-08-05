@@ -18,6 +18,10 @@ namespace wpf_Console
             this.x = x;
             this.y = y;
         }
+
+        public void SetX(int val) => x = val; 
+        public void SetY(int val) => y = val; 
+        
         // -- Units --
         /// <summary>
         /// Short-Hand for writing new Vector2Int(0, 0)

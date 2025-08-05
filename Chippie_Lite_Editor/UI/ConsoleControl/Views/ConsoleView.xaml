@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ConsoleControlLibrary"
              mc:Ignorable="d"
-             Background="Black"
+             Background="{StaticResource Black}"
              IsHitTestVisible="True"
              SizeChanged="ConsoleView_OnSizeChanged"
              Loaded="ConsoleView_OnLoaded"
@@ -13,7 +13,7 @@
     
     <Grid x:Name="ConsoleGrid">
         <Canvas x:Name="ConsoleCanvas">
-            <Rectangle x:Name="debugRect" Fill="Pink" Width="10" Height="10" Visibility="Visible" Canvas.ZIndex = "-1"/>
+            <Rectangle x:Name="debugRect" Width="10" Height="10" Visibility="Visible" Canvas.ZIndex = "-1"/>
         </Canvas>
     </Grid>
 </UserControl>

@@ -119,6 +119,26 @@ public static class InstructionActions
                 InstructionIOActions.SendSerialOutput(action, arguments);
                 break;
             
+            case "console background" :
+                InstructionIOActions.SetConsoleBackground(action, arguments);
+                break;
+            
+            case "console foreground" :
+                InstructionIOActions.SetConsoleForeground(action, arguments);
+                break;
+            
+            case "console cursor top" :
+                InstructionIOActions.SetCursorTop(action, arguments);
+                break;
+            
+            case "console cursor left" :
+                InstructionIOActions.SetCursorLeft(action, arguments);
+                break;
+            
+            case "console cursor" :
+                InstructionIOActions.SetCursor(action, arguments);
+                break;
+            
             case "memory write" :
                 InstructionMemoryActions.Write(action, arguments);
                 break;

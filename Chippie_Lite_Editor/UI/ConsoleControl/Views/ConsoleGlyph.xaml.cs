@@ -1,9 +1,10 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
+using Chippie_Lite_WPF.Computer.Components;
 
 namespace wpf_Console;
 
-public partial class ConsoleGlyph : UserControl
+public partial class ConsoleGlyph
 {
     private char text = '\0';
     
@@ -55,7 +56,7 @@ public partial class ConsoleGlyph : UserControl
             GlyphText.Dispatcher.Invoke(() => GlyphText.FontFamily = value);
         }
     }
-    public new Brush Foreground
+    private new Brush Foreground
     {
         get
         {
@@ -66,19 +67,15 @@ public partial class ConsoleGlyph : UserControl
 
             Brush foreground = null!;
             GlyphText.Dispatcher.Invoke(() => foreground = GlyphText.Foreground);
-            return foreground!;
+            return foreground;
         }
         set
         {
-            if (GlyphText.CheckAccess())
-            {
-                GlyphText.Foreground = value;
-                return;
-            }
-            GlyphText.Dispatcher.Invoke(() => GlyphText.Foreground = value);
+            if (CheckAccess()) GlyphText.Foreground = value;
+            else Dispatcher.Invoke(() => GlyphText.Foreground = value);
         }
     }
-    public new Brush Background
+    private new Brush Background
     {
         get
         {
@@ -93,12 +90,8 @@ public partial class ConsoleGlyph : UserControl
         }
         set
         {
-            if (Body.CheckAccess())
-            {
-                Body.Background = value;
-                return;
-            }
-            GlyphText.Dispatcher.Invoke(() => Body.Background = value);
+            if (CheckAccess()) Body.Background = value;
+            else Dispatcher.Invoke(() => Body.Background = value);
         }
     }
     public char Text
@@ -121,24 +114,33 @@ public partial class ConsoleGlyph : UserControl
         }
     }
     
-    public ConsoleInputSource Source { get; set; }
-    public bool Processed { get; set; } = false;
+    public ConsoleInputSource Source { get; }
+    public bool Processed { get; set; }
     
-    public Vector2Int Position { get; set; } = Vector2Int.Zero;
+    public Vector2Int Position { get; set; }
 
 
-    public ConsoleGlyph(char text, Brush foreground, Brush background, Vector2Int position, ConsoleInputSource source)
+    public ConsoleGlyph(char text, int foregroundIndex, int backgroundIndex, Vector2Int position, ConsoleInputSource source)
     {
         InitializeComponent();
         Text = text;
         Position = position;
-        Foreground = foreground;
-        Background = background;
+        SetForeground(foregroundIndex);
+        SetBackground(backgroundIndex);
         Source = source;
     }
 
 
-    public override string? ToString()
+    public void SetForeground(int index)
+    {
+        Foreground = new SolidColorBrush(ColorLibrary.GetColor(index));
+    }
+    public void SetBackground(int index)
+    {
+        Background = new SolidColorBrush(ColorLibrary.GetColor(index));
+    }
+    
+    public override string ToString()
     {
         return $"{Text}({Position})";
     }

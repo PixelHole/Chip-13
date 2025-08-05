@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="Chippie_Lite_WPF.UI.Elements.Console.ChippieConsole"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Elements.Console"
+             xmlns:consoleControlLibrary="clr-namespace:ConsoleControlLibrary"
+             mc:Ignorable="d"
+             Background="Transparent"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <Grid>
+            <Rectangle Fill="{StaticResource 'Deep Purple'}"/>
+            <TextBlock Margin="4" 
+                       Text="Console" FontFamily="{StaticResource TextFontAlt}" FontSize="24"
+                       Foreground="{StaticResource White}" Background="Transparent"
+                       VerticalAlignment="Center" HorizontalAlignment="Left" />
+        </Grid>
+        
+        <Border Grid.Row="1" BorderBrush="{StaticResource 'Deep Purple'}" BorderThickness="4, 0, 4, 4">
+            <consoleControlLibrary:ConsoleView/>
+        </Border>
+    </Grid>
+</UserControl>
