@@ -15,9 +15,9 @@ public partial class RegisterListDisplayItem : UserControl
     private int displayedContent;
     private int displayFormat;
     
-    public Brush DefaultColor { get; set; } = new SolidColorBrush(Colors.Transparent);
-    public Brush HoverColor { get; set; }
-    public Brush ClickColor { get; set; }
+    public Brush DefaultColor { get; set; } = null!;
+    public Brush HoverColor { get; set; } = null!;
+    public Brush ClickColor { get; set; } = null!;
 
     public int DisplayedContent
     {
@@ -49,6 +49,7 @@ public partial class RegisterListDisplayItem : UserControl
     }
     private void FetchColors()
     {
+        DefaultColor = new SolidColorBrush(Colors.Transparent);
         HoverColor = (Application.Current.Resources["Faded Purple"] as Brush)!;
         ClickColor = (Application.Current.Resources["Pink"] as Brush)!;
     }

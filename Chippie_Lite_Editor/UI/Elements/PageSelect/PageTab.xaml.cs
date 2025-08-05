@@ -21,7 +21,7 @@ public partial class PageTab : UserControl
         set => TextDisplay.Content = value;
     }
 
-    private bool _selected = false;
+    private bool _selected;
 
     public bool Selected
     {
@@ -36,10 +36,10 @@ public partial class PageTab : UserControl
         }
     }
 
-    private bool MouseInside { get; set; } = false;
+    private bool MouseInside { get; set; }
 
     public delegate void SelectedAction(PageTab sender);
-    public event SelectedAction OnSelected;
+    public event SelectedAction? OnSelected;
     
     
     public PageTab()

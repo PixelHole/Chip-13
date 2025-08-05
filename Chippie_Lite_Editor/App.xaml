@@ -32,6 +32,9 @@
         
         <ImageSource x:Key="ThumbUpIcon" >Resources/Images/Icons/ThumbUp.png</ImageSource>
         <ImageSource x:Key="ThumbDownIcon">Resources/Images/Icons/ThumbDown.png</ImageSource>
+        
+        <ImageSource x:Key="FolderIcon">Resources/Images/Icons/file2.png</ImageSource>
+        <ImageSource x:Key="FileIcon">Resources/Images/Icons/File.png</ImageSource>
 
         <Style x:Key="StyledScrollBarUpBtn" TargetType="{x:Type RepeatButton}">
             <Setter Property="SnapsToDevicePixels" Value="True"/>

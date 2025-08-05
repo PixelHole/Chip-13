@@ -11,7 +11,7 @@ public static class InstructionIOActions
         
         var reg = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
 
-        int input = SerialIO.GetInput();
+        int input = SerialIO.GetInput().Result;
 
         reg.Content = input;
     }

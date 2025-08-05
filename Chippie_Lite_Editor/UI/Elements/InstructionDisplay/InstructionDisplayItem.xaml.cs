@@ -8,9 +8,9 @@ namespace Chippie_Lite_WPF.UI.Elements;
 
 public partial class InstructionDisplayItem : UserControl
 {
-    public Brush HighlightedBackground { get; set; }
-    
-    
+    public Brush HighlightedBackground { get; set; } = null!;
+
+
     public InstructionDisplayItem(Instruction? instruction = null, int index  = 0, SyntaxConfig? highlightConfig = null)
     {
         InitializeComponent();

@@ -21,7 +21,7 @@
                                   FontFamily="{StaticResource TextFont}" FontSize="16"
                                   ValidTextBrush="{StaticResource White}" InvalidTextBrush="{StaticResource Red}"
                                   Condition="TextBoxCondition"
-                                  RetainText="False" BufferSetDelay="300"
+                                  RetainText="False"
                                   VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
         
     </Grid>

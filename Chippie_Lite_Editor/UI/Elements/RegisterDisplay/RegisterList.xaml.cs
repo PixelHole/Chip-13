@@ -8,7 +8,7 @@ namespace Chippie_Lite_WPF.UI.Elements;
 public partial class RegisterList : UserControl
 {
     private ControlMode mode = ControlMode.View;
-    private Brush ParentBorderBrush;
+    private Brush ParentBorderBrush = null!;
 
 
     public required ControlMode Mode

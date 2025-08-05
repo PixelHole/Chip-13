@@ -6,9 +6,9 @@ using Chippie_Lite_WPF.UI.Elements;
 
 namespace Chippie_Lite_WPF.UI.Windows.Development;
 
-public partial class RunWindow : UserControl
+public partial class RunView : UserControl
 {
-    public RunWindow()
+    public RunView()
     {
         InitializeComponent();
         ConnectEvents();

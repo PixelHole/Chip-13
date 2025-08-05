@@ -4,19 +4,24 @@ namespace Chippie_Lite_WPF.Computer.Components
 {
     public static class RegisterBank
     {
-        private static List<Register> Registers { get; set; } = new List<Register>(new []
-        {
-            new Register("Instruction Pointer", "IP"),
-            new Register("A", "A"),
-            new Register("B", "B"),
-            new Register("C", "C"),
-            new Register("D", "D"),
-            new Register("High", "HG"),
-            new Register("Low", "LW"),
-            new Register("Stack Base", "SB"),
-            new Register("Stack Pointer", "SP"),
-        });
-        public static bool Locked { get; private set; } = false;
+        private static List<Register> Registers { get; set; } =
+        [
+            ..new[]
+            {
+                new Register("Instruction Pointer", "IP"),
+                new Register("A", "A"),
+                new Register("B", "B"),
+                new Register("C", "C"),
+                new Register("D", "D"),
+                new Register("F", "F"),
+                new Register("G", "G"),
+                new Register("High", "HG"),
+                new Register("Low", "LW"),
+                new Register("Stack Base", "SB"),
+                new Register("Stack Pointer", "SP"),
+            }
+        ];
+        public static bool Locked { get; private set; }
     
 
         public static bool AddRegister(Register register)

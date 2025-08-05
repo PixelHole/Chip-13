@@ -2,38 +2,33 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Chippie_Lite_WPF.Controls.Utility;
-using Timer = System.Timers.Timer;
+using Chippie_Lite_WPF.Controls;
 
 namespace Chippie_Lite_WPF.UI.Elements;
 
-public partial class ConditionalTextbox : UserControl
+public partial class ConditionalTextbox
 {
     public required Predicate<string> Condition
     {
-        set => validatorBuffer = new ValidatedBuffer<string>(value);
+        set => validatorBuffer = new ValidatedBuffer<string>(value)!;
     }
-    private ValidatedBuffer<string> validatorBuffer { get; set; }
+    private ValidatedBuffer<string?> validatorBuffer { get; set; } = null!;
 
-    public FontFamily FontFamily
+    public new FontFamily FontFamily
     {
         get => ContentBox.FontFamily;
         set => ContentBox.FontFamily = value;
     }
-    public double FontSize
+    public new double FontSize
     {
         get => ContentBox.FontSize;
         set => ContentBox.FontSize = value;
     }
-    public bool IsEnabled
+    public new bool IsEnabled
     {
         get => ContentBox.IsEnabled;
         set => ContentBox.IsEnabled = value;
     }
-
-    public double BufferSetDelay { get; set; }
-    private bool HasTimer => BufferSetDelay != 0;
-    private Timer SetTimer = new();
     
     public bool RetainText { get; set; } = true;
     
@@ -54,7 +49,7 @@ public partial class ConditionalTextbox : UserControl
         InvalidTextBrush ??= Application.Current.Resources["White"] as Brush;
     }
 
-    public void SetText(string text)
+    public void SetText(string? text)
     {
         validatorBuffer.Set(text);
         

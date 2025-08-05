@@ -139,6 +139,24 @@
         <XamlRuntime>Wpf</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
+      <Page Update="UI\Elements\SerialIO\SerialIOConsole.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="UI\Documentation\Help\HelpWindow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="UI\Documentation\Help\ContentList\DocumentListItem.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="UI\Documentation\Help\Formatted Text View\FormattedTextDisplay.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
     </ItemGroup>
 
     <ItemGroup>
@@ -167,6 +185,11 @@
 
     <ItemGroup>
       <Resource Include="Resources\Images\Icons\MagnifyingGlass.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="UI\Documentation\" />
+      <Folder Include="UI\MainApp\" />
     </ItemGroup>
 
 </Project>

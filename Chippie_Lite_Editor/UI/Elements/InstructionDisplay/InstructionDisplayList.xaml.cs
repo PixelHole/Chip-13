@@ -7,9 +7,9 @@ namespace Chippie_Lite_WPF.UI.Elements;
 
 public partial class InstructionDisplayList : UserControl
 {
-    private Register InstructionPointer { get; set; }
-    
-    
+    private Register InstructionPointer { get; set; } = null!;
+
+
     public InstructionDisplayList()
     {
         InitializeComponent();

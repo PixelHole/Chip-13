@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
+using Chippie_Lite_WPF.Computer;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions.Base;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions.Interpretation;
 using Chippie_Lite_WPF.Controls;
@@ -61,34 +63,37 @@ public partial class MainWindow
     }
     public void SetMode(AppMode mode)
     {
-        RunDispatcher(() =>
+        if (CheckAccess()) SetModeAction(mode);
+        else Dispatcher.Invoke(() => SetModeAction(mode));
+    }
+    private void SetModeAction(AppMode mode)
+    {
+        Mode = mode;
+        DevArea.SetMode(Mode);
+        switch (Mode)
         {
-            Mode = mode;
-            DevArea.SetMode(Mode);
-            switch (Mode)
-            {
-                case AppMode.Edit:
-                    RunBtn.Visibility = Visibility.Visible;
-                    StopBtn.Visibility = Visibility.Collapsed;
-                    RestartBtn.Visibility = Visibility.Collapsed;
-                    RunToEndBtn.Visibility = Visibility.Collapsed;
-                    SingleStepBtn.Visibility = Visibility.Collapsed;
-                    break;
+            case AppMode.Edit:
+                RunBtn.Visibility = Visibility.Visible;
+                StopBtn.Visibility = Visibility.Collapsed;
+                RestartBtn.Visibility = Visibility.Collapsed;
+                RunToEndBtn.Visibility = Visibility.Collapsed;
+                SingleStepBtn.Visibility = Visibility.Collapsed;
+                break;
 
-                case AppMode.Run:
-                    RunBtn.Visibility = Visibility.Collapsed;
-                    StopBtn.Visibility = Visibility.Visible;
-                    RestartBtn.Visibility = Visibility.Visible;
-                    RunToEndBtn.Visibility = Visibility.Visible;
-                    SingleStepBtn.Visibility = Visibility.Visible;
-                    break;
-            }
-        });
+            case AppMode.Run:
+                RunBtn.Visibility = Visibility.Collapsed;
+                StopBtn.Visibility = Visibility.Visible;
+                RestartBtn.Visibility = Visibility.Visible;
+                RunToEndBtn.Visibility = Visibility.Visible;
+                SingleStepBtn.Visibility = Visibility.Visible;
+                break;
+        }
     }
 
     public void RunToEndButtonVisible(bool visible)
     {
-        RunDispatcher(() => RunToEndBtn.Visibility = visible ? Visibility.Visible : Visibility.Collapsed);
+        if (RunToEndBtn.CheckAccess()) RunToEndBtn.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        else RunToEndBtn.Dispatcher.Invoke(() => RunToEndBtn.Visibility = visible ? Visibility.Visible : Visibility.Collapsed);
     }
     
     private void StopBtn_OnClick(SquareButton sender)
@@ -134,7 +139,7 @@ public partial class MainWindow
     }
     private void ToolbarHelpBtn_OnClick(SquareButton sender)
     {
-        
+        Control.OpenHelpWindow();
     }
     
     private void CodeWindowBtn_OnOnSelected(ToggleButton sender, bool selected)
@@ -156,11 +161,8 @@ public partial class MainWindow
     {
         UpdateTabButtons(3);
     }
-
-    private void RunDispatcher(Action action)
-    {
-        Dispatcher.Invoke(action);
-    }
+    
+    
     private void DragBox_OnMouseDown(object sender, MouseButtonEventArgs e)
     {
         if (WindowState == WindowState.Maximized)
@@ -174,5 +176,16 @@ public partial class MainWindow
     {
         if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.S)) Control.RequestSave();
         if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.L)) Control.RequestLoad();
+    }
+    private void MainWindow_OnClosing(object? sender, CancelEventArgs e)
+    {
+        try
+        {
+            Chippie.SafeHalt();
+        }
+        catch (Exception)
+        {
+            // ignored
+        }
     }
 }

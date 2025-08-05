@@ -11,8 +11,8 @@ public partial class MemoryViewCell : UserControl
     public delegate void TextChangedAction(MemoryViewCell sender, int data);
     public event TextChangedAction? OnTextChanged;
 
-    private Brush InvalidTextBrush;
-    private Brush ValidTextBrush;
+    private Brush InvalidTextBrush = null!;
+    private Brush ValidTextBrush = null!;
     
     public MemoryViewCell()
     {
@@ -38,7 +38,7 @@ public partial class MemoryViewCell : UserControl
             InputBox.IsEnabled = mode == ControlMode.Edit;
         });
     }
-    public void SetText(string text) => InputBox.SetText(text);
+    public void SetText(string? text) => InputBox.SetText(text);
     public string GetText() => InputBox.GetText();
     public void SetAddressText(string text)
     {

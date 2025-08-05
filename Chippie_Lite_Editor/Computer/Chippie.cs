@@ -1,6 +1,7 @@
 ﻿using Chippie_Lite_WPF.Computer.Assembly;
 using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.Instructions;
+using Chippie_Lite_WPF.Computer.Internal.Exceptions;
 
 namespace Chippie_Lite_WPF.Computer;
 
@@ -8,6 +9,8 @@ public static class Chippie
 {
     private static bool _singleStep = false;
     private static bool _isRunning = false;
+
+    private static bool SafeExit { get; set; } = false;
     
     public static bool IsRunning
     {
@@ -32,29 +35,30 @@ public static class Chippie
         } 
     }
     private static bool CanGoToNextStep { get; set; } = false;
-    public static Register InstructionPointer { get; private set; }
-    private static Thread ExecutionThread { get; set; }
-    private static Thread StepThread { get; set; }
-
+    public static Register InstructionPointer { get; private set; } = null!;
+    private static Thread ExecutionThread { get; set; } = null!;
+    private static Thread StepThread { get; set; } = null!;
+    
 
     public delegate void CompileStartAction();
-    public static event CompileStartAction OnCompileStarted;
+    public static event CompileStartAction? OnCompileStarted;
     
     public delegate void CompileEndAction();
-    public static event CompileEndAction OnCompileEnded;
+    public static event CompileEndAction? OnCompileEnded;
     
     public delegate void RunFinishedAction();
-    public static event RunFinishedAction OnRunFinished;
+    public static event RunFinishedAction? OnRunFinished;
 
     public delegate void RunStartAction();
-    public static event RunStartAction OnRunStarted;
+    public static event RunStartAction? OnRunStarted;
 
     public delegate void SingleStepChangeAction(bool enabled);
-    public static event SingleStepChangeAction OnSingleStepChanged;
+    public static event SingleStepChangeAction? OnSingleStepChanged;
 
     public static void Initialize()
     {
-        InstructionPointer = RegisterBank.GetRegister("Instruction Pointer")!;
+        InstructionPointer = RegisterBank.GetRegister("Instruction Pointer") ??
+                             throw new RegisterNotFoundException(0, "Instruction Pointer");
         InstructionSet.LoadSet(InstructionSet.SavePath);
     }
     
@@ -71,10 +75,15 @@ public static class Chippie
         FlushRuntimeStorage();
         Run();
     }
-    public static int HaltOperation()
+    public static void HaltOperation()
     {
         CanRun = false;
-        return 0;
+    }
+    public static void SafeHalt()
+    {
+        SafeExit = true;
+        CanRun = false;
+        
     }
     
     private static bool CompileAndLoadAssembly(string raw)
@@ -112,7 +121,9 @@ public static class Chippie
         SingleStep = StartSingleStep;
         CanRun = true;
         ExecutionThread = new Thread(ExecutionLoop);
+        ExecutionThread.Name = "Execution thread";
         StepThread = new Thread(ExecutionStep);
+        StepThread.Name = "Step thread";
         ExecutionThread.Start();
     }
 
@@ -134,12 +145,21 @@ public static class Chippie
             StepThread = new Thread(ExecutionStep);
             StepThread.Start();
         }
+
+        if(StepThread.IsAlive && SafeExit) StepThread.Interrupt();
         
-        IsRunning = false;
+        if (!SafeExit) IsRunning = false;
     }
     private static void ExecutionStep()
     {
-        InstructionProcessor.ExecuteNextInstruction(InstructionPointer.Content);
+        try
+        {
+            InstructionProcessor.ExecuteNextInstruction(InstructionPointer.Content);
+        }
+        catch (ThreadInterruptedException)
+        {
+            if (SafeExit) return;
+        }
         InstructionPointer.Content++;
         if (SingleStep) CanGoToNextStep = false;
     }

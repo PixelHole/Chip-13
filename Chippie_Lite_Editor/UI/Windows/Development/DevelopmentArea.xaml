@@ -11,8 +11,8 @@
              d:DesignHeight="300" d:DesignWidth="400">
     
     <Grid Background="{StaticResource 'Dark Blue'}">
-        <development:CodeEditControl x:Name="CodeEditControl" Margin="0"/>
-        <development:MemoryEditControl x:Name="MemoryEditControl" Visibility="Collapsed"/>
-        <development:RunWindow x:Name="RunWindow" Visibility="Collapsed"/>
+        <development:CodeEditView x:Name="CodeEditControl" Margin="0"/>
+        <development:MemoryEditView x:Name="MemoryEditControl" Visibility="Collapsed"/>
+        <development:RunView x:Name="RunWindow" Visibility="Collapsed"/>
     </Grid>
 </UserControl>

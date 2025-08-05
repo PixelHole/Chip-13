@@ -11,21 +11,26 @@ public partial class WindowRibbon
     }
     private void MinimizeBtn_OnClick(SquareButton sender)
     {
-        if (Application.Current.MainWindow != null) Application.Current.MainWindow.WindowState = WindowState.Minimized;
+        var window = Window.GetWindow(this);
+        if (window == null) return;
+        window.WindowState = WindowState.Minimized;
     }
     private void FullscreenBtn_OnClick(SquareButton sender)
     {
-        if (Application.Current.MainWindow == null) return;
+        var window = Window.GetWindow(this);
+        if (window == null) return;
 
-        Application.Current.MainWindow.WindowState = Application.Current.MainWindow.WindowState switch
+        window.WindowState = window.WindowState switch
         {
             WindowState.Maximized => WindowState.Normal,
             WindowState.Normal => WindowState.Maximized,
-            _ => Application.Current.MainWindow.WindowState
+            _ => window.WindowState
         };
     }
     private void CloseBtn_OnClick(SquareButton sender)
     {
-        Application.Current.Shutdown();
+        var window = Window.GetWindow(this);
+        if (window == Application.Current.MainWindow) Application.Current.Shutdown();
+        else window?.Close();
     }
 }

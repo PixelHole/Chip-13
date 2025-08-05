@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="Chippie_Lite_WPF.UI.Help.DocumentTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Help"
+             xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
+             mc:Ignorable="d"
+             Background="Transparent"
+             MinHeight="32" MinWidth="96"
+             d:DesignHeight="32" d:DesignWidth="128">
+    <Grid x:Name="Body" MouseEnter="Body_OnMouseEnter" MouseLeave="Body_OnMouseLeave" MouseDown="Body_OnMouseDown" MouseUp="Body_OnMouseUp">
+        
+        <Border x:Name="HighlightUnderline" 
+                BorderBrush="{StaticResource 'Deep Purple'}" BorderThickness="0, 0, 0, 6"/>
+            
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                
+            <Image x:Name="Icon" Source="../../../../Resources/Images/Icons/File.png" Margin="4"/>
+                
+            <TextBlock x:Name="TitleBlock" VerticalAlignment="Center" 
+                       Foreground="{StaticResource White}" 
+                       TextAlignment="Center" Text="test" 
+                       FontFamily="{StaticResource Monogram}" FontSize="24"/>
+                
+            <elements:SquareButton x:Name="CloseBtn" Label="X" Width="32" Height="32" Click="CloseBtn_OnClick"
+                                   VerticalAlignment="Center"
+                                   BackgroundDefaultColor="Transparent"
+                                   BackgroundHoverColor="{StaticResource 'Deep Purple'}"
+                                   BackgroundClickColor="{StaticResource Red}"/>
+                
+        </StackPanel>
+        
+    </Grid>
+    
+</UserControl>

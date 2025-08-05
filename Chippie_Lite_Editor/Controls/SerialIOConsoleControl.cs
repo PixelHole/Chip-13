@@ -30,11 +30,11 @@ public class SerialIOConsoleControl
     }
     public void SubmitInput(string input)
     {
-        Owner.SetInputEnabled(false);
+        Owner.IsInputEnabled = false;
         SerialIO.BufferInput(input);
         AddUserTextToConsole(input);
-        Owner.ClearInputBox();
-        Owner.SetInputEnabled(true);
+        Owner.ConsoleText = "";
+        Owner.IsInputEnabled = true;
     }
 
     private void AddUserTextToConsole(string text)
@@ -57,12 +57,12 @@ public class SerialIOConsoleControl
 
     private void OnRunStart()
     {
-        Owner.ClearConsole();
-        Owner.SetInputEnabled(true);
+        Owner.ConsoleText = "";
+        Owner.IsInputEnabled = true;
     }
     private void OnRunEnd()
     {
         LastSource = -1;
-        Owner.SetInputEnabled(false);
+        Owner.IsInputEnabled = false;
     }
 }

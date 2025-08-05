@@ -6,11 +6,7 @@ using System.Windows.Media;
 namespace Chippie_Lite_WPF.UI.Elements;
 
 public partial class ErrorBox
-{
-    private Point mousePoint;
-    private Canvas? canvas;
-    
-    
+{ 
     private ErrorBox()
     {
         InitializeComponent();
@@ -36,8 +32,18 @@ public partial class ErrorBox
     }
     public void SetMessage(string title = "Error", string msg = "An error has occured")
     {
-        TitleLabel.Content = title;
-        MessageBox.Text = msg;
+        if (CheckAccess())
+        {
+            TitleLabel.Content = title;
+            MessageBox.Text = msg;
+            return;
+        }
+
+        Dispatcher.Invoke(() =>
+        {
+            TitleLabel.Content = title;
+            MessageBox.Text = msg;
+        });
     }
     
     private void CloseBtn_OnClick(SquareButton sender)

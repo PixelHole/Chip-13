@@ -20,14 +20,4 @@ public class SaveInstance
         MemoryBlocks = memoryBlocks;
     }
     public SaveInstance() { }
-    
-    
-    public static string Serialize(SaveInstance save)
-    {
-        return JsonSerializer.Serialize(save);
-    }
-    public static SaveInstance? Deserialize(string json)
-    {
-        return JsonSerializer.Deserialize<SaveInstance>(json);
-    }
 }

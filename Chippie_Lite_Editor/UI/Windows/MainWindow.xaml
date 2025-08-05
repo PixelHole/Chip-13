@@ -9,8 +9,9 @@
         AllowsTransparency="True"
         Background="Transparent"
         SnapsToDevicePixels="True"
-        Title="MainWindow" Height="500" Width="800"
-        KeyDown="MainWindow_OnKeyDown">
+        Title="MainWindow" Height="600" Width="900"
+        KeyDown="MainWindow_OnKeyDown"
+        Closing="MainWindow_OnClosing">
     
     <Grid>
         
@@ -113,9 +114,11 @@
             
             </Grid>
         
-            <Grid Grid.Row="1" >
-                <windows:DevelopmentArea x:Name="DevArea" x:FieldModifier="public"/>
-            </Grid>
+            <Border Grid.Row="1" BorderThickness="4, 0, 4, 4" BorderBrush="{StaticResource 'Deep Purple'}">
+                <Grid>
+                    <windows:DevelopmentArea x:Name="DevArea" x:FieldModifier="public"/>
+                </Grid>
+            </Border>
         
         </Grid>
         

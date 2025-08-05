@@ -7,7 +7,7 @@ using Chippie_Lite_WPF.Computer.Utility;
 
 namespace Chippie_Lite_WPF.UI.Elements;
 
-public partial class MemoryView : UserControl
+public partial class MemoryView
 {
     private int HorizontalCellCount;
     private int VerticalCellCount;
@@ -15,12 +15,12 @@ public partial class MemoryView : UserControl
     private int _currentPage;
     private ControlMode mode = ControlMode.View;
 
-    private int searchIndex = 0;
+    private int searchIndex;
 
-    private Brush InvalidNumberBrush { get; set; }
-    private Brush ValidNumberBrush { get; set; }
-    
-    private List<MemoryViewCell> Cells = new List<MemoryViewCell>();
+    private Brush InvalidNumberBrush { get; set; } = null!;
+    private Brush ValidNumberBrush { get; set; } = null!;
+
+    private List<MemoryViewCell> Cells = new();
     
     public ControlMode Mode
     {
@@ -119,7 +119,7 @@ public partial class MemoryView : UserControl
     private void RecalculateRowColumnCount(Size gridSize)
     {
         HorizontalCellCount = (int)(gridSize.Width / 128);
-        VerticalCellCount = (CellsPerPage / HorizontalCellCount) + 1;
+        VerticalCellCount = CellsPerPage / HorizontalCellCount + 1;
     }
     private void UpdateGridRowsColumns()
     {
@@ -172,16 +172,16 @@ public partial class MemoryView : UserControl
     }
     private void UpdateAddressOffsetLabels()
     {
-        while (OffsetLabelGrid.ColumnDefinitions.Count != HorizontalCellCount)
+        while (OffsetLabelGrid.ColumnDefinitions.Count != CellGrid.ColumnDefinitions.Count)
         {
-            if (OffsetLabelGrid.ColumnDefinitions.Count > HorizontalCellCount)
+            if (OffsetLabelGrid.ColumnDefinitions.Count > CellGrid.ColumnDefinitions.Count)
             {
                 OffsetLabelGrid.ColumnDefinitions.RemoveAt(OffsetLabelGrid.ColumnDefinitions.Count - 1);
                 OffsetLabelGrid.Children.RemoveAt(OffsetLabelGrid.Children.Count - 1);
             }
-            else if (OffsetLabelGrid.ColumnDefinitions.Count < HorizontalCellCount)
+            else if (OffsetLabelGrid.ColumnDefinitions.Count < CellGrid.ColumnDefinitions.Count)
             {
-                var label = new MemoryViewLabel(){Text = "+" + OffsetLabelGrid.Children.Count};
+                var label = new MemoryViewLabel {Text = "+" + OffsetLabelGrid.Children.Count};
                 Grid.SetColumn(label, OffsetLabelGrid.Children.Count);
                 OffsetLabelGrid.Children.Add(label);
                 OffsetLabelGrid.ColumnDefinitions.Add(new ColumnDefinition());
@@ -189,14 +189,14 @@ public partial class MemoryView : UserControl
         }
         
         // idk
-        while (AddressLabelGrid.RowDefinitions.Count != VerticalCellCount - 1)
+        while (AddressLabelGrid.RowDefinitions.Count != CellGrid.RowDefinitions.Count)
         {
-            if (AddressLabelGrid.RowDefinitions.Count > VerticalCellCount - 1)
+            if (AddressLabelGrid.RowDefinitions.Count > CellGrid.RowDefinitions.Count)
             {
                 AddressLabelGrid.RowDefinitions.RemoveAt(AddressLabelGrid.RowDefinitions.Count - 1);
                 AddressLabelGrid.Children.RemoveAt(AddressLabelGrid.Children.Count - 1);
             }
-            else if (AddressLabelGrid.RowDefinitions.Count < VerticalCellCount - 1)
+            else if (AddressLabelGrid.RowDefinitions.Count < CellGrid.RowDefinitions.Count)
             {
                 var label = new MemoryViewLabel();
                 Grid.SetRow(label, AddressLabelGrid.Children.Count);

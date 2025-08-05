@@ -60,7 +60,7 @@ public static class Memory
 
         accessPool.Release();
         
-        OnStorageUpdated?.Invoke(index);
+        OnInitialStorageUpdated?.Invoke(index);
     }
     public static int ReadInitial(int index)
     {

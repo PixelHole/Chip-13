@@ -7,16 +7,67 @@ using UI.SyntaxBox;
 
 namespace Chippie_Lite_WPF.UI.Windows.Development;
 
-public partial class CodeEditControl
+public partial class CodeEditView
 {
+    private double fontSize = 32;
+    
     public string InputText
     {
-        get => InputBox.Text;
-        set => InputBox.Text = value;
+        get
+        {
+            string text = "";
+
+            if (InputBox.CheckAccess())
+            {
+                text = InputBox.Text;
+            }
+            else
+            {
+                InputBox.Dispatcher.Invoke(() => text = InputBox.Text);
+            }
+
+            return text;
+        }
+        set
+        {
+            if (InputBox.CheckAccess())
+            {
+                InputBox.Text = value;
+            }
+            else
+            {
+                InputBox.Dispatcher.Invoke(() => InputBox.Text = value);
+            }
+        }
     }
+    public new double FontSize
+    {
+        get => fontSize;
+        set
+        {
+            bool same = Math.Abs(fontSize - value) < 0.1d;
+            if (same || value < 8) return;
+            fontSize = value;
+            if (CheckAccess())
+            {
+                InputBox.FontSize = fontSize;
+                LineDisplay.FontSize = fontSize;
+            }
+            else
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    InputBox.FontSize = fontSize;
+                    LineDisplay.FontSize = fontSize;
+                });
+            }
+        }
+    }
+
+    public Key ZoomResetKey { get; set; } = Key.Q;
     
     
-    public CodeEditControl()
+    public CodeEditView()
     {
         InitializeComponent();
         SetupSyntaxHighlighting();
@@ -56,6 +107,16 @@ public partial class CodeEditControl
         InputBox.IsEnabled = editable;
     }
     
+    private void ZoomIn(int amount)
+    {
+        FontSize += amount;
+    }
+    private void ZoomOut(int amount)
+    {
+        FontSize -= amount;
+    }
+    private void ResetZoom() => FontSize = 32;
+    
     private void UpdateLineDisplay(string[] lines)
     {
         LineDisplay.Text = "";
@@ -76,7 +137,7 @@ public partial class CodeEditControl
     }
     private void UpdateLineCount(string[] lines)
     {
-        int count = lines.Count(line => !string.IsNullOrEmpty(line) && !string.IsNullOrWhiteSpace(line));
+        int count = lines.Count(line => !string.IsNullOrEmpty(line) && !string.IsNullOrWhiteSpace(line) && !line.StartsWith('#'));
         LineCountDisplay.Content = $"LOC : {count}";
     }
 
@@ -102,8 +163,22 @@ public partial class CodeEditControl
         UpdateLineDisplay(lines);
         UpdateLineCount(lines);
     }
-    private void CodeEditControl_OnMouseWheel(object sender, MouseWheelEventArgs e)
+    private void InputBox_OnMouseWheel(object sender, MouseWheelEventArgs e)
     {
+        if (Keyboard.IsKeyUp(Key.LeftCtrl) && Keyboard.IsKeyUp(Key.RightCtrl)) return;
         
+        switch (e.Delta)
+        {
+            case > 0:
+                ZoomIn(4);
+                break;
+            case < 0:
+                ZoomOut(4);
+                break;
+        }
+    }
+    private void InputBox_OnKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == ZoomResetKey && Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftShift)) ResetZoom();
     }
 }

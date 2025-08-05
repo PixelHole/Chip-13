@@ -3,6 +3,8 @@ using System.Text;
 using System.Text.Json;
 using Chippie_Lite_WPF.Computer.Instructions;
 using Chippie_Lite_WPF.Computer.Instructions.Templates;
+using Chippie_Lite_WPF.Computer.Internal.Exceptions.File;
+using Chippie_Lite_WPF.Computer.Utility;
 
 namespace Chippie_Lite_WPF.Computer.Components;
 
@@ -93,24 +95,10 @@ public static class InstructionSet
     
     public static void SaveSet(string path)
     {
-        string json = JsonSerializer.Serialize(Templates, JsonSerializerOptions.Web);
-        
-        StreamWriter writer = new StreamWriter(path);
-
-        writer.Write(json);
-        
-        writer.Close();
-        writer.Dispose();
+        JsonFileUtility.SerializeAndWrite(Templates, path);
     }
     public static void LoadSet(string path)
     {
-        StreamReader reader = new StreamReader(path);
-
-        string json = reader.ReadToEnd();
-
-        Templates = JsonSerializer.Deserialize<List<InstructionTemplate>>(json, JsonSerializerOptions.Web);
-        
-        reader.Dispose();
-        reader.Close();
+        Templates = JsonFileUtility.ReadAndDeserialize<List<InstructionTemplate>>(path);
     }
 }

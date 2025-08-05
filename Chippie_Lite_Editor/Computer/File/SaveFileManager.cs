@@ -1,6 +1,9 @@
 ﻿using System.IO;
 using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.File.DefaultStates;
+using Chippie_Lite_WPF.Computer.Internal.Exceptions;
+using Chippie_Lite_WPF.Computer.Internal.Exceptions.File;
+using Chippie_Lite_WPF.Computer.Utility;
 
 namespace Chippie_Lite_WPF.Computer.File;
 
@@ -10,24 +13,11 @@ public static class SaveFileManager
      {
           SaveInstance save = new SaveInstance(code, SerializeRegisters(), SerializeMemory());
 
-          string json = SaveInstance.Serialize(save);
-
-          StreamWriter writer = new StreamWriter(path);
-          
-          writer.Write(json);
-          
-          writer.Flush();
-          writer.Close();
+          JsonFileUtility.SerializeAndWrite(save, path);
      }
      public static string LoadData(string path)
      {
-          StreamReader reader = new StreamReader(path);
-          
-          string json = reader.ReadToEnd();
-          
-          reader.Close();
-          
-          SaveInstance save = SaveInstance.Deserialize(json);
+          SaveInstance save = JsonFileUtility.ReadAndDeserialize<SaveInstance>(path);
           
           DeserializeRegisters(save.Registers);
           DeserializeMemory(save.MemoryBlocks);
@@ -52,6 +42,7 @@ public static class SaveFileManager
           foreach (var instance in registers)
           {
                var register = RegisterBank.GetRegister(instance.Name);
+               if (register == null) throw new RegisterNotFoundException(0, instance.Name);
                register.DefaultValue = instance.DefaultValue;
           }
      }

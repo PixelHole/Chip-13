@@ -11,7 +11,7 @@ public static class InstructionJumpActions
         
         var val = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
 
-        var ip = RegisterBank.GetRegister("Instruction Pointer");
+        var ip = RegisterBank.GetRegister("Instruction Pointer")!;
 
         ip!.Content = val - 2;
     }
@@ -21,7 +21,7 @@ public static class InstructionJumpActions
         
         var val = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
 
-        var ip = RegisterBank.GetRegister("Instruction Pointer");
+        var ip = RegisterBank.GetRegister("Instruction Pointer")!;
 
         ip!.Content += val - 2;
     }
@@ -35,7 +35,7 @@ public static class InstructionJumpActions
         
         if (a != b) return;
         
-        var ip = RegisterBank.GetRegister("Instruction Pointer");
+        var ip = RegisterBank.GetRegister("Instruction Pointer")!;
 
         ip.Content += jump - 2;
     }
@@ -49,7 +49,7 @@ public static class InstructionJumpActions
         
         if (a != b) return;
         
-        var ip = RegisterBank.GetRegister("Instruction Pointer");
+        var ip = RegisterBank.GetRegister("Instruction Pointer")!;
 
         ip.Content = jump - 2;
     }
@@ -63,7 +63,7 @@ public static class InstructionJumpActions
         
         if (a >= b) return;
         
-        var ip = RegisterBank.GetRegister("Instruction Pointer");
+        var ip = RegisterBank.GetRegister("Instruction Pointer")!;
 
         ip.Content += jump - 2;
     }
@@ -77,7 +77,7 @@ public static class InstructionJumpActions
         
         if (a >= b) return;
         
-        var ip = RegisterBank.GetRegister("Instruction Pointer");
+        var ip = RegisterBank.GetRegister("Instruction Pointer")!;
 
         ip.Content = jump - 2;
     }
@@ -91,7 +91,7 @@ public static class InstructionJumpActions
         
         if (a <= b) return;
         
-        var ip = RegisterBank.GetRegister("Instruction Pointer");
+        var ip = RegisterBank.GetRegister("Instruction Pointer")!;
 
         ip.Content += jump - 2;
     }
@@ -105,7 +105,7 @@ public static class InstructionJumpActions
         
         if (a <= b) return;
         
-        var ip = RegisterBank.GetRegister("Instruction Pointer");
+        var ip = RegisterBank.GetRegister("Instruction Pointer")!;
 
         ip.Content = jump - 2;
     }

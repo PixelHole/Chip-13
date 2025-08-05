@@ -6,6 +6,7 @@ using Chippie_Lite_WPF.Computer.Internal.Exceptions.Base;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions.Interpretation;
 using Chippie_Lite_WPF.UI.Elements;
 using Chippie_Lite_WPF.UI.Windows;
+using Chippie_Lite_WPF.UI.Windows.Help;
 using Microsoft.Win32;
 
 namespace Chippie_Lite_WPF.Controls;
@@ -14,8 +15,8 @@ public class MainWindowControl
 {
     private static string FilePath { get; set; } = string.Empty;
     
-    
     private MainWindow Owner { get; set; }
+    private HelpWindow HelpWindow { get; set; } = new HelpWindow();
 
     public MainWindowControl(MainWindow owner)
     {
@@ -39,22 +40,8 @@ public class MainWindowControl
         catch (Exception e)
         {
             Chippie.HaltOperation();
-            
-            switch (e)
-            {
-                case InvalidInstructionException parseException:
-                    var point = Owner.DevArea.HighlightCodeLine(parseException.ActualLine);
-                    ErrorBoxManager.ShowExceptionError(parseException, point);
-                    break;
-
-                case InstructionInterpretationException interpretationException:
-                    ErrorBoxManager.ShowExceptionError(interpretationException);
-                    break;
-
-                default:
-                    ErrorBoxManager.ShowError("internal error", $"An internal error occured : {e.Message}");
-                    break;
-            }
+            if (e is InvalidInstructionException parseException) Owner.DevArea.HighlightCodeLine(parseException.ActualLine);
+            InstructionExceptionHandler.HandleInstructionException(e);
         }
     }
     public void Halt()
@@ -149,7 +136,7 @@ public class MainWindowControl
     private void LoadDialogOk(object? sender, CancelEventArgs e)
     {
         var fileDialog = sender as OpenFileDialog;
-        fileDialog.FileOk -= LoadDialogOk;
+        fileDialog!.FileOk -= LoadDialogOk;
         
         string path = fileDialog.FileName;
         
@@ -171,7 +158,7 @@ public class MainWindowControl
     private void SaveDialogOk(object? sender, CancelEventArgs e)
     {
         var fileDialog = sender as SaveFileDialog;
-        fileDialog.FileOk -= SaveDialogOk;
+        fileDialog!.FileOk -= SaveDialogOk;
 
         string path = fileDialog.FileName;
         
@@ -187,22 +174,25 @@ public class MainWindowControl
         }
         catch (Exception e)
         {
-            
+            SaveFileExceptionHandler.HandleSaveExceptions(e);
         }
     }
     private void LoadInstance(string path)
     {
+        string code = "";
+        
         try
         {
-            string code = SaveFileManager.LoadData(path);
-            Owner.DevArea.SetInputCode(code);
-            FilePath = path;
-            Owner.DevArea.SourceChanged = false;
+            code = SaveFileManager.LoadData(path);
         }
         catch (Exception e)
         {
-            
+            SaveFileExceptionHandler.HandleLoadException(e);
         }
+        
+        Owner.DevArea.SetInputCode(code);
+        FilePath = path;
+        Owner.DevArea.SourceChanged = false;
     }
     private void NewInstance()
     {
@@ -212,6 +202,10 @@ public class MainWindowControl
         Owner.DevArea.SourceChanged = false;
     }
     
+    public void OpenHelpWindow()
+    {
+        HelpWindow.Show();
+    }
 
     private void OnSingleChanged(bool singleStep)
     {

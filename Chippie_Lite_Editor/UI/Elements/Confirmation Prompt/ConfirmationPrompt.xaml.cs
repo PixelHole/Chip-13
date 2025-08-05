@@ -11,7 +11,7 @@ public partial class ConfirmationPrompt
     public bool ForceFocus { get; set; } = true;
     
     public delegate void ButtonSelectedAction(string choice);
-    public event ButtonSelectedAction OnButtonSelected;
+    public event ButtonSelectedAction? OnButtonSelected;
     
     public ConfirmationPrompt(string title, string body, IEnumerable<string>? buttons = null)
     {

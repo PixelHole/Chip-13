@@ -13,6 +13,7 @@ public class InstructionInterpretationException : Exception
     public InstructionInterpretationException()
     {
     }
+    [Obsolete("Obsolete")]
     protected InstructionInterpretationException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
     }

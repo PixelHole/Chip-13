@@ -8,8 +8,8 @@ public partial class SquareButton : UserControl
 {
     private bool mouseDown = false;
     private bool mouseInside = false;
-    private string _label;
-    private ImageSource _icon;
+    private string _label = null!;
+    private ImageSource _icon = null!;
     
     public string Label
     {
@@ -35,7 +35,7 @@ public partial class SquareButton : UserControl
     public Brush BackgroundClickColor { get; set; } = new SolidColorBrush(Color.FromRgb(255, 119, 168));
     
     public delegate void ClickAction(SquareButton sender);
-    public event ClickAction Click;
+    public event ClickAction? Click;
     
     
     public SquareButton()
@@ -63,17 +63,20 @@ public partial class SquareButton : UserControl
     private void Body_OnMouseEnter(object sender, MouseEventArgs e)
     {
         mouseInside = true;
+        e.Handled = true;
         UpdateColor();
     }
     private void Body_OnMouseLeave(object sender, MouseEventArgs e)
     {
         mouseInside = false;
         mouseDown = false;
+        e.Handled = true;
         UpdateColor();
     }
     private void Body_OnMouseDown(object sender, MouseButtonEventArgs e)
     {
         mouseDown = true;
+        e.Handled = true;
         UpdateColor();
     }
     private void Body_OnMouseUp(object sender, MouseButtonEventArgs e)
@@ -81,5 +84,6 @@ public partial class SquareButton : UserControl
         mouseDown = false;
         UpdateColor();
         Click?.Invoke(this);
+        e.Handled = true;
     }
 }

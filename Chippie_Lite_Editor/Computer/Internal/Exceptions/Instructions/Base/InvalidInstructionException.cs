@@ -11,6 +11,7 @@ public class InvalidInstructionException : Exception
     {
         ActualLine = actualLine;
     }
+    [Obsolete("Obsolete")]
     protected InvalidInstructionException(SerializationInfo info, StreamingContext context, int actualLine) : base(info, context)
     {
         ActualLine = actualLine;

@@ -20,10 +20,10 @@ public partial class ToggleButton : UserControl
     }
     
     public delegate void SelectAction(ToggleButton sender, bool selected);
-    public event SelectAction OnSelected;
+    public event SelectAction OnSelected = null!;
     
-    private string _label;
-    private ImageSource _icon;
+    private string _label = null!;
+    private ImageSource _icon = null!;
     
     public required string Label
     {
@@ -118,5 +118,6 @@ public partial class ToggleButton : UserControl
             OnSelected?.Invoke(this, Selected);
         }
         UpdateColor();
+        e.Handled = true;
     }
 }

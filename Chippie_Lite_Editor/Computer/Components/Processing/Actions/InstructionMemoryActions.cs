@@ -18,8 +18,8 @@ public static class InstructionMemoryActions
     {
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 2);
         
-        var address = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
-        var content = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
+        var content = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
+        var address = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
 
         Memory.Write(address, content);
     }

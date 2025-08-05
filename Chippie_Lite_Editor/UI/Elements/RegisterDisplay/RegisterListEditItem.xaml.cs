@@ -4,13 +4,12 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.Utility;
-using Chippie_Lite_WPF.Controls.Utility;
 
 namespace Chippie_Lite_WPF.UI.Elements;
 
 public partial class RegisterListEditItem
 {
-    private Register assignedRegister;
+    private Register assignedRegister = null!;
     
     
     public RegisterListEditItem(Register register)

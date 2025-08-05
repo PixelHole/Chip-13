@@ -40,9 +40,9 @@ public static class NumberUtility
         return int.Parse(num);
     }
 
-    public static string ToBinary(int num, bool separate = false)
+    public static string? ToBinary(int num, bool separate = false)
     {
-        string result = Convert.ToString(num, 2).PadLeft(32, '0') + "b";
+        string? result = Convert.ToString(num, 2).PadLeft(32, '0') + "b";
         if (separate)
         {
            result = $"{result.Substring(0, 8)}-{result.Substring(8, 8)}-{result.Substring(16, 8)}-{result.Substring(24, 8)}b";
@@ -50,9 +50,9 @@ public static class NumberUtility
 
         return result;
     }
-    public static string ToHex(int num, bool separate = false)
+    public static string? ToHex(int num, bool separate = false)
     {
-        string result = "0x" + Convert.ToString(num, 16).PadLeft(8, '0');
+        string? result = "0x" + Convert.ToString(num, 16).PadLeft(8, '0');
 
         if (separate)
         {

@@ -24,7 +24,7 @@ public abstract class InstructionArgument
         switch (argument)
         {
             case RegisterArgument registerArgument:
-                return registerArgument.Register.Content;
+                return registerArgument.Register!.Content;
             case NumberArgument numberArgument:
                 return numberArgument.Number;
             case RegisterNumberArgument registerNumberArgument:
