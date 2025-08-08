@@ -7,7 +7,8 @@ public static class Memory
     private static List<MemoryBlock> InitialStorage { get; set; } = [];
     public static bool ReadOnly { get; private set; }
 
-    public static readonly int Size = 8192;
+    public static int Size { get; set; } = 8192;
+    public static readonly int HardLimit = 262144;
 
     private static readonly Semaphore accessPool = new Semaphore(1, 1);
 
@@ -33,6 +34,8 @@ public static class Memory
 
     public static void Write(int index, int data)
     {
+        if (IsIndexOutOfHardRange(index)) return;
+        
         accessPool.WaitOne();
         
         WriteToStorage(index, data, RuntimeStorage);
@@ -43,6 +46,8 @@ public static class Memory
     }
     public static int Read(int index)
     {
+        if (IsIndexOutOfHardRange(index)) return 0;
+        
         accessPool.WaitOne();
 
         int data = ReadFromStorage(index, RuntimeStorage);
@@ -54,6 +59,8 @@ public static class Memory
 
     public static void WriteInitial(int index, int data)
     {
+        if (IsIndexOutOfHardRange(index)) return;
+        
         accessPool.WaitOne();
         
         WriteToStorage(index, data, InitialStorage);
@@ -64,6 +71,8 @@ public static class Memory
     }
     public static int ReadInitial(int index)
     {
+        if (IsIndexOutOfHardRange(index)) return 0;
+        
         accessPool.WaitOne();
 
         int data = ReadFromStorage(index, InitialStorage);
@@ -142,4 +151,7 @@ public static class Memory
             InitialStorage.Add(block);
         }
     }
+
+    private static bool IsIndexInRange(int index) => index >= 0 && index < Size;
+    private static bool IsIndexOutOfHardRange(int index) => index >= 0 && index < HardLimit;
 }

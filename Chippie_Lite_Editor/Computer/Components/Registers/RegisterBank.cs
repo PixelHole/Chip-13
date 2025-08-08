@@ -19,6 +19,7 @@ namespace Chippie_Lite_WPF.Computer.Components
                 new Register("Low", "LW"),
                 new Register("Stack Base", "SB"),
                 new Register("Stack Pointer", "SP"),
+                new Register("Input Buffer Count", "IB"),
             }
         ];
         public static bool Locked { get; private set; }

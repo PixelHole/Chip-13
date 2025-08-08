@@ -11,7 +11,7 @@ public static class SaveFileManager
 {
      public static void SaveData(string code,  string path)
      {
-          SaveInstance save = new SaveInstance(code, SerializeRegisters(), SerializeMemory());
+          SaveInstance save = new SaveInstance(code, SerializeRegisters(), SerializeMemory(), SerializeConfig());
 
           JsonFileUtility.SerializeAndWrite(save, path);
      }
@@ -21,6 +21,7 @@ public static class SaveFileManager
           
           DeserializeRegisters(save.Registers);
           DeserializeMemory(save.MemoryBlocks);
+          DeserializeConfig(save.Config);
           
           return save.Code;
      }
@@ -67,5 +68,14 @@ public static class SaveFileManager
           }
 
           Memory.LoadInitialBlocks(blocks);
+     }
+     private static EnvironmentConfig SerializeConfig()
+     {
+          return new EnvironmentConfig(IOInterface.DisplaySize, Memory.Size, [], []);
+     }
+     private static void DeserializeConfig(EnvironmentConfig config)
+     {
+          IOInterface.DisplaySize = config.DisplaySize;
+          Memory.Size = config.MemorySize;
      }
 }

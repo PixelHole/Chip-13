@@ -24,18 +24,7 @@ public partial class MainWindow
     }
 
 
-    private void Run()
-    {
-        Control.RunScript(DevArea.GetInputCode());
-    }
-    private void Halt()
-    {
-        Control.Halt();
-    }
-    private void Restart()
-    {
-        Control.Restart();
-    }
+ 
     
     public void ChangeDevAreaPage(int index)
     {
@@ -98,15 +87,15 @@ public partial class MainWindow
     
     private void StopBtn_OnClick(SquareButton sender)
     {
-        Halt();
+        Control.Halt();
     }
     private void RunBtn_OnClick(SquareButton sender)
     {
-        Run();
+        Control.RunScript(DevArea.GetInputCode());
     }
     private void RestartBtn_OnClick(SquareButton sender)
     {
-        Restart();
+        Control.Restart();
     }
     private void SingleStepBtn_OnClick(SquareButton sender)
     {
@@ -123,7 +112,7 @@ public partial class MainWindow
     }
     private void ToolbarNewBtn_OnClick(SquareButton sender)
     {
-        Control.RequestNewInstance();
+        if (Mode is not AppMode.Run) Control.RequestNewInstance();
     }
     private void ToolbarSaveBtn_OnClick(SquareButton sender)
     {
@@ -135,7 +124,7 @@ public partial class MainWindow
     }
     private void ToolbarOpenBtn_OnClick(SquareButton sender)
     {
-        Control.RequestLoad();
+        if (Mode is not AppMode.Run) Control.RequestLoad();
     }
     private void ToolbarHelpBtn_OnClick(SquareButton sender)
     {
@@ -182,27 +171,31 @@ public partial class MainWindow
                 {
                     case AppMode.Edit:
                         Control.RequestSave();
+                        e.Handled = true;
                         return;
                     case AppMode.Run:
                         Control.Restart();
+                        e.Handled = true;
                         return;
                 }
             }
             else if (Keyboard.IsKeyDown(Key.L))
             {
                 Control.RequestLoad();
+                e.Handled = true;
                 return;
             }
             else if (Keyboard.IsKeyDown(Key.R) && Mode == AppMode.Run)
             {
                 Control.Restart();
+                e.Handled = true;
             }
         }
         
         switch (e.Key)
         {
             case Key.F5 or Key.F10:
-                Run();
+                Control.RunScript(DevArea.GetInputCode());
                 break;
             case Key.F8:
                 Control.NextStep();

@@ -41,31 +41,36 @@
                         </Grid.RowDefinitions>
             
                         <Border BorderThickness="0, 0, 0, 4" BorderBrush="{StaticResource 'Deep Purple'}">
-                            <ScrollViewer Name="PageTabsScrollViewer"
-                                          HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
+                            <ScrollViewer Name="PageTabsScrollViewer" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
                                 <StackPanel x:Name="DocumentTabsList" Orientation="Horizontal"/>
                             </ScrollViewer>
                         </Border>
             
-                        <StackPanel Grid.Row="1" Margin="8, 0, 0, 0">
+                        <Grid Grid.Row="1" Margin="8, 0, 0, 0">
+                            
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="64"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            
                             <TextBlock x:Name="TitleBlock" MinHeight="48"
                                        VerticalAlignment="Center" 
                                        Foreground="{StaticResource White}"
                                        FontFamily="{StaticResource Monogram}" FontSize="48"
                                        Text="Title"/>
-                            <ScrollViewer x:Name="BodyScrollViewer" Style="{StaticResource StyledScrollViewer}"
+                            <ScrollViewer x:Name="BodyScrollViewer" Grid.Row="1" Style="{StaticResource StyledScrollViewer}"
                                           HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
                                           MouseWheel="BodyScrollViewer_OnMouseWheel">
                                 <!-- <local:FormattedTextDisplay x:Name="BodyBlock" -->
                                 <!--            Foreground="{StaticResource White}" -->
                                 <!--            FontFamily="{StaticResource Monogram}" FontSize="24" -->
                                 <!--            Text="body text"/> -->
-                                <TextBlock x:Name="BodyBlock" TextWrapping="Wrap"
+                                <TextBlock x:Name="BodyBlock" TextWrapping="WrapWithOverflow"
                                            Foreground="{StaticResource 'Light Grey'}"
                                            FontFamily="{StaticResource Monogram}" FontSize="24"
                                            Text="body text"/>
                             </ScrollViewer>
-                        </StackPanel>
+                        </Grid>
             
                     </Grid>
                 </Grid>

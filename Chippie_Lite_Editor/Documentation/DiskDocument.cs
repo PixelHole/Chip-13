@@ -50,6 +50,7 @@ public class DiskDocument
 
             while (line != null)
             {
+                line = line.Trim();
                 if (!IsLineAddressProperty(line) && !IsLineTitleProperty(line) && !IsLineDocumentSignature(line))
                     ContentBuffer.AppendLine(line);
                 line = reader.ReadLine();

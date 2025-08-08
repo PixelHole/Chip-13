@@ -44,7 +44,9 @@ public static class SerialUtility
         
         for (int i = 0; i < input.Length; i++)
         {
-            res += input[i] * (int)Math.Pow(2, 8 * (3 - i));
+            if (input[i] == '\0') break;
+            res *= 256;
+            res += input[i];
             if (i == 3) break;
         }
         

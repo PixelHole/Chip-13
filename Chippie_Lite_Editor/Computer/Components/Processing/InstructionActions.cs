@@ -115,6 +115,10 @@ public static class InstructionActions
                 InstructionIOActions.GetSerialInput(action, arguments);
                 break;
             
+            case "key input" :
+                InstructionIOActions.GetKeyInput(action, arguments);
+                break;
+            
             case "serial output" :
                 InstructionIOActions.SendSerialOutput(action, arguments);
                 break;

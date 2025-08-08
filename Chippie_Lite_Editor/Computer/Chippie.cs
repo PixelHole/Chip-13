@@ -111,7 +111,7 @@ public static class Chippie
     {
         if (IsRunning) return;
         RegisterBank.ResetRegisters();
-        SerialIO.FullFlush();
+        IOBuffer.FullFlush();
         Memory.CopyInitialStorageToRuntime();
     }
     private static void Run()

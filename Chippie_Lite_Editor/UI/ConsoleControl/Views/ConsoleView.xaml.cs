@@ -61,6 +61,7 @@ public partial class ConsoleView : UserControl
     private void ConnectEvents()
     {
         Control.OnCursorMoved += ControlOnOnCursorMoved;
+        IOInterface.DisplaySizeSet += IOInterfaceOnDisplaySizeSet;
     }
 
     internal ConsoleGlyph CreateGlyph(char text, int foregroundIndex, int backgroundIndex, Vector2Int position, ConsoleInputSource source)
@@ -184,5 +185,10 @@ public partial class ConsoleView : UserControl
         window.TextInput += ConsoleView_OnTextInput;
         window.KeyDown += ConsoleView_OnKeyDown;
         initialized = true;
+    }
+    private void IOInterfaceOnDisplaySizeSet(Vector2Int size)
+    {
+        Control.Clear();
+        GlyphCount = size;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Text.Json.Serialization;
 
 namespace wpf_Console
 {
@@ -13,6 +14,7 @@ namespace wpf_Console
             y = 0;
         }
 
+        [JsonConstructor]
         public Vector2Int(int x, int y)
         {
             this.x = x;
