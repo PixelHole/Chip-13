@@ -49,7 +49,6 @@ public static class IOBuffer
 
     public static void BufferInput(string input)
     {
-        input += (char)0;
         int[] nums = SerialUtility.AsciiToInts(input);
         BufferCountRegister.Content += nums.Length;
         

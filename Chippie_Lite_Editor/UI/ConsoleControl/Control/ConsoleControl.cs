@@ -118,6 +118,7 @@ public class ConsoleControl
 
     private void DeleteAction()
     {
+        if (InputMode is ConsoleInputMode.None) return;
         var back = GetGlyphAt(WrapPosition(Cursor + Vector2Int.Left));
         if (back != null && back.Source != ConsoleInputSource.User) return;
         if (Delete(true) && InputMode == ConsoleInputMode.Text) CursorLeft();
