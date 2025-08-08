@@ -6,6 +6,7 @@ namespace Chippie_Lite_WPF.Computer.Components;
 
 public static class IOBuffer
 {
+    private static Register? bufferCountRegister;
     private static readonly Semaphore inputAccessPool = new(1, 1);
     private static readonly Semaphore outputAccessPool = new(1, 1);
     private static BufferBlock<int> InputBuffer { get; } = new();
@@ -13,6 +14,15 @@ public static class IOBuffer
     private static Queue<string> OutputBuffer { get; } = new();
     
     public static bool WaitingForInput { get; private set; }
+
+    public static Register BufferCountRegister
+    {
+        get
+        {
+            if (bufferCountRegister == null) bufferCountRegister = RegisterBank.GetRegister("Input Buffer Count")!;
+            return bufferCountRegister;
+        }
+    }
 
 
     public delegate void WaitForInputStartAction();
@@ -41,6 +51,7 @@ public static class IOBuffer
     {
         input += (char)0;
         int[] nums = SerialUtility.AsciiToInts(input);
+        BufferCountRegister.Content += nums.Length;
         
         inputAccessPool.WaitOne();
 
@@ -72,9 +83,14 @@ public static class IOBuffer
             res = InputBuffer.Receive();
         }
 
+        BufferCountRegister.Content--;
         return res;
     }
-    public static void FlushInputBuffer() => InputBuffer.ReceiveAllAsync();
+    public static void FlushInputBuffer()
+    {
+        InputBuffer.TryReceiveAll(out _);
+        BufferCountRegister.Content = 0;
+    }
 
     public static void BufferKeyInput(Key key)
     {
@@ -107,7 +123,7 @@ public static class IOBuffer
 
         return res;
     }
-    public static void FlushKeyInputBuffer() => KeyInputBuffer.ReceiveAllAsync();
+    public static void FlushKeyInputBuffer() => KeyInputBuffer.TryReceiveAll(out _);
     
     public static void BufferOutput(int[] output)
     {

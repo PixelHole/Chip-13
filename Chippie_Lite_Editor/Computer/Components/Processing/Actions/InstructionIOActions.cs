@@ -1,5 +1,4 @@
-﻿using System.Windows.Media;
-using Chippie_Lite_WPF.Computer.Instructions;
+﻿using Chippie_Lite_WPF.Computer.Instructions;
 using Chippie_Lite_WPF.Computer.Instructions.Arguments.Base;
 using wpf_Console;
 
@@ -34,6 +33,12 @@ public static class InstructionIOActions
         var val = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
         
         IOBuffer.BufferOutput([val]);
+    }
+    internal static void FlushIOBuffers(InstructionAction action, IList<InstructionArgument> arguments)
+    {
+        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 0);
+        
+        IOBuffer.FullFlush();
     }
     internal static void SetConsoleForeground(InstructionAction action, IList<InstructionArgument> arguments)
     {

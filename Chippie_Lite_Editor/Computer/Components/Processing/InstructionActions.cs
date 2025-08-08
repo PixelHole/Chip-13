@@ -123,6 +123,10 @@ public static class InstructionActions
                 InstructionIOActions.SendSerialOutput(action, arguments);
                 break;
             
+            case "flush io buffers" :
+                InstructionIOActions.SendSerialOutput(action, arguments);
+                break;
+            
             case "console background" :
                 InstructionIOActions.SetConsoleBackground(action, arguments);
                 break;
