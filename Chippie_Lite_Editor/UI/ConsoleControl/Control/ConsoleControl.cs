@@ -53,18 +53,20 @@ public class ConsoleControl
     }
     private void ConnectEvents()
     {
-        SerialIO.OnWaitForKeyInputStart += () => SetInputMode(ConsoleInputMode.Key);
-        SerialIO.OnWaitForKeyInputEnd += () => SetInputMode(ConsoleInputMode.None);
-        SerialIO.OnWaitForInputStart += () => SetInputMode(ConsoleInputMode.Text);
-        SerialIO.OnWaitForInputEnd += () => SetInputMode(ConsoleInputMode.None);
+        IOBuffer.OnWaitForKeyInputStart += () => SetInputMode(ConsoleInputMode.Key);
+        IOBuffer.OnWaitForKeyInputEnd += () => SetInputMode(ConsoleInputMode.None);
+        IOBuffer.OnWaitForInputStart += () => SetInputMode(ConsoleInputMode.Text);
+        IOBuffer.OnWaitForInputEnd += () => SetInputMode(ConsoleInputMode.None);
 
-        SerialIO.OnOutputBuffered += SerialIOOnOnOutputBuffered;
+        IOBuffer.OnOutputBuffered += SerialIOOnOnOutputBuffered;
         
         Chippie.OnRunStarted += ChippieOnOnRunStarted;
         
-        InstructionIOActions.SetBackgroundRequest += InstructionIOActionsOnSetBackgroundRequest;
-        InstructionIOActions.SetForegroundRequest += InstructionIOActionsOnSetForegroundRequest; 
-        InstructionIOActions.SetCursorRequest += InstructionIOActionsOnSetCursorRequest; 
+        IOInterface.SetBackgroundRequest += InstructionIOActionsOnSetBackgroundRequest;
+        IOInterface.SetForegroundRequest += InstructionIOActionsOnSetForegroundRequest; 
+        IOInterface.SetCursorRequest += InstructionIOActionsOnSetCursorRequest; 
+        IOInterface.SetCursorLeftRequest += InstructionIOActionsOnSetCursorLeftRequest;
+        IOInterface.SetCursorTopRequest += InstructionIoActionsOnSetCursorTopRequest;
     }
 
     internal void SetInputMode(ConsoleInputMode mode) => InputMode = mode;
@@ -73,7 +75,7 @@ public class ConsoleControl
     {
         if (InputMode == ConsoleInputMode.Key)
         {
-            SerialIO.BufferKeyInput(key);
+            IOBuffer.BufferKeyInput(key);
             return;
         }
         
@@ -164,7 +166,7 @@ public class ConsoleControl
 
         foreach (var sentence in sentences)
         {
-            SerialIO.BufferInput(sentence);
+            IOBuffer.BufferInput(sentence);
         }
     }
 
@@ -516,7 +518,7 @@ public class ConsoleControl
     
     private void SerialIOOnOnOutputBuffered()
     {
-        var output = SerialIO.GetOutput();
+        var output = IOBuffer.GetOutput();
         Write(output, ConsoleInputSource.System, false);
     }
     private void ChippieOnOnRunStarted()
@@ -525,19 +527,6 @@ public class ConsoleControl
         SetInputMode(ConsoleInputMode.None);
         Cursor = Vector2Int.Zero;
     }
-    private void InstructionIOActionsOnSetCursorRequest(Vector2Int position)
-    {
-        position = WrapPosition(position);
-        
-        if (!CanCursorGoTo(position)) return;
-        
-        bool changed = Cursor != position;
-        
-        Cursor.SetX(position.x == -1 ? Cursor.x : position.x);
-        Cursor.SetY(position.y == -1 ? Cursor.y : position.y);
-        
-        if (changed) OnCursorMoved?.Invoke(position);
-    }
     private void InstructionIOActionsOnSetForegroundRequest(int index)
     {
         ForegroundIndex = index;
@@ -545,5 +534,20 @@ public class ConsoleControl
     private void InstructionIOActionsOnSetBackgroundRequest(int index)
     {
         BackgroundIndex = index;
+    }
+    private void InstructionIOActionsOnSetCursorRequest(Vector2Int position)
+    {
+        var movement = WrapPosition(position) - Cursor;
+        MoveCursor(movement);
+    }
+    private void InstructionIOActionsOnSetCursorLeftRequest(int left)
+    {
+        var movement = new Vector2Int(left - Cursor.x, 0);
+        MoveCursor(movement);
+    }
+    private void InstructionIoActionsOnSetCursorTopRequest(int top)
+    {
+        var movement = new Vector2Int(0, top - Cursor.y);
+        MoveCursor(movement);
     }
 }

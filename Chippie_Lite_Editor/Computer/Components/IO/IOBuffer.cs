@@ -4,7 +4,7 @@ using Chippie_Lite_WPF.Computer.Utility;
 
 namespace Chippie_Lite_WPF.Computer.Components;
 
-public static class SerialIO
+public static class IOBuffer
 {
     private static readonly Semaphore inputAccessPool = new(1, 1);
     private static readonly Semaphore outputAccessPool = new(1, 1);
