@@ -40,7 +40,7 @@ public static class InstructionIOActions
         
         IOBuffer.FullFlush();
     }
-    internal static void SetConsoleForeground(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void SetCursorForeground(InstructionAction action, IList<InstructionArgument> arguments)
     {
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 1);
         
@@ -48,13 +48,21 @@ public static class InstructionIOActions
 
         IOInterface.SetForegroundIndex(val);
     }
-    internal static void SetConsoleBackground(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void SetCursorBackground(InstructionAction action, IList<InstructionArgument> arguments)
     {
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 1);
         
         var val = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
         
         IOInterface.SetBackgroundIndex(val);
+    }
+    internal static void SetConsoleBackground(InstructionAction action, IList<InstructionArgument> arguments)
+    {
+        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 1);
+        
+        var val = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
+        
+        IOInterface.SetConsoleBackgroundIndex(val);
     }
     internal static void SetCursorLeft(InstructionAction action, IList<InstructionArgument> arguments)
     {

@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Chippie_Lite_WPF.Computer;
 using Chippie_Lite_WPF.Computer.Components;
 using wpf_Console;
 using Wpf_ConsoleIO;
@@ -62,6 +63,8 @@ public partial class ConsoleView : UserControl
     {
         Control.OnCursorMoved += ControlOnOnCursorMoved;
         IOInterface.DisplaySizeSet += IOInterfaceOnDisplaySizeSet;
+        IOInterface.SetConsoleBackgroundRequest += IOInterfaceOnSetConsoleBackgroundRequest;
+        Chippie.OnRunStarted += ChippieOnOnRunStarted;
     }
 
     internal ConsoleGlyph CreateGlyph(char text, int foregroundIndex, int backgroundIndex, Vector2Int position, ConsoleInputSource source)
@@ -190,5 +193,15 @@ public partial class ConsoleView : UserControl
     {
         Control.Clear();
         GlyphCount = size;
+    }
+    private void IOInterfaceOnSetConsoleBackgroundRequest(int index)
+    {
+        if (debugRect.CheckAccess()) debugRect.Fill = new SolidColorBrush(ColorLibrary.GetColor(index));
+        else debugRect.Dispatcher.Invoke(() => debugRect.Fill = new SolidColorBrush(ColorLibrary.GetColor(index)));
+    }
+    private void ChippieOnOnRunStarted()
+    {
+        if (debugRect.CheckAccess()) debugRect.Fill = new SolidColorBrush(Colors.Black);
+        else debugRect.Dispatcher.Invoke(() => debugRect.Fill = new SolidColorBrush(Colors.Black));
     }
 }

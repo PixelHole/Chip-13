@@ -127,12 +127,16 @@ public static class InstructionActions
                 InstructionIOActions.SendSerialOutput(action, arguments);
                 break;
             
-            case "console background" :
-                InstructionIOActions.SetConsoleBackground(action, arguments);
+            case "cursor background" :
+                InstructionIOActions.SetCursorBackground(action, arguments);
                 break;
             
-            case "console foreground" :
-                InstructionIOActions.SetConsoleForeground(action, arguments);
+            case "cursor foreground" :
+                InstructionIOActions.SetCursorForeground(action, arguments);
+                break;
+            
+            case "console background" :
+                InstructionIOActions.SetConsoleBackground(action, arguments);
                 break;
             
             case "console cursor top" :

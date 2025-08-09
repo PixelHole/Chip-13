@@ -24,6 +24,9 @@ public static class IOInterface
     public delegate void SetDisplaySizeAction(Vector2Int size);
     public static event SetDisplaySizeAction? DisplaySizeSet;
     
+    public delegate void ConsoleBackgroundSetAction(int index);
+    public static event ConsoleBackgroundSetAction? SetConsoleBackgroundRequest;
+    
     public delegate void BackgroundSetAction(int index);
     public static event BackgroundSetAction? SetBackgroundRequest;
 
@@ -43,6 +46,7 @@ public static class IOInterface
     public static void SetCursorLeft(int left) => SetCursorLeftRequest?.Invoke(left);
     public static void SetCursorTop(int top) => SetCursorTopRequest?.Invoke(top);
 
+    public static void SetConsoleBackgroundIndex(int index) => SetConsoleBackgroundRequest?.Invoke(index);
     public static void SetForegroundIndex(int index) => SetForegroundRequest?.Invoke(index);
     public static void SetBackgroundIndex(int index) => SetBackgroundRequest?.Invoke(index);
 }
