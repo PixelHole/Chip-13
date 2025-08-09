@@ -67,6 +67,7 @@ public class ConsoleControl
         IOInterface.SetCursorRequest += InstructionIOActionsOnSetCursorRequest; 
         IOInterface.SetCursorLeftRequest += InstructionIOActionsOnSetCursorLeftRequest;
         IOInterface.SetCursorTopRequest += InstructionIoActionsOnSetCursorTopRequest;
+        IOInterface.ClearConsoleRequest += Clear;
     }
 
     internal void SetInputMode(ConsoleInputMode mode) => InputMode = mode;

@@ -42,6 +42,9 @@ public static class IOInterface
     public delegate void CursorSetTopAction(int top);
     public static event CursorSetTopAction? SetCursorTopRequest;
     
+    public delegate void ConsoleClearAction();
+    public static event ConsoleClearAction? ClearConsoleRequest;
+    
     public static void SetCursor(Vector2Int cursor) => SetCursorRequest?.Invoke(cursor);
     public static void SetCursorLeft(int left) => SetCursorLeftRequest?.Invoke(left);
     public static void SetCursorTop(int top) => SetCursorTopRequest?.Invoke(top);
@@ -49,4 +52,6 @@ public static class IOInterface
     public static void SetConsoleBackgroundIndex(int index) => SetConsoleBackgroundRequest?.Invoke(index);
     public static void SetForegroundIndex(int index) => SetForegroundRequest?.Invoke(index);
     public static void SetBackgroundIndex(int index) => SetBackgroundRequest?.Invoke(index);
+
+    public static void ClearConsole() => ClearConsoleRequest?.Invoke();
 }

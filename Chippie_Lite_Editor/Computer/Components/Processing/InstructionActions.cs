@@ -151,6 +151,10 @@ public static class InstructionActions
                 InstructionIOActions.SetCursor(action, arguments);
                 break;
             
+            case "console clear" :
+                InstructionIOActions.ClearConsole(action, arguments);
+                break;
+            
             case "memory write" :
                 InstructionMemoryActions.Write(action, arguments);
                 break;

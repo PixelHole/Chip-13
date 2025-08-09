@@ -89,4 +89,11 @@ public static class InstructionIOActions
         
         IOInterface.SetCursor(new Vector2Int(x, y));
     }
+    
+    internal static void ClearConsole(InstructionAction action, IList<InstructionArgument> arguments)
+    {
+        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 0);
+        
+        IOInterface.ClearConsole();
+    }
 }
