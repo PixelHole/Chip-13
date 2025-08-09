@@ -1,6 +1,5 @@
+<<<<<< detached
 ![thumbnail trans.png](Images/thumbnail%20trans.png)
-# Chip-13
-an assembly playgronud
 
 ## About
 Chip-13 (Chippie) is a light-weigh, not very well optimized emulator of a fantasy computer which allows you to run assembly code!
