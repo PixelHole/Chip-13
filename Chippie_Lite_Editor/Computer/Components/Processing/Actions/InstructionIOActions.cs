@@ -95,5 +95,6 @@ public static class InstructionIOActions
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 0);
         
         IOInterface.ClearConsole();
+        IOInterface.SetCursor(new Vector2Int(0, 0));
     }
 }

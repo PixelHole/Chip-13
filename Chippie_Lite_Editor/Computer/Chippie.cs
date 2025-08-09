@@ -72,12 +72,14 @@ public static class Chippie
     public static void Restart()
     {
         while (IsRunning) HaltOperation();
-        FlushRuntimeStorage();
         Run();
     }
     public static void HaltOperation()
     {
         CanRun = false;
+        SingleStep = true;
+        CanGoToNextStep = false;
+        FlushRuntimeStorage();
     }
     public static void SafeHalt()
     {
@@ -138,9 +140,9 @@ public static class Chippie
         
         while (CanRun)
         {
-            if (InstructionBank.Count == 0 || InstructionPointer.Content >= InstructionBank.Count || InstructionPointer.Content < 0) break;
-            
             if ((SingleStep && !CanGoToNextStep) || StepThread.IsAlive) continue;
+            
+            if (InstructionBank.Count == 0 || InstructionPointer.Content >= InstructionBank.Count || InstructionPointer.Content < 0) break;
             
             StepThread = new Thread(ExecutionStep);
             StepThread.Start();

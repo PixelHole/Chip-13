@@ -23,7 +23,10 @@ this argument type is never used.
 
 
 #### 3. Register or value
-this is for instructions that primarily require a value to perform their operation. so you can either pass a register (for its contents to be read and used as value) or a direct value (to be used in the operation). 
+this is for instructions that primarily require a value to perform their 
+operation. so you can either pass a register (for its contents to be read 
+and used as value), a direct value (to be used in the operation) or a [label](../Tutorials/Labels.md).
+
 examples include:
 add (or any mathematical) instruction : the second and third arguments could either be a register or a value
 jump instructions : the jump argument could either be a register or a value
@@ -57,6 +60,9 @@ the ways you can pass arguments to chip-13 instructions
 - **Decimal**
 	`out 10`
 
+#### 3. Labels
+- **At sign and the name** `@Label`
+
 
 ### Argument Offsets
 in all places where a register is expected, you can also pass in an offset value.
@@ -70,9 +76,4 @@ value **(10)** to. for that we have passed the  stack pointer register **(sp)** 
 offset of **1**. when trying to write to the memory, chip-13 will grab the contents
 of the stack pointer register, add the offset **(1)** to it, and then use the 
 resulting value as the address for writing to memory.
-
-
-
-
-
 

@@ -5,6 +5,7 @@
 	a : Register or Value
 
 converts the given number into ascii characters and prints them to the screen.
+for more information about the Input buffer and how it works read [this article](../Tutorials/Console and IO.md)
 
 Examples:
 `out 0x31323334`   =>    `1234`
@@ -20,7 +21,7 @@ Examples:
 	a : Register
 
 gets ascii or numeric input from the Input buffer and stores it in the given register
-for more information about the Input buffer and how it works read [this article](../IO/IO.md)
+for more information about the Input buffer and how it works read [this article](../Tutorials/Console and IO.md)
 
 Examples:
 `inp a`
@@ -37,7 +38,7 @@ Examples:
 
 receives a single key press from the keyboard and stores the pressed key in the given register.
 the key is in represented as an integer, each key on the keyboard has its own unique integer ascociated with it.
-you can find the fill list in [this article](../LookupTables/Keys.md)
+you can find the full list in [this article](../LookupTables/Keys.md)
 
 Examples:
 `gky a`

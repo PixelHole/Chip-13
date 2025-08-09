@@ -52,6 +52,23 @@ public static class InstructionValueActions
         result /= shift;
         high.Content = (int)result;
     }
+    internal static void Power(InstructionAction action, IList<InstructionArgument> arguments)
+    {
+        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 2);
+        
+        var a = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
+        var b = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
+
+        long result = (int)Math.Pow(a, b);
+
+        Register high = RegisterBank.GetRegister("High")!;
+        Register low = RegisterBank.GetRegister("low")!;
+
+        low.Content = (int)result;
+        long shift = (long)Math.Pow(2, 32);
+        result /= shift;
+        high.Content = (int)result;
+    }
     internal static void Divide(InstructionAction action, IList<InstructionArgument> arguments)
     {
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 3);

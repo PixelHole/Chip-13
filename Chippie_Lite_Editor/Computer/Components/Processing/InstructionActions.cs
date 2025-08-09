@@ -27,6 +27,10 @@ public static class InstructionActions
                 InstructionValueActions.Multiply(action, arguments);
                 break;
             
+            case "power" :
+                InstructionValueActions.Power(action, arguments);
+                break;
+            
             case "divide" :
                 InstructionValueActions.Divide(action, arguments);
                 break;
@@ -124,7 +128,7 @@ public static class InstructionActions
                 break;
             
             case "flush io buffers" :
-                InstructionIOActions.SendSerialOutput(action, arguments);
+                InstructionIOActions.FlushIOBuffers(action, arguments);
                 break;
             
             case "cursor background" :
@@ -183,7 +187,7 @@ public static class InstructionActions
                 InstructionMiscActions.SquareWave(action, arguments);
                 break;
             
-            case "sawTooth wave" :
+            case "SawTooth wave" :
                 InstructionMiscActions.SawToothWave(action, arguments);
                 break;
             

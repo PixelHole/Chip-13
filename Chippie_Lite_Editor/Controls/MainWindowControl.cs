@@ -54,6 +54,7 @@ public class MainWindowControl
     }
     public void NextStep()
     {
+        Chippie.SingleStep = true;
         Chippie.ProceedStep();
     }
     public void RunToEnd()

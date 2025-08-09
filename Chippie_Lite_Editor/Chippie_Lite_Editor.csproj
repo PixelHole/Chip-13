@@ -8,6 +8,7 @@
         <UseWPF>true</UseWPF>
         <RootNamespace>Chippie_Lite_WPF</RootNamespace>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <ApplicationIcon>Resources\Icons\thumbnail trans square(1).ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
@@ -183,6 +184,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Resources\Icons\" />
       <Folder Include="UI\Documentation\" />
       <Folder Include="UI\MainApp\" />
     </ItemGroup>

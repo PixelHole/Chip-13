@@ -13,7 +13,7 @@ namespace Chippie_Lite_WPF.UI.Windows;
 public partial class MainWindow
 {
     private MainWindowControl Control { get; }
-    private AppMode Mode { get; set; }
+    private AppMode Mode { get; set; } = AppMode.Edit;
     
     
     public MainWindow()
