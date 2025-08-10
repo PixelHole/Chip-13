@@ -22,10 +22,12 @@ Pressing the **Run** button (located on the top right of the window) or alternat
 it's keyboard shortcut (_F5 or F10_) will compile
 your script and load it into Chip-13 for execution. this will put the program in
 **Run** mode,
+
 ![bandicam 2025-08-09 20-21-58-601.jpg](../../Images/toolbar%20right%20edit.jpg)
 
 being in **Run** mode will disable the code edit area and will move you to the
 console tab. more importantly, it will reveal some new buttons atop the screen
+
 ![bandicam 2025-08-09 20-22-07-923.jpg](../../Images/toolbar%20right%20run.jpg)
 
 these buttons in order from left to right are as follows :

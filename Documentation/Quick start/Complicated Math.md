@@ -87,4 +87,7 @@ mmw a, 0
 mmr d, 0 
 ```
 
+**Notice** : you can place a `#` at the start of any line to make a comment!
+comments will be ignored when the program is compiling the script
+
 run the code and see the results!
