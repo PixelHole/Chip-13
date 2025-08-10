@@ -153,5 +153,5 @@ public static class Memory
     }
 
     private static bool IsIndexInRange(int index) => index >= 0 && index < Size;
-    private static bool IsIndexOutOfHardRange(int index) => index >= 0 && index < HardLimit;
+    private static bool IsIndexOutOfHardRange(int index) => index < 0 || index >= HardLimit;
 }

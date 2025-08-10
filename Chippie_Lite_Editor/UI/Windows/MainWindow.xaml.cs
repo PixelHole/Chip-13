@@ -163,8 +163,24 @@ public partial class MainWindow
     }
     private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
     {
-        if (Keyboard.IsKeyDown(Key.LeftCtrl))
+        if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
         {
+            if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+            {
+                if (Keyboard.IsKeyDown(Key.N))
+                {
+                    Control.RequestNewInstance();
+                    e.Handled = true;
+                    return;
+                }
+
+                if (Keyboard.IsKeyDown(Key.S))
+                {
+                    Control.RequestSaveAs();
+                    e.Handled = true;
+                    return;
+                }
+            }
             if (Keyboard.IsKeyDown(Key.S))
             {
                 switch (Mode)
@@ -174,7 +190,7 @@ public partial class MainWindow
                         e.Handled = true;
                         return;
                     case AppMode.Run:
-                        Control.Restart();
+                        Control.Halt();
                         e.Handled = true;
                         return;
                 }

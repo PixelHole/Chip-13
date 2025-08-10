@@ -31,7 +31,7 @@ public partial class InstructionDisplayItem : UserControl
     
     private void SetDisplayData(Instruction instruction, int index)
     {
-        LineLabel.Content = index;
+        LineLabel.Content = instruction.HasBreakpoint ? $"{index}!" : index;
         InstructionBox.Text = instruction.ToString();
     }
     

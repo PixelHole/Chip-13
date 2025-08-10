@@ -55,6 +55,16 @@ Examples:
 `clr`
 
 
+# Flush IO buffers
+- Template : `fio`
+
+- Argument types : None
+
+flushes all IO buffers
+
+Examples:
+`fio`
+
 
 # Set Background
 - Template : `bkg a`

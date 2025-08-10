@@ -92,8 +92,22 @@ public partial class CodeEditView
             Foreground = Application.Current.Resources["Dark Green"] as Brush,
             WholeWordsOnly = true,
         };
+
+        RegexRule comment = new RegexRule()
+        {
+            Pattern = "#.*",
+            Foreground = Application.Current.Resources["Faded Purple"] as Brush,
+            Op = DriverOperation.Line
+        };
         
-        SyntaxConfig config = [headersRule, registersRule];
+        RegexRule label = new RegexRule()
+        {
+            Pattern = "@([A-Za-z]|[0-9])+",
+            Foreground = Application.Current.Resources["Bisque"] as Brush,
+            Op = DriverOperation.Line
+        };
+        
+        SyntaxConfig config = [headersRule, registersRule, comment, label];
 
         SyntaxBox.GetSyntaxDrivers(InputBox).Add(config);
     }

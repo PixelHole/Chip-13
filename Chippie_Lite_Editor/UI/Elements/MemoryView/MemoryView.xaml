@@ -58,7 +58,7 @@
                 
                         <TextBox x:Name="SearchBox" MinWidth="160" VerticalContentAlignment="Center" 
                                  FontSize="18" FontFamily="{StaticResource TextFont}"
-                                 BorderThickness="0" BorderBrush="Transparent" 
+                                 BorderThickness="0" BorderBrush="Transparent"  
                                  Background="{StaticResource 'Dark Blue'}"
                                  Foreground="{StaticResource White}"
                                  TextChanged="SearchBox_OnTextChanged"/>

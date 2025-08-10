@@ -1,10 +1,10 @@
 this is an in-depth guide on chip-13's Console and its IO system.
 
 ## Console
-the console is very similar to any regular operating system command terminal.
-the user can enter text into the console via keyboard and then press enter to 
-submit that input. the input is then passed to chip-13's Input Buffer, 
-which the programmer can use to process the user's inputs. 
+the console is very similar to any regular operating system's command terminal.
+the user can enter text into the console via keyboard and then press the **Enter** to 
+submit that input. the input is then passed into Chip-13's Input Buffer, 
+which the programmer can use to process the user's inputs.
 the user is only allowed to type in the console when input is requested by 
 the script and the input buffer is empty, otherwise the user cannot type 
 or delete text.

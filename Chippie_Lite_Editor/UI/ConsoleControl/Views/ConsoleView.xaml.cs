@@ -19,12 +19,12 @@ public partial class ConsoleView : UserControl
     public int GlyphCountX
     {
         get => GlyphCount.x;
-        set => GlyphCount.SetX(value);
+        set => GlyphCount.SetX(int.Min(value, 256));
     }
     public int GlyphCountY
     {
         get => GlyphCount.y;
-        set => GlyphCount.SetY(value);
+        set => GlyphCount.SetY(int.Min(value, 128));
     }
     private Vector2 GlyphAnchor { get; set; }
     

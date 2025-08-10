@@ -20,7 +20,7 @@
         <StackPanel Grid.Column="1" Background="{StaticResource 'Deep Purple'}">
             
             <elements:ToggleButton x:Name="ToggleInstructionBtn" OnSelected="ToggleInstructionBtn_OnOnSelected"
-                                   Icon="../../../Resources/Images/Icons/BigI.png" Label=""
+                                   Icon="../../../Resources/Images/Icons/BigI.png" Label="" ToolTip="Toggle Instructions"
                                    UnselectedHoverColor="{StaticResource Red}" 
                                    UnselectedClickColor="{StaticResource Pink}"
                                    SelectedDefaultColor="{StaticResource Red}"
@@ -29,7 +29,7 @@
                                    Selected="True"/>
             
             <elements:ToggleButton x:Name="ToggleMemoryBtn" OnSelected="ToggleMemoryBtn_OnOnSelected"
-                                   Icon="../../../Resources/Images/Icons/boxes.png" Label=""
+                                   Icon="../../../Resources/Images/Icons/boxes.png" Label="" ToolTip="Toggle Memory"
                                    UnselectedHoverColor="{StaticResource Red}" 
                                    UnselectedClickColor="{StaticResource Pink}"
                                    SelectedDefaultColor="{StaticResource Red}"
@@ -38,7 +38,7 @@
                                    Selected="True"/>
             
             <elements:ToggleButton x:Name="ToggleRegistersBtn" OnSelected="ToggleRegistersBtn_OnOnSelected"
-                                   Icon="../../../Resources/Images/Icons/threeLinesThick.png" Label=""
+                                   Icon="../../../Resources/Images/Icons/threeLinesThick.png" ToolTip="Toggle Registers"
                                    UnselectedHoverColor="{StaticResource Red}" 
                                    UnselectedClickColor="{StaticResource Pink}"
                                    SelectedDefaultColor="{StaticResource Red}"

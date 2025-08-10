@@ -33,7 +33,7 @@ jmp @label2
 out 0x3132
 end
 
-@label2
+@label1
 out 0x3334
 ```
 

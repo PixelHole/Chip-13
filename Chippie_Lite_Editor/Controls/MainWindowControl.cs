@@ -60,6 +60,7 @@ public class MainWindowControl
     public void RunToEnd()
     {
         Chippie.SingleStep = false;
+        Chippie.ProceedStep();
     }
 
 
@@ -171,7 +172,7 @@ public class MainWindowControl
         try
         {
             SaveFileManager.SaveData(Owner.DevArea.GetInputCode().Trim(), path);
-            FilePath = path;
+            if (string.IsNullOrWhiteSpace(FilePath)) FilePath = path;
         }
         catch (Exception e)
         {

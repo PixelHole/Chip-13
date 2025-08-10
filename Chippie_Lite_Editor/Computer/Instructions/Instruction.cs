@@ -9,13 +9,16 @@ public struct Instruction
     public List<InstructionArgument> Arguments { get; private set; } = new List<InstructionArgument>();
     public List<InstructionAction> Actions { get; private set; } = new List<InstructionAction>();
     public int ScriptLine { get; set; }
+    public bool HasBreakpoint { get; set; }
 
 
-    public Instruction(string header, IEnumerable<InstructionArgument> arguments, IEnumerable<InstructionAction> actions)
+    public Instruction(string header, IEnumerable<InstructionArgument> arguments, IEnumerable<InstructionAction> actions,
+        bool hasBreakpoint = false)
     {
         Header = header;
         AddArguments(arguments);
         AddActions(actions);
+        HasBreakpoint = hasBreakpoint;
     }
 
     private void AddArguments(IEnumerable<InstructionArgument> arguments)
@@ -31,6 +34,16 @@ public struct Instruction
         {
             Actions.Add(action);
         }
+    }
+
+    public static bool operator ==(Instruction a, Instruction b)
+    {
+        return a.Header.ToLower().Trim() == b.Header.ToLower().Trim() && a.Arguments == b.Arguments && a.Actions == b.Actions &&
+            a.ScriptLine == b.ScriptLine && a.HasBreakpoint == b.HasBreakpoint;
+    }
+    public static bool operator !=(Instruction a, Instruction b)
+    {
+        return !(a == b);
     }
 
     public override string ToString()

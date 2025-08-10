@@ -81,6 +81,14 @@ namespace Chippie_Lite_WPF.Computer.Assembly
         }
         private static Instruction ParseInstruction(string raw)
         {
+            raw = raw.Trim();
+            bool hasBr = false;
+            if (raw.StartsWith('>'))
+            {
+                raw = raw[1..].TrimStart();
+                hasBr = true;
+            }
+            
             string[] parts = raw.Split(' ', '\t', StringSplitOptions.RemoveEmptyEntries);
             string header = parts[0].Trim();
 
@@ -113,7 +121,7 @@ namespace Chippie_Lite_WPF.Computer.Assembly
                 arguments.Add(AssemblyUtility.ParseArgument(arg, type));
             }
 
-            return new Instruction(header, arguments, template.Actions);
+            return new Instruction(header, arguments, template.Actions, hasBr);
         }
         
 

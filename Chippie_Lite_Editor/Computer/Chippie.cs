@@ -2,6 +2,7 @@
 using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.Instructions;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions;
+using Chippie_Lite_WPF.UI.Elements;
 
 namespace Chippie_Lite_WPF.Computer;
 
@@ -9,6 +10,7 @@ public static class Chippie
 {
     private static bool _singleStep = false;
     private static bool _isRunning = false;
+    private static Instruction? lastInstruction;
 
     private static bool SafeExit { get; set; } = false;
     
@@ -30,7 +32,9 @@ public static class Chippie
         get => _singleStep;
         set
         {
+            if (_singleStep == value) return;
             _singleStep = value;
+            if (SingleStep) CanGoToNextStep = false;
             OnSingleStepChanged?.Invoke(SingleStep);
         } 
     }
@@ -154,14 +158,30 @@ public static class Chippie
     }
     private static void ExecutionStep()
     {
+        Instruction instruction = InstructionBank.GetInstruction(InstructionPointer.Content);
+
+        if (instruction.HasBreakpoint && !SingleStep && lastInstruction != null && lastInstruction != instruction)
+        {
+            SingleStep = true;
+            lastInstruction = instruction;
+            return;
+        }
+        
         try
         {
-            InstructionProcessor.ExecuteNextInstruction(InstructionPointer.Content);
+            InstructionInterpreter.Interpret(instruction);
         }
         catch (ThreadInterruptedException)
         {
             if (SafeExit) return;
         }
+        catch (Exception e)
+        {
+            HaltOperation();
+            ErrorBox.Pop("Error running instruction", e.Message);
+        }
+
+        lastInstruction = instruction;
         InstructionPointer.Content++;
         if (SingleStep) CanGoToNextStep = false;
     }

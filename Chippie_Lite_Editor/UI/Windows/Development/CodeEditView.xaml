@@ -41,14 +41,9 @@
                                  syntax:SyntaxBox.ShowLineNumbers="False">
                             <syntax:SyntaxBox.SyntaxDrivers>
                                 <syntax:SyntaxConfig>
-                                    <syntax:RegexRule Foreground="{StaticResource 'Faded Purple'}" Op="Line" Pattern="#.*"/>
-                                    <syntax:RegexRule Foreground="{StaticResource Bisque}" Op="Line" Pattern="@[A-Za-z]+"/>
                                     <syntax:RegexRule Foreground="{StaticResource Orange}" Op="Line" Pattern="[0-9]+"/>
-                                    <syntax:RegexRule Foreground="{StaticResource 'Light Blue'}" Op="Line" Pattern="0x([A-Za-z]|[0-9]|_)+"/>
-                                    <syntax:RegexRule Foreground="{StaticResource 'Light Blue'}" Op="Line" Pattern="0h([A-Za-z]|[0-9]|_)+"/>
-                                    <syntax:RegexRule Foreground="{StaticResource 'Deep Purple'}" Op="Line" Pattern="((1|0|_)+)b"/>
-                                    <syntax:RegexRule Foreground="{StaticResource 'Deep Purple'}" Op="Line" Pattern="(0b(1|0|_)+)"/>
-                                    <syntax:RegexRule Foreground="{StaticResource 'Deep Purple'}" Op="Line" Pattern="(0y(1|0|_)+)"/>
+                                    <syntax:RegexRule Foreground="{StaticResource 'Light Blue'}" Op="Line" Pattern="0x([A-Za-z]|[0-9]|_)+|0h([A-Za-z]|[0-9]|_)+"/>
+                                    <syntax:RegexRule Foreground="{StaticResource 'Deep Purple'}" Op="Line" Pattern="(((1|0|_)+)b)|(0b(1|0|_)+)|(0y(1|0|_)+)"/>
                                 </syntax:SyntaxConfig>
                             </syntax:SyntaxBox.SyntaxDrivers>
                         </TextBox>

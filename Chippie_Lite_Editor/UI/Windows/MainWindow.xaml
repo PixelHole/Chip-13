@@ -23,32 +23,32 @@
             <Rectangle x:Name="DragBox" Fill="{StaticResource 'Deep Purple'}" MouseDown="DragBox_OnMouseDown"/>
             
             <StackPanel Grid.Column="0" Orientation="Horizontal">
-                <elements:SquareButton x:Name="ToolbarLogoBtn"  Click="ToolbarLogoBtn_OnClick" 
+                <elements:SquareButton x:Name="ToolbarLogoBtn"  Click="ToolbarLogoBtn_OnClick" ToolTip="About"
                                        Icon="./../../Resources/Images/Icons/logo.png"
                                        BackgroundHoverColor="{StaticResource Red}"
                                        BackgroundClickColor="{StaticResource Pink}"/>
-                <elements:SquareButton x:Name="ToolbarNewBtn" Click="ToolbarNewBtn_OnClick"
+                <elements:SquareButton x:Name="ToolbarNewBtn" Click="ToolbarNewBtn_OnClick" ToolTip="New"
                                        Icon="../../Resources/Images/Icons/File.png"
                                        BackgroundHoverColor="{StaticResource Red}"
                                        BackgroundClickColor="{StaticResource Pink}"/>
-                <elements:SquareButton x:Name="ToolbarOpenBtn" Click="ToolbarOpenBtn_OnClick"
+                <elements:SquareButton x:Name="ToolbarOpenBtn" Click="ToolbarOpenBtn_OnClick" ToolTip="Open"
                                        Icon="../../Resources/Images/Icons/file2.png"
                                        BackgroundHoverColor="{StaticResource Red}"
                                        BackgroundClickColor="{StaticResource Pink}"/>
-                <elements:SquareButton x:Name="ToolbarSaveBtn" Click="ToolbarSaveBtn_OnClick"
+                <elements:SquareButton x:Name="ToolbarSaveBtn" Click="ToolbarSaveBtn_OnClick" ToolTip="Save"
                                        Icon="../../Resources/Images/Icons/Floppy.png"
                                        BackgroundHoverColor="{StaticResource Red}"
                                        BackgroundClickColor="{StaticResource Pink}"/>
-                <elements:SquareButton x:Name="ToolbarSaveAsBtn" Click="ToolbarSaveAsBtn_OnClick"
+                <elements:SquareButton x:Name="ToolbarSaveAsBtn" Click="ToolbarSaveAsBtn_OnClick" ToolTip="Save as"
                                        Icon="../../Resources/Images/Icons/SaveAs.png"
                                        BackgroundHoverColor="{StaticResource Red}"
                                        BackgroundClickColor="{StaticResource Pink}"/>
-                <elements:SquareButton x:Name="ToolbarHelpBtn" Click="ToolbarHelpBtn_OnClick"
+                <elements:SquareButton x:Name="ToolbarHelpBtn" Click="ToolbarHelpBtn_OnClick" ToolTip="Help"
                                        Icon="../../Resources/Images/Icons/questionMark.png"
                                        BackgroundHoverColor="{StaticResource Red}"
                                        BackgroundClickColor="{StaticResource Pink}"/>
                 <Rectangle Width="32"/>
-                <elements:ToggleButton x:Name="CodeWindowBtn" OnSelected="CodeWindowBtn_OnOnSelected"
+                <elements:ToggleButton x:Name="CodeWindowBtn" OnSelected="CodeWindowBtn_OnOnSelected" ToolTip="Code"
                                        Icon="../../../Resources/Images/Icons/brackets.png" 
                                        UnselectedHoverColor="{StaticResource Red}" 
                                        UnselectedClickColor="{StaticResource Pink}"
@@ -56,7 +56,7 @@
                                        SelectedHoverColor="{StaticResource Pink}"
                                        SelectedClickColor="{StaticResource Bisque}"
                                        Selected="True"/>
-                <elements:ToggleButton x:Name="MemoryWindowBtn" OnSelected="MemoryWindowBtn_OnOnSelected"
+                <elements:ToggleButton x:Name="MemoryWindowBtn" OnSelected="MemoryWindowBtn_OnOnSelected" ToolTip="Memory"
                                        Icon="../../../Resources/Images/Icons/FourSquares.png"
                                        UnselectedHoverColor="{StaticResource Red}" 
                                        UnselectedClickColor="{StaticResource Pink}"
@@ -64,7 +64,7 @@
                                        SelectedHoverColor="{StaticResource Pink}"
                                        SelectedClickColor="{StaticResource Bisque}"
                                        Selected="False"/>
-                <elements:ToggleButton x:Name="RunWindowBtn" OnSelected="RunWindowBtn_OnOnSelected"
+                <elements:ToggleButton x:Name="RunWindowBtn" OnSelected="RunWindowBtn_OnOnSelected" ToolTip="Console"
                                        Icon="../../../Resources/Images/Icons/Bug.png" 
                                        UnselectedHoverColor="{StaticResource Red}" 
                                        UnselectedClickColor="{StaticResource Pink}"
@@ -84,23 +84,23 @@
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 
-                <elements:SquareButton x:Name="RunBtn" Click="RunBtn_OnClick"
+                <elements:SquareButton x:Name="RunBtn" Click="RunBtn_OnClick" ToolTip="Run"
                                        Icon="./../../Resources/Images/Icons/play.png"
                                        BackgroundHoverColor="{StaticResource 'Dark Green'}"/>
                 
-                <elements:SquareButton x:Name="RunToEndBtn" Click="RunToEndBtn_OnClick" Visibility="Collapsed"
+                <elements:SquareButton x:Name="RunToEndBtn" Click="RunToEndBtn_OnClick" Visibility="Collapsed" ToolTip="Run to end"
                                        Icon="./../../Resources/Images/Icons/FastForward.png"
                                        BackgroundHoverColor="{StaticResource 'Dark Green'}"/>
                 
-                <elements:SquareButton x:Name="SingleStepBtn" Click="SingleStepBtn_OnClick" Visibility="Collapsed"
+                <elements:SquareButton x:Name="SingleStepBtn" Click="SingleStepBtn_OnClick" Visibility="Collapsed" ToolTip="Step"
                                        Icon="./../../Resources/Images/Icons/RightArrow.png"
                                        BackgroundHoverColor="{StaticResource 'Dark Green'}"/>
                 
-                <elements:SquareButton x:Name="RestartBtn"  Click="RestartBtn_OnClick" Visibility="Collapsed"
+                <elements:SquareButton x:Name="RestartBtn"  Click="RestartBtn_OnClick" Visibility="Collapsed" ToolTip="Restart"
                                        Icon="./../../Resources/Images/Icons/restart.png"
                                        BackgroundHoverColor="{StaticResource 'Dark Green'}"/>
                 
-                <elements:SquareButton x:Name="StopBtn"  Click="StopBtn_OnClick" Visibility="Collapsed"
+                <elements:SquareButton x:Name="StopBtn"  Click="StopBtn_OnClick" Visibility="Collapsed" ToolTip="Stop"
                                        Icon="./../../Resources/Images/Icons/pause.png"
                                        BackgroundHoverColor="{StaticResource 'Red'}" />
                 

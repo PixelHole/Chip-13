@@ -53,4 +53,6 @@ sll a, a, 1
 add a, a, 2
 ```
 
-run the program and see the results!
+Before you hit Run, if you are unfamiliar with Chip-13, please read [this article](../Tutorials/Running%20scripts.md)
+to get familiar with how running programs works in Chip-13. you might get a little
+confused otherwise :p
