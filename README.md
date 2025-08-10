@@ -1,4 +1,7 @@
-![thumbnail trans.png](Images/thumbnail%20trans.png)
+<p align="center">
+  <img src="Images/thumbnail%20trans.png" />
+</p>
+
 
 ## About
 Chip-13 (Chippie) is a light-weigh, not very well optimized emulator of a fantasy computer which allows you to run assembly code!
