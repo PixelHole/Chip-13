@@ -22,7 +22,7 @@ either download one of the releases from this repository, or checkout the [itch.
 this app might require you to have Dot Net framework installed, it's a small download that can be found [here](https://dotnet.microsoft.com/en-us/download/dotnet-framework)
 
 ## Get started!
-get started using the program by reading the [Quickstart guide](Documentation/Quick start/Quickstart.md)!
+get started using the program by reading the [Quickstart guide](Documentation/Quick%20start/Quickstart.md)!
 or if you know what you're in for and just want to see the available instructions, you can check out chip-13's instruction set [here](Documentation/instructions/Instructions.md)!
 
 for more specific tutorials and articles, visit the [Tutorials](Documentation/Tutorials/Tutorials.md) article
