@@ -124,6 +124,8 @@ public static class Chippie
     {
         if (IsRunning) return;
 
+        InstructionPointer.ResetContent();
+
         SingleStep = StartSingleStep;
         CanRun = true;
         ExecutionThread = new Thread(ExecutionLoop);
@@ -181,6 +183,8 @@ public static class Chippie
             ErrorBox.Pop("Error running instruction", e.Message);
         }
 
+        if (!IsRunning) return;
+        
         lastInstruction = instruction;
         InstructionPointer.Content++;
         if (SingleStep) CanGoToNextStep = false;
