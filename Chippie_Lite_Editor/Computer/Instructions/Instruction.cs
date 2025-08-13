@@ -3,7 +3,7 @@ using Chippie_Lite_WPF.Computer.Instructions.Arguments.Base;
 
 namespace Chippie_Lite_WPF.Computer.Instructions;
 
-public struct Instruction
+public struct Instruction : IEquatable<Instruction>
 {
     public string Header { get; private set; }
     public List<InstructionArgument> Arguments { get; private set; } = new List<InstructionArgument>();
@@ -61,5 +61,18 @@ public struct Instruction
         }
 
         return insText.ToString();
+    }
+    
+    public bool Equals(Instruction other)
+    {
+        return Header == other.Header && Arguments.Equals(other.Arguments) && Actions.Equals(other.Actions) && ScriptLine == other.ScriptLine && HasBreakpoint == other.HasBreakpoint;
+    }
+    public override bool Equals(object? obj)
+    {
+        return obj is Instruction other && Equals(other);
+    }
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Header, Arguments, Actions, ScriptLine, HasBreakpoint);
     }
 }

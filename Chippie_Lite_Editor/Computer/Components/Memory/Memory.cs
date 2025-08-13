@@ -12,7 +12,7 @@ public static class Memory
 
     private static readonly Semaphore accessPool = new Semaphore(1, 1);
 
-    public delegate void StorageUpdateAction(int index);
+    public delegate void StorageUpdateAction(int index, int data);
     public static event StorageUpdateAction? OnStorageUpdated;
     
     public delegate void InitialStorageUpdateAction(int index);
@@ -25,10 +25,23 @@ public static class Memory
     }
     internal static void CopyInitialStorageToRuntime()
     {
+        foreach (var block in RuntimeStorage)
+        {
+            for (int i = block.StartIndex; i < block.EndIndex; i++)
+            {
+                OnStorageUpdated?.Invoke(i, 0);
+            }
+        }
+        
         ResetRuntimeStorage();
+        
         foreach (var block in InitialStorage)
         {
             RuntimeStorage.Add(block);
+            for (int i = block.StartIndex; i < block.EndIndex; i++)
+            {
+                OnStorageUpdated?.Invoke(i, block.Read(i));
+            }
         }
     }
 
@@ -42,7 +55,7 @@ public static class Memory
 
         accessPool.Release();
         
-        OnStorageUpdated?.Invoke(index);
+        OnStorageUpdated?.Invoke(index, data);
     }
     public static int Read(int index)
     {
@@ -87,7 +100,7 @@ public static class Memory
         var block = GetBlock(storage, index, BlockAddRange);
         if (block == null)
         {
-            if (data == 0) return;
+            // if (data == 0) return;
             block = new MemoryBlock(index, [data]);
             storage.Add(block);
         }

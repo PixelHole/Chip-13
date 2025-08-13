@@ -236,15 +236,13 @@ public partial class MemoryView
         
         Memory.WriteInitial(address, data);
     }
-    private void OnMemoryUpdated(int index)
+    private void OnMemoryUpdated(int index, int data)
     {
         if (Mode == ControlMode.Edit || index < CurrentPage * CellsPerPage || index >= (CurrentPage + 1) * CellsPerPage) return;
 
         int cellIndex = index % CellsPerPage;
 
         var cell = GetViewCell(cellIndex);
-
-        int data = Memory.Read(index);
         
         cell!.SetText("0x" + Convert.ToString(data, 16).PadLeft(8, '0'));
     }

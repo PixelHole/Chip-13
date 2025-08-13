@@ -81,8 +81,8 @@ public partial class MainWindow
 
     public void RunToEndButtonVisible(bool visible)
     {
-        if (RunToEndBtn.CheckAccess()) RunToEndBtn.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
-        else RunToEndBtn.Dispatcher.Invoke(() => RunToEndBtn.Visibility = visible ? Visibility.Visible : Visibility.Collapsed);
+        if (RunToEndBtn.CheckAccess()) RunToEndBtn.Visibility = visible && Mode == AppMode.Run ? Visibility.Visible : Visibility.Collapsed;
+        else RunToEndBtn.Dispatcher.Invoke(() => RunToEndBtn.Visibility = visible && Mode == AppMode.Run ? Visibility.Visible : Visibility.Collapsed);
     }
     
     private void StopBtn_OnClick(SquareButton sender)

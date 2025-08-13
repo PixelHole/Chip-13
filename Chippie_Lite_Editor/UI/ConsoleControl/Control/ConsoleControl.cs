@@ -196,7 +196,11 @@ public class ConsoleControl
         for (int i = 0; i < Glyphs.Count; i++)
         {
             var current = Glyphs[i];
-            if ((current.Processed != onlyUnprocessed) && current.Source == targetSource) buffer.Append(current.Text.ToString());
+            if ((current.Processed != onlyUnprocessed) && current.Source == targetSource)
+            {
+                buffer.Append(current.Text.ToString());
+                current.Processed = true;
+            }
             else continue;
 
             if (i >= Glyphs.Count - 1) continue;

@@ -43,12 +43,12 @@ public class MemoryBlock
         if (IsIndexInRange(memIndex) && Data.Count > 0) ReplaceData(memIndex, data);
         else if (memIndex < StartIndex) InsertDataToStart(memIndex, data);
         else InsertDataToEnd(memIndex, data);
-        if (data != 0) FilledCells++;
-        else FilledCells--;
     }
     private void ReplaceData(int memIndex, int data)
     {
         Data[MemoryToInternalIndex(memIndex)] = data;
+        if (data == 0) FilledCells--;
+        else FilledCells++;
     }
     private void InsertDataToEnd(int memIndex, int data)
     {
@@ -59,6 +59,8 @@ public class MemoryBlock
         }
 
         Data.Add(data);
+
+        if (data != 0) FilledCells++;
     }
     private void InsertDataToStart(int memIndex, int data)
     {
@@ -70,6 +72,8 @@ public class MemoryBlock
         }
 
         if (StartIndex < memIndex) StartIndex = memIndex;
+
+        if (data != 0) FilledCells++;
     }
     
 
