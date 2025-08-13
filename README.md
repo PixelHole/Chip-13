@@ -7,6 +7,8 @@
 Chip-13 (Chippie) is a light-weigh, not very well optimized emulator of a fantasy computer which allows you to run assembly code!
 this a safe environment to mess around and learn assembly and low level machine code. for anyone who is into that... I guess
 
+![bandicam2025-08-1314-05-58-508-ezgif.com-video-to-gif-converter.gif](Images/Gifs/bandicam2025-08-1314-05-58-508-ezgif.com-video-to-gif-converter.gif)
+
 ## Features :O
 Chip-13's specifications include and are limited to:
   1. A processor! (only one)
