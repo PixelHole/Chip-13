@@ -95,11 +95,10 @@ public static class Chippie
     private static bool CompileAndLoadAssembly(string raw)
     {
         if (IsRunning) return false;
-        List<Instruction> instructions = new List<Instruction>();
-        
+
         OnCompileStarted?.Invoke();
         
-        instructions = AssemblyTranslator.ParseScript(raw);
+        var instructions = AssemblyTranslator.ParseScript(raw);
         InstructionBank.ClearInstructions();
         InstructionBank.AddInstructions(instructions);
 
@@ -128,10 +127,12 @@ public static class Chippie
 
         SingleStep = StartSingleStep;
         CanRun = true;
-        ExecutionThread = new Thread(ExecutionLoop);
-        ExecutionThread.Name = "Execution thread";
-        StepThread = new Thread(ExecutionStep);
-        StepThread.Name = "Step thread";
+        ExecutionThread = new Thread(ExecutionLoop) {
+            Name = "Execution thread"
+        };
+        StepThread = new Thread(ExecutionStep) {
+            Name = "Step thread"
+        };
         ExecutionThread.Start();
     }
 

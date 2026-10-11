@@ -6,8 +6,8 @@ namespace Chippie_Lite_WPF.Computer.Instructions;
 public struct Instruction : IEquatable<Instruction>
 {
     public string Header { get; private set; }
-    public List<InstructionArgument> Arguments { get; private set; } = new List<InstructionArgument>();
-    public List<InstructionAction> Actions { get; private set; } = new List<InstructionAction>();
+    public List<InstructionArgument> Arguments { get; } = [];
+    public List<InstructionAction> Actions { get; } = [];
     public int ScriptLine { get; set; }
     public bool HasBreakpoint { get; set; }
 
