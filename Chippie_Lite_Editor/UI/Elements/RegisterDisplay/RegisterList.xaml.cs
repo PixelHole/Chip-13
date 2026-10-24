@@ -47,7 +47,7 @@ public partial class RegisterList : UserControl
     {
         RegisterListPanel.Children.Clear();
         
-        foreach (var register in Chippie.MainRegisterBank.GetAllRegisters())
+        foreach (var register in RegisterBank.GetAllRegisters())
         {
             AddRegisterItem(register);
         }

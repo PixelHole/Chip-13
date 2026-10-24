@@ -1,38 +1,28 @@
 ﻿using System.Text;
+using Chippie_Lite_WPF.Computer.Internal.Exceptions;
 
 namespace Chippie_Lite_WPF.Computer.Components
 {
-    public class RegisterBank : ChippieComponent
+    public static class RegisterBank
     {
-        private List<Register> Registers { get; set; } =
-        [
-            ..new[]
-            {
-                new Register("Instruction Pointer", "IP"),
-                new Register("A", "A"),
-                new Register("B", "B"),
-                new Register("C", "C"),
-                new Register("D", "D"),
-                new Register("E", "E"),
-                new Register("F", "F"),
-                new Register("High", "HG"),
-                new Register("Low", "LW"),
-                new Register("Stack Base", "SB"),
-                new Register("Stack Pointer", "SP"),
-                new Register("Input Buffer Count", "IB"),
-            }
-        ];
-        public bool Locked { get; private set; }
-    
+        private static List<Register> Registers { get; set; } = [];
+        public static bool Locked { get; private set; }
 
-        public bool AddRegister(Register register)
+        public static Register InstructionPointer =>
+            GetRegister("Instruction Pointer") ?? throw new RegisterNotFoundException(0, "IP");
+
+        public static Register InputBufferCount =>
+            GetRegister("Input Buffer Count") ?? throw new RegisterNotFoundException(0, "IB");
+        
+
+        public static bool AddRegister(Register register)
         {
             if (Locked) return false;
             if (GetRegister(register.Name) != null) return false;
             Registers.Add(register);
             return true;
         }
-        public int AddRegisters(IEnumerable<Register> registers)
+        public static int AddRegisters(IEnumerable<Register> registers)
         {
             if (Locked) return 0;
             int count = 0;
@@ -44,7 +34,7 @@ namespace Chippie_Lite_WPF.Computer.Components
 
             return count;
         }
-        public int AddRegisters(params Register[] registers)
+        public static int AddRegisters(params Register[] registers)
         {
             if (Locked) return 0;
             int count = 0;
@@ -56,12 +46,12 @@ namespace Chippie_Lite_WPF.Computer.Components
 
             return count;
         }
-        public bool RemoveRegister(Register register)
+        public static bool RemoveRegister(Register register)
         {
             if (Locked) return false;
             return Registers.Remove(register);
         }
-        public int RemoveRegisters(IEnumerable<Register> registers)
+        public static int RemoveRegisters(IEnumerable<Register> registers)
         {
             if (Locked) return 0;
         
@@ -75,11 +65,11 @@ namespace Chippie_Lite_WPF.Computer.Components
             return count;
         }
 
-        public void Clear()
+        public static void Clear()
         {
             Registers.Clear();
         }
-        public void ResetRegisters()
+        public static void ResetRegisters()
         {
             foreach (var register in Registers)
             {
@@ -87,7 +77,7 @@ namespace Chippie_Lite_WPF.Computer.Components
             }
         }
 
-        public Register[] GetAllRegisters()
+        public static Register[] GetAllRegisters()
         {
             Register[] registers = new Register[Registers.Count];
 
@@ -99,20 +89,20 @@ namespace Chippie_Lite_WPF.Computer.Components
             return registers;
         }
         
-        public Register GetRegister(int index)
+        public static Register GetRegister(int index)
         {
             return Registers[WrapIndex(index)];
         }
-        public Register? GetRegister(string name)
+        public static Register? GetRegister(string name)
         {
             return FindRegister(reg => string.Equals(reg.Name, name, StringComparison.CurrentCultureIgnoreCase));
         }
-        public Register? GetRegisterById(string id)
+        public static Register? GetRegisterById(string id)
         {
             return FindRegister(reg => string.Equals(reg.Id, id, StringComparison.CurrentCultureIgnoreCase));
         }
 
-        public List<Register> GetRegisters(IEnumerable<int> indices)
+        public static List<Register> GetRegisters(IEnumerable<int> indices)
         {
             List<Register> registers = new List<Register>();
             if (Registers.Count == 0) return registers;
@@ -124,7 +114,7 @@ namespace Chippie_Lite_WPF.Computer.Components
 
             return registers;
         }
-        public List<Register> GetRegisters(IEnumerable<string> names)
+        public static List<Register> GetRegisters(IEnumerable<string> names)
         {
             List<Register> registers = new List<Register>();
             if (Registers.Count == 0) return registers;
@@ -138,26 +128,26 @@ namespace Chippie_Lite_WPF.Computer.Components
             return registers;
         }
         
-        public Register? FindRegister(Predicate<Register> predicate)
+        public static Register? FindRegister(Predicate<Register> predicate)
         {
             return Registers.Find(predicate);
         }
 
-        public int IndexOf(Register register)
+        public static int IndexOf(Register register)
         {
             return Registers.IndexOf(register);
         }
-        public int IndexOf(string name)
+        public static int IndexOf(string name)
         {
             Register? match = GetRegister(name);
             if (match == null) return -1;
             return IndexOf(match);
         }
 
-        public void Lock() => Locked = true;
-        public void Unlock() => Locked = false;
+        public static void Lock() => Locked = true;
+        public static void Unlock() => Locked = false;
 
-        private int WrapIndex(int index)
+        private static int WrapIndex(int index)
         {
             if (Registers.Count == 0) return 0;
             if (index >= Registers.Count) return index % Registers.Count;
@@ -165,7 +155,7 @@ namespace Chippie_Lite_WPF.Computer.Components
             return index;
         }
 
-        public string GetRegistersCsv()
+        public static string GetRegistersCsv()
         {
             StringBuilder res = new StringBuilder();
 

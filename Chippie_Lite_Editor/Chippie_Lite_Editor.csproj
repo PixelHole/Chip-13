@@ -102,6 +102,10 @@
       <Resource Include="Resources\Images\Icons\ThumbRight.png" />
       <None Remove="Resources\Images\Icons\SaveAs.png" />
       <Resource Include="Resources\Images\Icons\SaveAs.png" />
+      <None Remove="Default instance\Default.json" />
+      <EmbeddedResource Include="Default instance\Default.json">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>

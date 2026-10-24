@@ -24,8 +24,8 @@ public class RegisterNumberArgument : InstructionArgument
     public Register GetRegister()
     {
         int index = (int)NumberArgument.Number;
-        if (RegisterArgument.Register != null) index += Chippie.MainRegisterBank.IndexOf(RegisterArgument.Register);
-        return Chippie.MainRegisterBank.GetRegister(index);
+        if (RegisterArgument.Register != null) index += RegisterBank.IndexOf(RegisterArgument.Register);
+        return RegisterBank.GetRegister(index);
     }
     
     public override string ToString()

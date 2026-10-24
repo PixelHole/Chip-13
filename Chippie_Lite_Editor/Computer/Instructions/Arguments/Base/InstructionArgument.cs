@@ -12,7 +12,7 @@ public abstract class InstructionArgument
             case RegisterArgument registerArgument:
                 return registerArgument.Register!;
             case NumberArgument numberArgument:
-                return Chippie.MainRegisterBank.GetRegister((int)numberArgument.Number);
+                return RegisterBank.GetRegister((int)numberArgument.Number);
             case RegisterNumberArgument registerNumberArgument:
                 return registerNumberArgument.GetRegister();
             default:

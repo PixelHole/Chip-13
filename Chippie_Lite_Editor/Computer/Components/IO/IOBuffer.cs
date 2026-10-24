@@ -1,56 +1,47 @@
 ﻿using System.Threading.Tasks.Dataflow;
 using System.Windows.Input;
+using Chippie_Lite_WPF.Computer.Internal.Exceptions;
 using Chippie_Lite_WPF.Computer.Utility;
 
 namespace Chippie_Lite_WPF.Computer.Components;
 
-public class IOBuffer : ChippieComponent
+public static class IOBuffer
 {
-    private Register? bufferCountRegister;
-    private readonly Semaphore inputAccessPool = new(1, 1);
-    private readonly Semaphore outputAccessPool = new(1, 1);
-    private BufferBlock<long> InputBuffer { get; } = new();
-    private BufferBlock<Key> KeyInputBuffer { get; } = new();
-    private Queue<string> OutputBuffer { get; } = new();
+    private static readonly Semaphore inputAccessPool = new(1, 1);
+    private static readonly Semaphore outputAccessPool = new(1, 1);
+    private static BufferBlock<long> InputBuffer { get; } = new();
+    private static BufferBlock<Key> KeyInputBuffer { get; } = new();
+    private static Queue<string> OutputBuffer { get; } = new();
     
-    public bool WaitingForInput { get; private set; }
-
-    public Register BufferCountRegister
-    {
-        get
-        {
-            if (bufferCountRegister == null) bufferCountRegister = Chippie.MainRegisterBank.GetRegister("Input Buffer Count")!;
-            return bufferCountRegister;
-        }
-    }
+    public static bool WaitingForInput { get; private set; }
 
 
     public delegate void WaitForInputStartAction();
-    public event WaitForInputStartAction? OnWaitForInputStart;
+    public static event WaitForInputStartAction? OnWaitForInputStart;
     
     public delegate void WaitForInputEndAction();
-    public event WaitForInputEndAction? OnWaitForInputEnd;
+    public static event WaitForInputEndAction? OnWaitForInputEnd;
 
     public delegate void WaitForKeyInputStartAction();
-    public event WaitForKeyInputStartAction? OnWaitForKeyInputStart;
+    public static event WaitForKeyInputStartAction? OnWaitForKeyInputStart;
     
     public delegate void WaitForKeyInputEndAction();
-    public event WaitForKeyInputEndAction? OnWaitForKeyInputEnd;
+    public static event WaitForKeyInputEndAction? OnWaitForKeyInputEnd;
     
     public delegate void OutputBufferedAction();
-    public event OutputBufferedAction? OnOutputBuffered;
+    public static event OutputBufferedAction? OnOutputBuffered;
     
     public delegate void InputBufferedAction();
-    public event InputBufferedAction? OnInputBuffered;
+    public static event InputBufferedAction? OnInputBuffered;
     
     public delegate void KeyInputBufferedAction();
-    public event KeyInputBufferedAction? OnKeyInputBuffered;
+    public static event KeyInputBufferedAction? OnKeyInputBuffered;
     
 
-    public void BufferInput(string input)
+    public static void BufferInput(string input)
     {
         long[] nums = SerialUtility.AsciiToInts(input);
-        BufferCountRegister.Content += nums.Length;
+        RegisterBank.InputBufferCount.Content += nums.Length;
         
         inputAccessPool.WaitOne();
 
@@ -63,7 +54,7 @@ public class IOBuffer : ChippieComponent
         
         OnInputBuffered?.Invoke();
     }
-    public async Task<long> GetInput()
+    public static async Task<long> GetInput()
     {
         long res;
         
@@ -82,16 +73,16 @@ public class IOBuffer : ChippieComponent
             res = InputBuffer.Receive();
         }
 
-        BufferCountRegister.Content--;
+        RegisterBank.InputBufferCount.Content--;
         return res;
     }
-    public void FlushInputBuffer()
+    public static void FlushInputBuffer()
     {
         InputBuffer.TryReceiveAll(out _);
-        BufferCountRegister.Content = 0;
+        RegisterBank.InputBufferCount.Content = 0;
     }
 
-    public void BufferKeyInput(Key key)
+    public static void BufferKeyInput(Key key)
     {
         inputAccessPool.WaitOne();
         
@@ -101,7 +92,7 @@ public class IOBuffer : ChippieComponent
         
         OnKeyInputBuffered?.Invoke();
     }
-    public async Task<Key> GetKeyInput()
+    public static async Task<Key> GetKeyInput()
     {
         Key res;
         
@@ -122,9 +113,9 @@ public class IOBuffer : ChippieComponent
 
         return res;
     }
-    public void FlushKeyInputBuffer() => KeyInputBuffer.TryReceiveAll(out _);
+    public static void FlushKeyInputBuffer() => KeyInputBuffer.TryReceiveAll(out _);
     
-    public void BufferOutput(int[] output)
+    public static void BufferOutput(int[] output)
     {
         string parsed = SerialUtility.IntsToAscii(output);
         
@@ -136,7 +127,7 @@ public class IOBuffer : ChippieComponent
         
         OnOutputBuffered?.Invoke();
     }
-    public string GetOutput()
+    public static string GetOutput()
     {
         outputAccessPool.WaitOne();
 
@@ -146,9 +137,9 @@ public class IOBuffer : ChippieComponent
 
         return output;
     }
-    public void FlushOutputBuffer() => OutputBuffer.Clear();
+    public static void FlushOutputBuffer() => OutputBuffer.Clear();
 
-    public void FullFlush()
+    public static void FullFlush()
     {
         FlushInputBuffer();
         FlushKeyInputBuffer();

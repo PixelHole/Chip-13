@@ -1,4 +1,6 @@
-﻿namespace Chippie_Lite_WPF.Computer.Components;
+﻿using System.Text.Json.Serialization;
+
+namespace Chippie_Lite_WPF.Computer.Components;
 
 public class Register
 {
@@ -13,7 +15,7 @@ public class Register
         set
         {
             bool changed = value != _content;
-            _content = LengthLimit == 64 ? _content : _content & ContentMask;
+            _content = LengthLimit == 64 ? value : value & ContentMask;
             if (changed) OnContentChanged?.Invoke(_content);
         }
     }
@@ -34,12 +36,14 @@ public class Register
     public event ContentChangeAction? OnContentChanged;
         
         
-    public Register(string name, string id, int content = 0, int defaultValue = 0)
+    [JsonConstructor]
+    public Register(string name, string id, long content = 0, long defaultValue = 0, byte lengthLimit = 32)
     {
         Name = name;
         Id = id;
         Content = content;
         DefaultValue = defaultValue;
+        LengthLimit = lengthLimit;
     }
 
     public void ResetContent()

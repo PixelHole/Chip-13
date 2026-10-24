@@ -134,11 +134,11 @@ public partial class ConsoleGlyph
 
     public void SetForeground(int index)
     {
-        Foreground = new SolidColorBrush(Chippie.MainColorLibrary.GetColor(index));
+        Foreground = new SolidColorBrush(ColorLibrary.GetColor(index));
     }
     public void SetBackground(int index)
     {
-        Background = new SolidColorBrush(Chippie.MainColorLibrary.GetColor(index));
+        Background = new SolidColorBrush(ColorLibrary.GetColor(index));
     }
     
     public override string ToString()

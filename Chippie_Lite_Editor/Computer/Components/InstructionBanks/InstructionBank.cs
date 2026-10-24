@@ -2,14 +2,14 @@
 
 namespace Chippie_Lite_WPF.Computer.Components;
 
-public class InstructionBank : ChippieComponent
+public static class InstructionBank
 {
-    public List<Instruction> Instructions { get; private set; } = new List<Instruction>();
-    public long Count => Instructions.Count;
+    public static List<Instruction> Instructions { get; private set; } = new List<Instruction>();
+    public static long Count => Instructions.Count;
     
     
-    public void AddInstruction(Instruction ins) => Instructions.Add(ins);
-    public void AddInstructions(IEnumerable<Instruction> instructions)
+    public static void AddInstruction(Instruction ins) => Instructions.Add(ins);
+    public static void AddInstructions(IEnumerable<Instruction> instructions)
     {
         foreach (var instruction in instructions)
         {
@@ -17,8 +17,8 @@ public class InstructionBank : ChippieComponent
         }
     }
 
-    public bool RemoveInstruction(Instruction ins) => Instructions.Remove(ins);
-    public int RemoveInstructions(IEnumerable<Instruction> instructions)
+    public static bool RemoveInstruction(Instruction ins) => Instructions.Remove(ins);
+    public static int RemoveInstructions(IEnumerable<Instruction> instructions)
     {
         int count = 0;
         foreach (var instruction in instructions)
@@ -28,19 +28,19 @@ public class InstructionBank : ChippieComponent
         return count;
     }
 
-    public void ReplaceInstruction(int index, Instruction newIns)
+    public static void ReplaceInstruction(int index, Instruction newIns)
     {
         Instructions[WrapIndex(index)] = newIns;
     }
 
-    public void ClearInstructions()
+    public static void ClearInstructions()
     {
         Instructions.Clear();
     }
     
-    public Instruction GetInstruction(int index) => Instructions[WrapIndex(index)];
+    public static Instruction GetInstruction(int index) => Instructions[WrapIndex(index)];
 
-    private int WrapIndex(int index)
+    private static int WrapIndex(int index)
     {
         if (Count == 0) return 0;
         if (index >= Instructions.Count) return index % Instructions.Count;

@@ -20,7 +20,7 @@ public partial class RunView : UserControl
 
     public void LoadRunData()
     {
-        InstructionDisplayList.SetListItems(Chippie.MainInstructionBank.Instructions);
+        InstructionDisplayList.SetListItems(InstructionBank.Instructions);
     }
 
     private void ToggleRegistersBtn_OnOnSelected(ToggleButton sender, bool selected)

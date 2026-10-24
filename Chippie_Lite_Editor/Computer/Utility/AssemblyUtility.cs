@@ -100,8 +100,8 @@ namespace Chippie_Lite_WPF.Computer.Utility
             }
 
             var register = NumberUtility.TryParseNumber(registerId, out long index)
-                ? Chippie.MainRegisterBank.GetRegister((int)index)
-                : Chippie.MainRegisterBank.GetRegisterById(registerId);
+                ? RegisterBank.GetRegister((int)index)
+                : RegisterBank.GetRegisterById(registerId);
         
             if (register == null) throw new RegisterNotFoundException(0, registerId);
 

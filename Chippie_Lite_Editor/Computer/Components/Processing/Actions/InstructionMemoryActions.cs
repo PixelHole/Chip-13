@@ -11,8 +11,11 @@ public static class InstructionMemoryActions
         
         var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
         var address = (int)InstructionArgument.GetNumber(arguments[action.Indices[1]]);
+        int moduleIndex = action.Indices[2];
 
-        dest.Content = Chippie.MainMemory.Read(address);
+        var modules = ChippieComponentManager.GetComponentsOfType<Memory>();
+        
+        dest.Content = modules[moduleIndex].Read(address);
     }
     internal static void Write(InstructionAction action, IList<InstructionArgument> arguments)
     {
@@ -20,7 +23,10 @@ public static class InstructionMemoryActions
         
         var content = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
         var address = (int)InstructionArgument.GetNumber(arguments[action.Indices[1]]);
+        int moduleIndex = action.Indices[2];
 
-        Chippie.MainMemory.Write(address, content);
+        var modules = ChippieComponentManager.GetComponentsOfType<Memory>();
+        
+        modules[moduleIndex].Write(address, content);
     }
 }

@@ -10,63 +10,8 @@ namespace Chippie_Lite_WPF.Computer.Components;
 
 public static class InstructionSet
 {
-    private static List<InstructionTemplate> Templates { get; set; } =
-    [
-        new InstructionTemplate("Add",
-            "add",
-            [
-                InstructionArgumentType.Register, InstructionArgumentType.RegisterAndValue,
-                InstructionArgumentType.RegisterAndValue
-            ],
-            [
-                new InstructionAction("Add", [0, 1, 2])
-            ]),
-        new InstructionTemplate("Subtract",
-            "sub",
-            [
-                InstructionArgumentType.Register, InstructionArgumentType.RegisterAndValue,
-                InstructionArgumentType.RegisterAndValue
-            ],
-            [
-                new InstructionAction("subtract", [0, 1, 2])
-            ]),
-        new InstructionTemplate("shift left",
-            "sll",
-            [
-                InstructionArgumentType.Register, InstructionArgumentType.RegisterAndValue,
-                InstructionArgumentType.RegisterAndValue
-            ],
-            [
-                new InstructionAction("shift left logic", [0, 1, 2])
-            ]),
-        new InstructionTemplate("shift right",
-            "srl",
-            [
-                InstructionArgumentType.Register, InstructionArgumentType.RegisterAndValue,
-                InstructionArgumentType.RegisterAndValue
-            ],
-            [
-                new InstructionAction("shift right logic", [0, 1, 2])
-            ]),
-        new InstructionTemplate("serial input",
-            "inp",
-            [
-                InstructionArgumentType.Register
-            ],
-            [
-                new InstructionAction("serial input", [0])
-            ]),
-        new InstructionTemplate("serial output",
-            "out",
-            [
-                InstructionArgumentType.RegisterAndValue,
-            ],
-            [
-                new InstructionAction("serial output", [0])
-            ])
-    ];
-
-    public static readonly string SavePath = "InstructionSet.json"; 
+    private static List<InstructionTemplate> Templates { get; set; } = [];
+    
     
     public static InstructionTemplate? FindTemplate(string header)
     {
@@ -92,13 +37,9 @@ public static class InstructionSet
 
         return csv.ToString();
     }
-    
-    public static void SaveSet(string path)
+    public static InstructionTemplate[] GetTemplates()
     {
-        JsonFileUtility.SerializeAndWrite(Templates, path);
+        return Templates.ToArray();
     }
-    public static void LoadSet(string path)
-    {
-        Templates = JsonFileUtility.ReadAndDeserialize<List<InstructionTemplate>>(path);
-    }
+    public static void SetTemplates(InstructionTemplate[] templates) => Templates = [..templates];
 }

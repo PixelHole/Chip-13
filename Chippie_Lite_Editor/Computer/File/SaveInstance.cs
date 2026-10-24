@@ -8,17 +8,13 @@ namespace Chippie_Lite_WPF.Computer.File;
 public class SaveInstance
 {
     public string Code { get; set; }
-    public RegisterSaveInstance[] Registers { get; }
-    public MemoryBlockSaveInstance[] MemoryBlocks { get; }
     public EnvironmentConfig Config { get; }
 
 
     [JsonConstructor]
-    public SaveInstance(string code, RegisterSaveInstance[] registers, MemoryBlockSaveInstance[] memoryBlocks, EnvironmentConfig config)
+    public SaveInstance(string code, EnvironmentConfig config)
     {
         Code = code;
-        Registers = registers;
-        MemoryBlocks = memoryBlocks;
         Config = config;
     }
 }

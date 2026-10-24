@@ -2,13 +2,14 @@
 
 public class Memory : ChippieComponent
 {
-    private readonly int BlockAddRange = 3;
+    internal readonly int BlockAddRange;
     private List<MemoryBlock> RuntimeStorage { get; set; } = [];
     private List<MemoryBlock> InitialStorage { get; set; } = [];
     public bool ReadOnly { get; private set; }
 
-    public int Size { get; set; } = 8192;
-    public byte LengthLimit { get; set; } = 32;
+    public int Size { get; set; }
+    public byte LengthLimit { get; set; }
+    public bool Permanent { get; set; } = false; 
     
     private long Mask
     {
@@ -28,11 +29,20 @@ public class Memory : ChippieComponent
     public event InitialStorageUpdateAction? OnInitialStorageUpdated;
 
 
+    public Memory(int blockAddRange = 3, bool readOnly = false, bool permanent = false, int size = 8192, byte lengthLimit = 32)
+    {
+        BlockAddRange = blockAddRange;
+        ReadOnly = readOnly;
+        Permanent = permanent;
+        Size = size;
+        LengthLimit = lengthLimit;
+    }
+
     internal void ResetRuntimeStorage()
     {
         RuntimeStorage.Clear();
     }
-    internal void CopyInitialStorageToRuntime()
+    internal void ResetToInitialStorage()
     {
         foreach (var block in RuntimeStorage)
         {

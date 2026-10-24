@@ -85,7 +85,7 @@ public partial class CodeEditView
             WholeWordsOnly = true,
         };
 
-        var registers = Chippie.MainRegisterBank.GetRegistersCsv();
+        var registers = RegisterBank.GetRegistersCsv();
         
         KeywordRule registersRule = new KeywordRule()
         {

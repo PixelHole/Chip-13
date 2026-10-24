@@ -33,6 +33,12 @@ public static class JsonFileUtility
         reader.Dispose();
         reader.Close();
         
+        return Deserialize<T>(json);
+    }
+    public static T Deserialize<T>(string json)
+    {
+        T result;
+        
         try
         {
             result = JsonSerializer.Deserialize<T>(json, JsonSerializerOptions.Web) ?? throw new ArgumentNullException();

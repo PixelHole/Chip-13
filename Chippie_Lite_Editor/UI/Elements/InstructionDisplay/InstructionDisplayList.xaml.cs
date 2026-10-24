@@ -19,7 +19,7 @@ public partial class InstructionDisplayList : UserControl
     }
     private void FetchIP()
     {
-        InstructionPointer = Chippie.MainRegisterBank.GetRegister("Instruction Pointer")!;
+        InstructionPointer = RegisterBank.GetRegister("Instruction Pointer")!;
     }
     private void ConnectEvents()
     {

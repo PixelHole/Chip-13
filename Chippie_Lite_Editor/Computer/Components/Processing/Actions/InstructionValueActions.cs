@@ -44,8 +44,8 @@ public static class InstructionValueActions
 
         long result = a * b;
 
-        Register high = Chippie.MainRegisterBank.GetRegister("High")!;
-        Register low = Chippie.MainRegisterBank.GetRegister("low")!;
+        Register high = RegisterBank.GetRegister("High")!;
+        Register low = RegisterBank.GetRegister("low")!;
 
         low.Content = (int)result;
         long shift = (long)Math.Pow(2, 32);
@@ -61,8 +61,8 @@ public static class InstructionValueActions
 
         long result = (int)Math.Pow(a, b);
 
-        Register high = Chippie.MainRegisterBank.GetRegister("High")!;
-        Register low = Chippie.MainRegisterBank.GetRegister("low")!;
+        Register high = RegisterBank.GetRegister("High")!;
+        Register low = RegisterBank.GetRegister("low")!;
 
         low.Content = (int)result;
         long shift = (long)Math.Pow(2, 32);

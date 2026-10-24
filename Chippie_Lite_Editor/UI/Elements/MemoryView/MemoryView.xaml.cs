@@ -22,6 +22,8 @@ public partial class MemoryView
     private Brush ValidNumberBrush { get; set; } = null!;
 
     private List<MemoryViewCell> Cells = new();
+
+    private Memory assignedMemoryModule => ChippieComponentManager.GetComponentOfType<Memory>()!;
     
     public ControlMode Mode
     {
@@ -35,7 +37,7 @@ public partial class MemoryView
         } 
     }
 
-    public int PageCount => Chippie.MainMemory.Size / CellsPerPage;
+    public int PageCount => assignedMemoryModule.Size / CellsPerPage;
     public int CellsPerPage
     {
         get => _cellsPerPage;
@@ -73,7 +75,7 @@ public partial class MemoryView
     }
     private void ConnectEvents()
     {
-        Chippie.MainMemory.OnStorageUpdated += OnMemoryUpdated;
+        assignedMemoryModule.OnStorageUpdated += OnMemoryUpdated;
     }
     private void CreateCells()
     {
@@ -150,7 +152,7 @@ public partial class MemoryView
     private void UpdateCellContent()
     {
         int start = CurrentPage * CellsPerPage,
-            end = int.Min(start + 128, Chippie.MainMemory.Size);
+            end = int.Min(start + 128, assignedMemoryModule.Size);
 
         for (int i = 0; i < CellsPerPage; i++)
         {
@@ -166,7 +168,7 @@ public partial class MemoryView
             
             cell.SetAddressText("0x" + Convert.ToString(address, 16).PadLeft(8, '0'));
 
-            long data = Chippie.MainMemory.Read(address);
+            long data = assignedMemoryModule.Read(address);
             
             cell.SetText(NumberUtility.ToHex(data));
         }
@@ -235,7 +237,7 @@ public partial class MemoryView
 
         int address = CurrentPage * CellsPerPage + CellGrid.Children.IndexOf(sender);
         
-        Chippie.MainMemory.WriteInitial(address, data);
+        assignedMemoryModule.WriteInitial(address, data);
     }
     private void OnMemoryUpdated(int index, long data)
     {
@@ -250,7 +252,7 @@ public partial class MemoryView
 
     private void GoToSearchedAddress()
     {
-        if (searchIndex < 0 || searchIndex >= Chippie.MainMemory.Size) return;
+        if (searchIndex < 0 || searchIndex >= assignedMemoryModule.Size) return;
 
         int page = (int)searchIndex / CellsPerPage;
         int index = (int)searchIndex % CellsPerPage;

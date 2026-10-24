@@ -5,12 +5,12 @@ using wpf_Console;
 
 namespace Chippie_Lite_WPF.Computer.Components;
 
-public class IOInterface : ChippieComponent
+public static class IOInterface
 {
-    private Vector2Int displaySize = new(32, 16);
+    private static Vector2Int displaySize = new(32, 16);
 
 
-    public Vector2Int DisplaySize
+    public static Vector2Int DisplaySize
     {
         get => displaySize;
         set
@@ -22,36 +22,36 @@ public class IOInterface : ChippieComponent
     }
 
     public delegate void SetDisplaySizeAction(Vector2Int size);
-    public event SetDisplaySizeAction? DisplaySizeSet;
+    public static event SetDisplaySizeAction? DisplaySizeSet;
     
     public delegate void ConsoleBackgroundSetAction(int index);
-    public event ConsoleBackgroundSetAction? SetConsoleBackgroundRequest;
+    public static event ConsoleBackgroundSetAction? SetConsoleBackgroundRequest;
     
     public delegate void BackgroundSetAction(int index);
-    public event BackgroundSetAction? SetBackgroundRequest;
+    public static event BackgroundSetAction? SetBackgroundRequest;
 
     public delegate void ForegroundSetAction(int index);
-    public event ForegroundSetAction? SetForegroundRequest;
+    public static event ForegroundSetAction? SetForegroundRequest;
 
     public delegate void CursorSetAction(Vector2Int position);
-    public event CursorSetAction? SetCursorRequest;
+    public static event CursorSetAction? SetCursorRequest;
     
     public delegate void CursorSetLeftAction(int left);
-    public event CursorSetLeftAction? SetCursorLeftRequest;
+    public static event CursorSetLeftAction? SetCursorLeftRequest;
     
     public delegate void CursorSetTopAction(int top);
-    public event CursorSetTopAction? SetCursorTopRequest;
+    public static event CursorSetTopAction? SetCursorTopRequest;
     
     public delegate void ConsoleClearAction();
-    public event ConsoleClearAction? ClearConsoleRequest;
+    public static event ConsoleClearAction? ClearConsoleRequest;
     
-    public void SetCursor(Vector2Int cursor) => SetCursorRequest?.Invoke(cursor);
-    public void SetCursorLeft(int left) => SetCursorLeftRequest?.Invoke(left);
-    public void SetCursorTop(int top) => SetCursorTopRequest?.Invoke(top);
+    public static void SetCursor(Vector2Int cursor) => SetCursorRequest?.Invoke(cursor);
+    public static void SetCursorLeft(int left) => SetCursorLeftRequest?.Invoke(left);
+    public static void SetCursorTop(int top) => SetCursorTopRequest?.Invoke(top);
 
-    public void SetConsoleBackgroundIndex(int index) => SetConsoleBackgroundRequest?.Invoke(index);
-    public void SetForegroundIndex(int index) => SetForegroundRequest?.Invoke(index);
-    public void SetBackgroundIndex(int index) => SetBackgroundRequest?.Invoke(index);
+    public static void SetConsoleBackgroundIndex(int index) => SetConsoleBackgroundRequest?.Invoke(index);
+    public static void SetForegroundIndex(int index) => SetForegroundRequest?.Invoke(index);
+    public static void SetBackgroundIndex(int index) => SetBackgroundRequest?.Invoke(index);
 
-    public void ClearConsole() => ClearConsoleRequest?.Invoke();
+    public static void ClearConsole() => ClearConsoleRequest?.Invoke();
 }
