@@ -14,8 +14,8 @@ public partial class ConsoleView : UserControl
 {
     private bool initialized = false;
     private ConsoleControl Control = null!;
-    
-    public Vector2Int GlyphCount { get; set; } = new Vector2Int(32, 16);
+
+    public Vector2Int GlyphCount { get; private set; } = new Vector2Int(32, 16);
     public int GlyphCountX
     {
         get => GlyphCount.x;
@@ -41,6 +41,7 @@ public partial class ConsoleView : UserControl
         SetupWindow();
         SetupCaret();
         ConnectEvents();
+        Initialize();
     }
     private void SetupWindow()
     {
@@ -65,6 +66,12 @@ public partial class ConsoleView : UserControl
         IOInterface.DisplaySizeSet += IOInterfaceOnDisplaySizeSet;
         IOInterface.SetConsoleBackgroundRequest += IOInterfaceOnSetConsoleBackgroundRequest;
         Chippie.OnRunStarted += ChippieOnOnRunStarted;
+    }
+    private void Initialize()
+    {
+        Control.Clear();
+        GlyphCount = IOInterface.DisplaySize;
+        UpdateGlyph(Caret);
     }
 
     internal ConsoleGlyph CreateGlyph(char text, int foregroundIndex, int backgroundIndex, Vector2Int position, ConsoleInputSource source)
@@ -193,6 +200,7 @@ public partial class ConsoleView : UserControl
     {
         Control.Clear();
         GlyphCount = size;
+        UpdateGlyph(Caret);
     }
     private void IOInterfaceOnSetConsoleBackgroundRequest(int index)
     {
