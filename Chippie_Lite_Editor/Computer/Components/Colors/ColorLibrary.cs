@@ -2,9 +2,9 @@
 
 namespace Chippie_Lite_WPF.Computer.Components;
 
-public static class ColorLibrary
+public class ColorLibrary : ChippieComponent
 {
-    public static Color[] Colors { get; } = new[]
+    public Color[] Colors { get; } = new[]
     {
         Color.FromRgb(0, 0, 0),
         Color.FromRgb(29, 43, 83),
@@ -24,14 +24,14 @@ public static class ColorLibrary
         Color.FromRgb(255, 204, 170),
     };
 
-    public static Color GetColor(int index)
+    public Color GetColor(int index)
     {
         index = WrapIndex(index);
 
         return Colors[index];
     }
 
-    private static int WrapIndex(int index)
+    private int WrapIndex(int index)
     {
         if (index > Colors.Length) index %= Colors.Length;
         if (index < 0) index = Colors.Length - (-index % Colors.Length);

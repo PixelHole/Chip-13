@@ -53,21 +53,21 @@ public class ConsoleControl
     }
     private void ConnectEvents()
     {
-        IOBuffer.OnWaitForKeyInputStart += () => SetInputMode(ConsoleInputMode.Key);
-        IOBuffer.OnWaitForKeyInputEnd += () => SetInputMode(ConsoleInputMode.None);
-        IOBuffer.OnWaitForInputStart += () => SetInputMode(ConsoleInputMode.Text);
-        IOBuffer.OnWaitForInputEnd += () => SetInputMode(ConsoleInputMode.None);
+        Chippie.MainIOBuffer.OnWaitForKeyInputStart += () => SetInputMode(ConsoleInputMode.Key);
+        Chippie.MainIOBuffer.OnWaitForKeyInputEnd += () => SetInputMode(ConsoleInputMode.None);
+        Chippie.MainIOBuffer.OnWaitForInputStart += () => SetInputMode(ConsoleInputMode.Text);
+        Chippie.MainIOBuffer.OnWaitForInputEnd += () => SetInputMode(ConsoleInputMode.None);
 
-        IOBuffer.OnOutputBuffered += SerialIOOnOnOutputBuffered;
+        Chippie.MainIOBuffer.OnOutputBuffered += SerialIOOnOnOutputBuffered;
         
         Chippie.OnRunStarted += ChippieOnOnRunStarted;
         
-        IOInterface.SetBackgroundRequest += InstructionIOActionsOnSetBackgroundRequest;
-        IOInterface.SetForegroundRequest += InstructionIOActionsOnSetForegroundRequest; 
-        IOInterface.SetCursorRequest += InstructionIOActionsOnSetCursorRequest; 
-        IOInterface.SetCursorLeftRequest += InstructionIOActionsOnSetCursorLeftRequest;
-        IOInterface.SetCursorTopRequest += InstructionIoActionsOnSetCursorTopRequest;
-        IOInterface.ClearConsoleRequest += Clear;
+        Chippie.MainIoInterface.SetBackgroundRequest += InstructionIOActionsOnSetBackgroundRequest;
+        Chippie.MainIoInterface.SetForegroundRequest += InstructionIOActionsOnSetForegroundRequest; 
+        Chippie.MainIoInterface.SetCursorRequest += InstructionIOActionsOnSetCursorRequest; 
+        Chippie.MainIoInterface.SetCursorLeftRequest += InstructionIOActionsOnSetCursorLeftRequest;
+        Chippie.MainIoInterface.SetCursorTopRequest += InstructionIoActionsOnSetCursorTopRequest;
+        Chippie.MainIoInterface.ClearConsoleRequest += Clear;
     }
 
     internal void SetInputMode(ConsoleInputMode mode) => InputMode = mode;
@@ -76,7 +76,7 @@ public class ConsoleControl
     {
         if (InputMode == ConsoleInputMode.Key)
         {
-            IOBuffer.BufferKeyInput(key);
+            Chippie.MainIOBuffer.BufferKeyInput(key);
             return;
         }
         
@@ -168,7 +168,7 @@ public class ConsoleControl
 
         foreach (var sentence in sentences)
         {
-            IOBuffer.BufferInput(sentence);
+            Chippie.MainIOBuffer.BufferInput(sentence);
         }
     }
 
@@ -524,7 +524,7 @@ public class ConsoleControl
     
     private void SerialIOOnOnOutputBuffered()
     {
-        var output = IOBuffer.GetOutput();
+        var output = Chippie.MainIOBuffer.GetOutput();
         Write(output, ConsoleInputSource.System, false);
     }
     private void ChippieOnOnRunStarted()

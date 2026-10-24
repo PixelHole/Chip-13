@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Chippie_Lite_WPF.Computer;
 using Chippie_Lite_WPF.Computer.Components;
 using UI.SyntaxBox;
 
@@ -84,7 +85,7 @@ public partial class CodeEditView
             WholeWordsOnly = true,
         };
 
-        var registers = RegisterBank.GetRegistersCsv();
+        var registers = Chippie.MainRegisterBank.GetRegistersCsv();
         
         KeywordRule registersRule = new KeywordRule()
         {

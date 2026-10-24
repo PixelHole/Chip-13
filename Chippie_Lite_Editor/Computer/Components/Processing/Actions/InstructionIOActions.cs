@@ -12,7 +12,7 @@ public static class InstructionIOActions
         
         var reg = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
 
-        int input = IOBuffer.GetInput().Result;
+        long input = Chippie.MainIOBuffer.GetInput().Result;
 
         reg.Content = input;
     }
@@ -22,7 +22,7 @@ public static class InstructionIOActions
         
         var reg = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
 
-        int input = (int)IOBuffer.GetKeyInput().Result;
+        int input = (int)Chippie.MainIOBuffer.GetKeyInput().Result;
 
         reg.Content = input;
     }
@@ -30,71 +30,71 @@ public static class InstructionIOActions
     {
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 1);
         
-        var val = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
+        var val = (int)InstructionArgument.GetNumber(arguments[action.Indices[0]]);
         
-        IOBuffer.BufferOutput([val]);
+        Chippie.MainIOBuffer.BufferOutput([val]);
     }
     internal static void FlushIOBuffers(InstructionAction action, IList<InstructionArgument> arguments)
     {
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 0);
         
-        IOBuffer.FullFlush();
+        Chippie.MainIOBuffer.FullFlush();
     }
     internal static void SetCursorForeground(InstructionAction action, IList<InstructionArgument> arguments)
     {
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 1);
         
-        var val = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
+        var val = (int)InstructionArgument.GetNumber(arguments[action.Indices[0]]);
 
-        IOInterface.SetForegroundIndex(val);
+        Chippie.MainIoInterface.SetForegroundIndex(val);
     }
     internal static void SetCursorBackground(InstructionAction action, IList<InstructionArgument> arguments)
     {
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 1);
         
-        var val = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
+        var val = (int)InstructionArgument.GetNumber(arguments[action.Indices[0]]);
         
-        IOInterface.SetBackgroundIndex(val);
+        Chippie.MainIoInterface.SetBackgroundIndex(val);
     }
     internal static void SetConsoleBackground(InstructionAction action, IList<InstructionArgument> arguments)
     {
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 1);
         
-        var val = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
+        var val = (int)InstructionArgument.GetNumber(arguments[action.Indices[0]]);
         
-        IOInterface.SetConsoleBackgroundIndex(val);
+        Chippie.MainIoInterface.SetConsoleBackgroundIndex(val);
     }
     internal static void SetCursorLeft(InstructionAction action, IList<InstructionArgument> arguments)
     {
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 1);
         
-        var val = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
+        var val = (int)InstructionArgument.GetNumber(arguments[action.Indices[0]]);
         
-        IOInterface.SetCursorLeft(val);
+        Chippie.MainIoInterface.SetCursorLeft(val);
     }
     internal static void SetCursorTop(InstructionAction action, IList<InstructionArgument> arguments)
     {
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 1);
         
-        var val = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
+        var val = (int)InstructionArgument.GetNumber(arguments[action.Indices[0]]);
         
-        IOInterface.SetCursorTop(val);
+        Chippie.MainIoInterface.SetCursorTop(val);
     }
     internal static void SetCursor(InstructionAction action, IList<InstructionArgument> arguments)
     {
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 2);
         
-        var x = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
-        var y = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
+        var x = (int)InstructionArgument.GetNumber(arguments[action.Indices[0]]);
+        var y = (int)InstructionArgument.GetNumber(arguments[action.Indices[1]]);
         
-        IOInterface.SetCursor(new Vector2Int(x, y));
+        Chippie.MainIoInterface.SetCursor(new Vector2Int(x, y));
     }
     
     internal static void ClearConsole(InstructionAction action, IList<InstructionArgument> arguments)
     {
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 0);
         
-        IOInterface.ClearConsole();
-        IOInterface.SetCursor(new Vector2Int(0, 0));
+        Chippie.MainIoInterface.ClearConsole();
+        Chippie.MainIoInterface.SetCursor(new Vector2Int(0, 0));
     }
 }

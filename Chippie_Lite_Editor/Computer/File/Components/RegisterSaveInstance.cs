@@ -6,7 +6,7 @@ namespace Chippie_Lite_WPF.Computer.File.DefaultStates;
 public class RegisterSaveInstance
 {
     public string Name { get; set; }
-    public int DefaultValue { get; set; }
+    public long DefaultValue { get; set; }
 
 
     [JsonConstructor]

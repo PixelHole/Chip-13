@@ -2,25 +2,35 @@
 
 public class Register
 {
-    private int _content;
-        
+    private long _content;
+    
     public string Name { get; }
     public string Id { get; }
 
-    public int Content
+    public long Content
     {
         get => _content;
         set
         {
             bool changed = value != _content;
-            _content = value;
+            _content = LengthLimit == 64 ? _content : _content & ContentMask;
             if (changed) OnContentChanged?.Invoke(_content);
         }
     }
+    public byte LengthLimit { get; set; }
 
-    public int DefaultValue { get; set; }
+    private long ContentMask
+    {
+        get
+        {
+            var mask = (long)Math.Pow(2, LengthLimit);
+            return LengthLimit == 64 ? mask : mask - 1;
+        }
+    }
 
-    public delegate void ContentChangeAction(int newValue);
+    public long DefaultValue { get; set; }
+
+    public delegate void ContentChangeAction(long newValue);
     public event ContentChangeAction? OnContentChanged;
         
         
@@ -41,6 +51,9 @@ public class Register
     {
         return $"{Name}({Id}) : {Content}";
     }
+
+    public static implicit operator long(Register reg) => reg.Content;
+    public static implicit operator int(Register reg) => (int)reg.Content;
 
     public override bool Equals(object? obj)
     {

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using Chippie_Lite_WPF.Computer;
 using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.Instructions;
 
@@ -18,16 +19,16 @@ public partial class InstructionDisplayList : UserControl
     }
     private void FetchIP()
     {
-        InstructionPointer = RegisterBank.GetRegister("Instruction Pointer")!;
+        InstructionPointer = Chippie.MainRegisterBank.GetRegister("Instruction Pointer")!;
     }
     private void ConnectEvents()
     {
         InstructionPointer.OnContentChanged += OnIpContentChanged;
     }
 
-    private void OnIpContentChanged(int value)
+    private void OnIpContentChanged(long value)
     {
-        Application.Current.Dispatcher.Invoke(() => HighlightListItem(value));
+        Application.Current.Dispatcher.Invoke(() => HighlightListItem((int)value));
     }
     
     public void SetListItems(IList<Instruction> instructions)

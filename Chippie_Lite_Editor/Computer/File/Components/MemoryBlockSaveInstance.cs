@@ -6,11 +6,11 @@ namespace Chippie_Lite_WPF.Computer.File.DefaultStates;
 public class MemoryBlockSaveInstance
 {
     public int StartIndex { get; set; }
-    public int[] Data { get; set; }
+    public long[] Data { get; set; }
 
 
     [JsonConstructor]
-    public MemoryBlockSaveInstance(int startIndex, int[] data)
+    public MemoryBlockSaveInstance(int startIndex, long[] data)
     {
         StartIndex = startIndex;
         Data = data;

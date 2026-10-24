@@ -4,16 +4,16 @@ namespace Chippie_Lite_WPF.Computer.Utility;
 
 public static class SerialUtility
 {
-    public static int[] AsciiToInts(string input)
+    public static long[] AsciiToInts(string input)
     {
-        if (NumberUtility.TryParseNumber(input, out int number))
+        if (NumberUtility.TryParseNumber(input, out long number))
         {
             return [number];
         }
         
         int count = (int)Math.Ceiling((double)input.Length / 4);
                 
-        int[] res = new int[count];
+        long[] res = new long[count];
                 
         for (int i = 0; i < count; i++)
         {

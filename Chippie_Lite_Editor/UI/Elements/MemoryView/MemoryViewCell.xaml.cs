@@ -8,7 +8,7 @@ namespace Chippie_Lite_WPF.UI.Elements;
 
 public partial class MemoryViewCell : UserControl
 {
-    public delegate void TextChangedAction(MemoryViewCell sender, int data);
+    public delegate void TextChangedAction(MemoryViewCell sender, long data);
     public event TextChangedAction? OnTextChanged;
 
     private Brush InvalidTextBrush = null!;
@@ -53,10 +53,10 @@ public partial class MemoryViewCell : UserControl
     
     private void PassTextToList()
     {
-        int data =  ParseInput();
+        long data =  ParseInput();
         OnTextChanged?.Invoke(this, data);
     }
-    private int ParseInput()
+    private long ParseInput()
     {
         string text = GetText();
 

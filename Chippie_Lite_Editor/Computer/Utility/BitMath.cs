@@ -2,10 +2,10 @@
 
 public static class BitMath
 {
-    public static int ShiftLeft(int number, int amount, bool fill = false)
+    public static long ShiftLeft(long number, int amount, bool fill = false)
     {
         int shift = (int)Math.Pow(2, amount);
-        int result = number * shift;
+        long result = number * shift;
         if (fill) result += shift - 1;
         return result;
     }

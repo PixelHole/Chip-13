@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Chippie_Lite_WPF.Computer;
 using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.Utility;
 
@@ -15,7 +16,7 @@ public partial class MemoryView
     private int _currentPage;
     private ControlMode mode = ControlMode.View;
 
-    private int searchIndex;
+    private long searchIndex;
 
     private Brush InvalidNumberBrush { get; set; } = null!;
     private Brush ValidNumberBrush { get; set; } = null!;
@@ -34,7 +35,7 @@ public partial class MemoryView
         } 
     }
 
-    public int PageCount => Memory.Size / CellsPerPage;
+    public int PageCount => Chippie.MainMemory.Size / CellsPerPage;
     public int CellsPerPage
     {
         get => _cellsPerPage;
@@ -72,7 +73,7 @@ public partial class MemoryView
     }
     private void ConnectEvents()
     {
-        Memory.OnStorageUpdated += OnMemoryUpdated;
+        Chippie.MainMemory.OnStorageUpdated += OnMemoryUpdated;
     }
     private void CreateCells()
     {
@@ -149,7 +150,7 @@ public partial class MemoryView
     private void UpdateCellContent()
     {
         int start = CurrentPage * CellsPerPage,
-            end = int.Min(start + 128, Memory.Size);
+            end = int.Min(start + 128, Chippie.MainMemory.Size);
 
         for (int i = 0; i < CellsPerPage; i++)
         {
@@ -165,7 +166,7 @@ public partial class MemoryView
             
             cell.SetAddressText("0x" + Convert.ToString(address, 16).PadLeft(8, '0'));
 
-            int data = Memory.Read(address);
+            long data = Chippie.MainMemory.Read(address);
             
             cell.SetText(NumberUtility.ToHex(data));
         }
@@ -228,15 +229,15 @@ public partial class MemoryView
             cell.SetControlMode(Mode);
         }
     }
-    private void OnCellContentChanged(MemoryViewCell sender, int data)
+    private void OnCellContentChanged(MemoryViewCell sender, long data)
     {
         if (Mode == ControlMode.View) return;
 
         int address = CurrentPage * CellsPerPage + CellGrid.Children.IndexOf(sender);
         
-        Memory.WriteInitial(address, data);
+        Chippie.MainMemory.WriteInitial(address, data);
     }
-    private void OnMemoryUpdated(int index, int data)
+    private void OnMemoryUpdated(int index, long data)
     {
         if (Mode == ControlMode.Edit || index < CurrentPage * CellsPerPage || index >= (CurrentPage + 1) * CellsPerPage) return;
 
@@ -249,10 +250,10 @@ public partial class MemoryView
 
     private void GoToSearchedAddress()
     {
-        if (searchIndex < 0 || searchIndex >= Memory.Size) return;
+        if (searchIndex < 0 || searchIndex >= Chippie.MainMemory.Size) return;
 
-        int page = searchIndex / CellsPerPage;
-        int index = searchIndex % CellsPerPage;
+        int page = (int)searchIndex / CellsPerPage;
+        int index = (int)searchIndex % CellsPerPage;
 
         CurrentPage = page;
         var cell = CellGrid.Children[index];

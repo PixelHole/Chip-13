@@ -12,14 +12,14 @@ public abstract class InstructionArgument
             case RegisterArgument registerArgument:
                 return registerArgument.Register!;
             case NumberArgument numberArgument:
-                return RegisterBank.GetRegister(numberArgument.Number);
+                return Chippie.MainRegisterBank.GetRegister((int)numberArgument.Number);
             case RegisterNumberArgument registerNumberArgument:
                 return registerNumberArgument.GetRegister();
             default:
                 throw new UnsupportedArgumentTypeException(argument);
         }
     }
-    public static int GetNumber(InstructionArgument argument)
+    public static long GetNumber(InstructionArgument argument)
     {
         switch (argument)
         {

@@ -12,14 +12,14 @@ public partial class RegisterListDisplayItem : UserControl
     private bool mouseInside = false;
     private bool mouseDown = false;
 
-    private int displayedContent;
+    private long displayedContent;
     private int displayFormat;
     
     public Brush DefaultColor { get; set; } = null!;
     public Brush HoverColor { get; set; } = null!;
     public Brush ClickColor { get; set; } = null!;
 
-    public int DisplayedContent
+    public long DisplayedContent
     {
         get => displayedContent;
         set
@@ -60,7 +60,7 @@ public partial class RegisterListDisplayItem : UserControl
         register.OnContentChanged += OnRegisterChanged;
     }
 
-    private void OnRegisterChanged(int newValue)
+    private void OnRegisterChanged(long newValue)
     {
         displayedContent = newValue;
         UpdateContentDisplay();

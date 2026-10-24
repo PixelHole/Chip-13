@@ -13,7 +13,7 @@ public static class InstructionLogicActions
         var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
         var a = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
 
-        dest.Content = BitMath.Not(a);
+        dest.Content = ~a;
     }
     internal static void And(InstructionAction action, IList<InstructionArgument> arguments)
     {
@@ -23,7 +23,7 @@ public static class InstructionLogicActions
         var a = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
         var b = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
         
-        dest.Content = BitMath.And(a, b);
+        dest.Content = a & b;
     }
     internal static void Nand(InstructionAction action, IList<InstructionArgument> arguments)
     {
@@ -33,7 +33,7 @@ public static class InstructionLogicActions
         var a = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
         var b = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
         
-        dest.Content = BitMath.Nand(a, b);
+        dest.Content = ~(a & b);
     }
     internal static void Or(InstructionAction action, IList<InstructionArgument> arguments)
     {
@@ -43,7 +43,7 @@ public static class InstructionLogicActions
         var a = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
         var b = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
 
-        dest.Content = BitMath.Or(a, b);
+        dest.Content = a | b;
     }
     internal static void Xor(InstructionAction action, IList<InstructionArgument> arguments)
     {
@@ -53,7 +53,7 @@ public static class InstructionLogicActions
         var a = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
         var b = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
         
-        dest.Content = BitMath.Xor(a, b);
+        dest.Content = a ^ b;
     }
     internal static void Nxor(InstructionAction action, IList<InstructionArgument> arguments)
     {
@@ -63,7 +63,7 @@ public static class InstructionLogicActions
         var a = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
         var b = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
         
-        dest.Content = BitMath.Nxor(a, b);
+        dest.Content = ~(a ^ b);
     }
     internal static void Nor(InstructionAction action, IList<InstructionArgument> arguments)
     {
@@ -73,6 +73,6 @@ public static class InstructionLogicActions
         var a = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
         var b = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
         
-        dest.Content = BitMath.Nor(a, b);
+        dest.Content = ~(a | b);
     }
 }

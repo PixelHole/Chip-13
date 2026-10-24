@@ -10,17 +10,17 @@ public static class InstructionMemoryActions
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 2);
         
         var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        var address = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
+        var address = (int)InstructionArgument.GetNumber(arguments[action.Indices[1]]);
 
-        dest.Content = Memory.Read(address);
+        dest.Content = Chippie.MainMemory.Read(address);
     }
     internal static void Write(InstructionAction action, IList<InstructionArgument> arguments)
     {
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 2);
         
         var content = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
-        var address = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
+        var address = (int)InstructionArgument.GetNumber(arguments[action.Indices[1]]);
 
-        Memory.Write(address, content);
+        Chippie.MainMemory.Write(address, content);
     }
 }

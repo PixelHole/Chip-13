@@ -62,8 +62,8 @@ public partial class ConsoleView : UserControl
     private void ConnectEvents()
     {
         Control.OnCursorMoved += ControlOnOnCursorMoved;
-        IOInterface.DisplaySizeSet += IOInterfaceOnDisplaySizeSet;
-        IOInterface.SetConsoleBackgroundRequest += IOInterfaceOnSetConsoleBackgroundRequest;
+        Chippie.MainIoInterface.DisplaySizeSet += IOInterfaceOnDisplaySizeSet;
+        Chippie.MainIoInterface.SetConsoleBackgroundRequest += IOInterfaceOnSetConsoleBackgroundRequest;
         Chippie.OnRunStarted += ChippieOnOnRunStarted;
     }
 
@@ -196,8 +196,8 @@ public partial class ConsoleView : UserControl
     }
     private void IOInterfaceOnSetConsoleBackgroundRequest(int index)
     {
-        if (debugRect.CheckAccess()) debugRect.Fill = new SolidColorBrush(ColorLibrary.GetColor(index));
-        else debugRect.Dispatcher.Invoke(() => debugRect.Fill = new SolidColorBrush(ColorLibrary.GetColor(index)));
+        if (debugRect.CheckAccess()) debugRect.Fill = new SolidColorBrush(Chippie.MainColorLibrary.GetColor(index));
+        else debugRect.Dispatcher.Invoke(() => debugRect.Fill = new SolidColorBrush(Chippie.MainColorLibrary.GetColor(index)));
     }
     private void ChippieOnOnRunStarted()
     {

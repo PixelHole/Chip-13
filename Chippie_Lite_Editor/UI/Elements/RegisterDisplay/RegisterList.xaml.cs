@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Chippie_Lite_WPF.Computer;
 using Chippie_Lite_WPF.Computer.Components;
 
 namespace Chippie_Lite_WPF.UI.Elements;
@@ -46,7 +47,7 @@ public partial class RegisterList : UserControl
     {
         RegisterListPanel.Children.Clear();
         
-        foreach (var register in RegisterBank.GetAllRegisters())
+        foreach (var register in Chippie.MainRegisterBank.GetAllRegisters())
         {
             AddRegisterItem(register);
         }

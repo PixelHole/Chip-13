@@ -1,29 +1,38 @@
 ﻿namespace Chippie_Lite_WPF.Computer.Components;
 
-public static class Memory
+public class Memory : ChippieComponent
 {
-    private static readonly int BlockAddRange = 3;
-    private static List<MemoryBlock> RuntimeStorage { get; set; } = [];
-    private static List<MemoryBlock> InitialStorage { get; set; } = [];
-    public static bool ReadOnly { get; private set; }
+    private readonly int BlockAddRange = 3;
+    private List<MemoryBlock> RuntimeStorage { get; set; } = [];
+    private List<MemoryBlock> InitialStorage { get; set; } = [];
+    public bool ReadOnly { get; private set; }
 
-    public static int Size { get; set; } = 8192;
-    public static readonly int HardLimit = 262144;
+    public int Size { get; set; } = 8192;
+    public byte LengthLimit { get; set; } = 32;
+    
+    private long Mask
+    {
+        get
+        {
+            var mask = (long)Math.Pow(2, LengthLimit);
+            return LengthLimit == 64 ? mask : mask - 1;
+        }
+    }
 
-    private static readonly Semaphore accessPool = new Semaphore(1, 1);
+    private readonly Semaphore accessPool = new Semaphore(1, 1);
 
-    public delegate void StorageUpdateAction(int index, int data);
-    public static event StorageUpdateAction? OnStorageUpdated;
+    public delegate void StorageUpdateAction(int index, long data);
+    public event StorageUpdateAction? OnStorageUpdated;
     
     public delegate void InitialStorageUpdateAction(int index);
-    public static event InitialStorageUpdateAction? OnInitialStorageUpdated;
+    public event InitialStorageUpdateAction? OnInitialStorageUpdated;
 
 
-    internal static void ResetRuntimeStorage()
+    internal void ResetRuntimeStorage()
     {
         RuntimeStorage.Clear();
     }
-    internal static void CopyInitialStorageToRuntime()
+    internal void CopyInitialStorageToRuntime()
     {
         foreach (var block in RuntimeStorage)
         {
@@ -45,62 +54,55 @@ public static class Memory
         }
     }
 
-    public static void Write(int index, int data)
+    public void Write(int index, long data)
     {
-        if (IsIndexOutOfHardRange(index)) return;
+        if (WriteCall(index, data, RuntimeStorage)) OnStorageUpdated?.Invoke(index, data);
+    }
+    public long Read(int index)
+    {
+        return ReadCall(index, RuntimeStorage);
+    }
+
+    public void WriteInitial(int index, long data)
+    {
+        if (WriteCall(index, data, InitialStorage)) OnInitialStorageUpdated?.Invoke(index);
+    }
+    public long ReadInitial(int index)
+    {
+        return ReadCall(index, InitialStorage);
+    }
+
+    private bool WriteCall(int index, long data, List<MemoryBlock> source)
+    {
+        if (IsIndexOutOfHardRange(index) || ReadOnly) return false;
         
         accessPool.WaitOne();
         
-        WriteToStorage(index, data, RuntimeStorage);
+        WriteToStorage(index, data, source);
 
         accessPool.Release();
-        
-        OnStorageUpdated?.Invoke(index, data);
+
+        return true;
     }
-    public static int Read(int index)
+    private long ReadCall(int index, List<MemoryBlock> source)
     {
         if (IsIndexOutOfHardRange(index)) return 0;
         
         accessPool.WaitOne();
 
-        int data = ReadFromStorage(index, RuntimeStorage);
+        long data = ReadFromStorage(index, source);
 
         accessPool.Release();
         
         return data;
     }
-
-    public static void WriteInitial(int index, int data)
+    
+    private void WriteToStorage(int index, long data, List<MemoryBlock> storage)
     {
-        if (IsIndexOutOfHardRange(index)) return;
-        
-        accessPool.WaitOne();
-        
-        WriteToStorage(index, data, InitialStorage);
-
-        accessPool.Release();
-        
-        OnInitialStorageUpdated?.Invoke(index);
-    }
-    public static int ReadInitial(int index)
-    {
-        if (IsIndexOutOfHardRange(index)) return 0;
-        
-        accessPool.WaitOne();
-
-        int data = ReadFromStorage(index, InitialStorage);
-
-        accessPool.Release();
-        
-        return data;
-    }
-
-    private static void WriteToStorage(int index, int data, List<MemoryBlock> storage)
-    {
+        data = MaskData(data);
         var block = GetBlock(storage, index, BlockAddRange);
         if (block == null)
         {
-            // if (data == 0) return;
             block = new MemoryBlock(index, [data]);
             storage.Add(block);
         }
@@ -111,7 +113,7 @@ public static class Memory
             if (block.FilledCells <= 0) storage.Remove(block);
         }
     }
-    private static int ReadFromStorage(int index, List<MemoryBlock> storage)
+    private long ReadFromStorage(int index, List<MemoryBlock> storage)
     {
         var block = GetBlock(storage, index, 0);
 
@@ -120,7 +122,7 @@ public static class Memory
         return block.Read(index);
     }
 
-    private static void ResolveBlockConflict(List<MemoryBlock> storage, MemoryBlock block)
+    private void ResolveBlockConflict(List<MemoryBlock> storage, MemoryBlock block)
     {
         var endConflict = GetBlock(storage, block.EndIndex, BlockAddRange);
         
@@ -139,12 +141,12 @@ public static class Memory
         }
     }
 
-    private static MemoryBlock? GetBlock(List<MemoryBlock> storage, int memoryIndex, int offset)
+    private MemoryBlock? GetBlock(List<MemoryBlock> storage, int memoryIndex, int offset)
     {
         return storage.Find(block => block.IsIndexInRange(memoryIndex, offset));
     }
 
-    internal static MemoryBlock[] GetAllInitialBlocks()
+    internal MemoryBlock[] GetAllInitialBlocks()
     {
         MemoryBlock[] blocks = new MemoryBlock[InitialStorage.Count];
 
@@ -156,7 +158,7 @@ public static class Memory
 
         return blocks;
     }
-    internal static void LoadInitialBlocks(MemoryBlock[] blocks)
+    internal void LoadInitialBlocks(MemoryBlock[] blocks)
     {
         InitialStorage.Clear();
         foreach (var block in blocks)
@@ -165,6 +167,11 @@ public static class Memory
         }
     }
 
-    private static bool IsIndexInRange(int index) => index >= 0 && index < Size;
-    private static bool IsIndexOutOfHardRange(int index) => index < 0 || index >= HardLimit;
+    private long MaskData(long data)
+    {
+        return LengthLimit == 64 ? data : data & Mask;
+    }
+
+    private bool IsIndexInRange(int index) => index >= 0 && index < Size;
+    private bool IsIndexOutOfHardRange(int index) => index < 0 || index >= Size;
 }

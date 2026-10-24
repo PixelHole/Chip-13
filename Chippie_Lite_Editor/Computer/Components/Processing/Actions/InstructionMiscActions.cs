@@ -11,8 +11,8 @@ public static class InstructionMiscActions
     {
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 2);
         
-        int freq = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
-        int dur = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
+        int freq = (int)InstructionArgument.GetNumber(arguments[action.Indices[0]]);
+        int dur = (int)InstructionArgument.GetNumber(arguments[action.Indices[1]]);
         
         Console.Beep(freq, dur);
     }
@@ -20,65 +20,44 @@ public static class InstructionMiscActions
     {
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 1);
         
-        int dur = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
+        int dur = (int)InstructionArgument.GetNumber(arguments[action.Indices[0]]);
         
         Thread.Sleep(dur);
     }
     public static void SineWave(InstructionAction action, IList<InstructionArgument> arguments)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 2);
-        
-        int freq = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
-        int dur = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-
-        PlayAudioWave(freq, dur, SignalGeneratorType.Sin);
+        AudioInstruction(action, arguments, SignalGeneratorType.Sin);
     }
     public static void TriangleWave(InstructionAction action, IList<InstructionArgument> arguments)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 2);
-        
-        int freq = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
-        int dur = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-
-        PlayAudioWave(freq, dur, SignalGeneratorType.Triangle);
+        AudioInstruction(action, arguments, SignalGeneratorType.Triangle);
     }
     public static void SquareWave(InstructionAction action, IList<InstructionArgument> arguments)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 2);
-        
-        int freq = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
-        int dur = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-
-        PlayAudioWave(freq, dur, SignalGeneratorType.Square);
+        AudioInstruction(action, arguments, SignalGeneratorType.Square);
     }
     public static void SawToothWave(InstructionAction action, IList<InstructionArgument> arguments)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 2);
-        
-        int freq = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
-        int dur = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-
-        PlayAudioWave(freq, dur, SignalGeneratorType.SawTooth);
+        AudioInstruction(action, arguments, SignalGeneratorType.SawTooth);
     }
     public static void PinkNoise(InstructionAction action, IList<InstructionArgument> arguments)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 2);
-        
-        int freq = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
-        int dur = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-
-        PlayAudioWave(freq, dur, SignalGeneratorType.Pink);
+        AudioInstruction(action, arguments, SignalGeneratorType.Pink);
     }
     public static void WhiteNoise(InstructionAction action, IList<InstructionArgument> arguments)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 2);
-        
-        int freq = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
-        int dur = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-
-        PlayAudioWave(freq, dur, SignalGeneratorType.White);
+        AudioInstruction(action, arguments, SignalGeneratorType.White);
     }
 
+    private static void AudioInstruction(InstructionAction action, IList<InstructionArgument> arguments, SignalGeneratorType type)
+    {
+        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 2);
+        
+        int freq = (int)InstructionArgument.GetNumber(arguments[action.Indices[0]]);
+        int dur = (int)InstructionArgument.GetNumber(arguments[action.Indices[1]]);
+        
+        PlayAudioWave(freq, dur, type);
+    }
     private static void PlayAudioWave(int frequency, int duration, SignalGeneratorType type)
     {
         var sineWave = new SignalGenerator()

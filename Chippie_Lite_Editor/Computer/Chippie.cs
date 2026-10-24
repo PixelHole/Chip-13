@@ -39,11 +39,21 @@ public static class Chippie
         } 
     }
     private static bool CanGoToNextStep { get; set; } = false;
-    public static Register InstructionPointer { get; private set; } = null!;
+    
     private static Thread ExecutionThread { get; set; } = null!;
     private static Thread StepThread { get; set; } = null!;
-    
 
+    public static Memory MainMemory { get; } = new();
+    public static InstructionBank MainInstructionBank { get; } = new();
+    public static RegisterBank MainRegisterBank { get; } = new();
+    public static IOBuffer MainIOBuffer { get; } = new();
+    public static IOInterface MainIoInterface { get; } = new();
+    public static ColorLibrary MainColorLibrary { get; } = new(); 
+    public static List<ChippieComponent> Components { get; } = [MainMemory, MainInstructionBank, MainRegisterBank, MainIOBuffer, MainIoInterface, MainColorLibrary];
+
+    private static Register InstructionPointer => MainRegisterBank.GetRegister("Instruction Pointer") ??
+                                                                      throw new RegisterNotFoundException(0, "Instruction Pointer");
+    
     public delegate void CompileStartAction();
     public static event CompileStartAction? OnCompileStarted;
     
@@ -61,8 +71,6 @@ public static class Chippie
 
     public static void Initialize()
     {
-        InstructionPointer = RegisterBank.GetRegister("Instruction Pointer") ??
-                             throw new RegisterNotFoundException(0, "Instruction Pointer");
         InstructionSet.LoadSet(InstructionSet.SavePath);
     }
     
@@ -99,8 +107,8 @@ public static class Chippie
         OnCompileStarted?.Invoke();
         
         var instructions = AssemblyTranslator.ParseScript(raw);
-        InstructionBank.ClearInstructions();
-        InstructionBank.AddInstructions(instructions);
+        MainInstructionBank.ClearInstructions();
+        MainInstructionBank.AddInstructions(instructions);
 
         OnCompileEnded?.Invoke();
         
@@ -109,15 +117,15 @@ public static class Chippie
     public static void FullFlush()
     {
         if (IsRunning) return;
-        InstructionBank.ClearInstructions();
+        MainInstructionBank.ClearInstructions();
         FlushRuntimeStorage();
     }
     private static void FlushRuntimeStorage()
     {
         if (IsRunning) return;
-        RegisterBank.ResetRegisters();
-        IOBuffer.FullFlush();
-        Memory.CopyInitialStorageToRuntime();
+        MainRegisterBank.ResetRegisters();
+        MainIOBuffer.FullFlush();
+        MainMemory.CopyInitialStorageToRuntime();
     }
     private static void Run()
     {
@@ -149,7 +157,7 @@ public static class Chippie
         {
             if ((SingleStep && !CanGoToNextStep) || StepThread.IsAlive) continue;
             
-            if (InstructionBank.Count == 0 || InstructionPointer.Content >= InstructionBank.Count || InstructionPointer.Content < 0) break;
+            if (MainInstructionBank.Count == 0 || InstructionPointer.Content >= MainInstructionBank.Count || InstructionPointer.Content < 0) break;
             
             StepThread = new Thread(ExecutionStep);
             StepThread.Start();
@@ -161,7 +169,7 @@ public static class Chippie
     }
     private static void ExecutionStep()
     {
-        Instruction instruction = InstructionBank.GetInstruction(InstructionPointer.Content);
+        Instruction instruction = MainInstructionBank.GetInstruction((int)InstructionPointer.Content);
 
         if (instruction.HasBreakpoint && !SingleStep && lastInstruction != null && lastInstruction != instruction)
         {

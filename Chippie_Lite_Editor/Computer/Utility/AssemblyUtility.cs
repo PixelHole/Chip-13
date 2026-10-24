@@ -22,7 +22,7 @@ namespace Chippie_Lite_WPF.Computer.Utility
 
             if (string.IsNullOrEmpty(parts[0])) throw new InvalidInstructionException("Label must have a name", 0);
                 
-            int value = 0;
+            long value = 0;
                 
             try
             {
@@ -60,7 +60,7 @@ namespace Chippie_Lite_WPF.Computer.Utility
         {
             string body = ExtractMainBody(arg);
 
-            if (!body.StartsWith('$') && NumberUtility.TryParseNumber(body, out int num))
+            if (!body.StartsWith('$') && NumberUtility.TryParseNumber(body, out long num))
             {
                 return new RegisterNumberArgument(null, num);
             }
@@ -69,7 +69,7 @@ namespace Chippie_Lite_WPF.Computer.Utility
 
             string offset = ExtractOffset(arg);
 
-            int val = string.IsNullOrEmpty(offset) ? 0 : ParseValue(offset);
+            long val = string.IsNullOrEmpty(offset) ? 0 : ParseValue(offset);
 
             return new RegisterNumberArgument(register, val);
         }
@@ -99,15 +99,15 @@ namespace Chippie_Lite_WPF.Computer.Utility
                     break;
             }
 
-            var register = NumberUtility.TryParseNumber(registerId, out int index)
-                ? RegisterBank.GetRegister(index)
-                : RegisterBank.GetRegisterById(registerId);
+            var register = NumberUtility.TryParseNumber(registerId, out long index)
+                ? Chippie.MainRegisterBank.GetRegister((int)index)
+                : Chippie.MainRegisterBank.GetRegisterById(registerId);
         
             if (register == null) throw new RegisterNotFoundException(0, registerId);
 
             return register;
         }
-        private static int ParseValue(string raw)
+        private static long ParseValue(string raw)
         {
             if (NumberUtility.TryParseNumber(raw, out var num)) return num;
 

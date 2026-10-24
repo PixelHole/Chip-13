@@ -4,10 +4,10 @@ namespace Chippie_Lite_WPF.Computer.Instructions.Arguments;
 
 public class NumberArgument : InstructionArgument
 {
-    public int Number { get; private set; }
+    public long Number { get; private set; }
 
 
-    public NumberArgument(int number = 0)
+    public NumberArgument(long number = 0)
     {
         Number = number;
     }

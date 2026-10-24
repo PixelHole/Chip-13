@@ -44,8 +44,8 @@ public static class InstructionValueActions
 
         long result = a * b;
 
-        Register high = RegisterBank.GetRegister("High")!;
-        Register low = RegisterBank.GetRegister("low")!;
+        Register high = Chippie.MainRegisterBank.GetRegister("High")!;
+        Register low = Chippie.MainRegisterBank.GetRegister("low")!;
 
         low.Content = (int)result;
         long shift = (long)Math.Pow(2, 32);
@@ -61,8 +61,8 @@ public static class InstructionValueActions
 
         long result = (int)Math.Pow(a, b);
 
-        Register high = RegisterBank.GetRegister("High")!;
-        Register low = RegisterBank.GetRegister("low")!;
+        Register high = Chippie.MainRegisterBank.GetRegister("High")!;
+        Register low = Chippie.MainRegisterBank.GetRegister("low")!;
 
         low.Content = (int)result;
         long shift = (long)Math.Pow(2, 32);
@@ -94,28 +94,28 @@ public static class InstructionValueActions
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 3);
 
         var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        int value = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-        int amount = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
+        long value = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
+        int amount = (int)InstructionArgument.GetNumber(arguments[action.Indices[2]]);
         
-        dest.Content = BitMath.ShiftLeft(value, amount);
+        dest.Content = value << amount;
     }
     internal static void ShiftRightLogic(InstructionAction action, IList<InstructionArgument> arguments)
     {
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 3);
 
         var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        int value = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-        int amount = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
-        
-        dest.Content = BitMath.ShiftRight(value, amount);
+        long value = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
+        int amount = (int)InstructionArgument.GetNumber(arguments[action.Indices[2]]);
+
+        dest.Content = value >> amount;
     }
     internal static void ShiftLeftArithmatic(InstructionAction action, IList<InstructionArgument> arguments)
     {
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 3);
 
         var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        int value = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-        int amount = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
+        long value = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
+        int amount = (int)InstructionArgument.GetNumber(arguments[action.Indices[2]]);
         
         dest.Content = BitMath.ShiftLeft(value, amount, true);
     }
@@ -124,9 +124,9 @@ public static class InstructionValueActions
         InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 3);
 
         var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        int value = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-        int amount = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
-        
-        dest.Content = BitMath.ShiftRight(value, amount, true);
+        long value = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
+        int amount = (int)InstructionArgument.GetNumber(arguments[action.Indices[2]]);
+
+        dest.Content = value >>> amount;
     }
 }

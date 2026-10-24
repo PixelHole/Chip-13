@@ -30,7 +30,7 @@ public static class SaveFileManager
      {
           List<RegisterSaveInstance> registers = [];
           
-          foreach (var register in RegisterBank.GetAllRegisters())
+          foreach (var register in Chippie.MainRegisterBank.GetAllRegisters())
           {
                if (register.DefaultValue == 0) continue;
                registers.Add(new RegisterSaveInstance(register));
@@ -42,7 +42,7 @@ public static class SaveFileManager
      {
           foreach (var instance in registers)
           {
-               var register = RegisterBank.GetRegister(instance.Name);
+               var register = Chippie.MainRegisterBank.GetRegister(instance.Name);
                if (register == null) throw new RegisterNotFoundException(0, instance.Name);
                register.DefaultValue = instance.DefaultValue;
           }
@@ -51,7 +51,7 @@ public static class SaveFileManager
      {
           List<MemoryBlockSaveInstance> blocks = [];
           
-          foreach (var block in Memory.GetAllInitialBlocks())
+          foreach (var block in Chippie.MainMemory.GetAllInitialBlocks())
           {
                blocks.Add(new MemoryBlockSaveInstance(block));
           }
@@ -67,15 +67,15 @@ public static class SaveFileManager
                blocks[i] = memory[i].ToBlock();
           }
 
-          Memory.LoadInitialBlocks(blocks);
+          Chippie.MainMemory.LoadInitialBlocks(blocks);
      }
      private static EnvironmentConfig SerializeConfig()
      {
-          return new EnvironmentConfig(IOInterface.DisplaySize, Memory.Size, [], []);
+          return new EnvironmentConfig(Chippie.MainIoInterface.DisplaySize, Chippie.MainMemory.Size, [], []);
      }
      private static void DeserializeConfig(EnvironmentConfig config)
      {
-          IOInterface.DisplaySize = config.DisplaySize;
-          Memory.Size = config.MemorySize;
+          Chippie.MainIoInterface.DisplaySize = config.DisplaySize;
+          Chippie.MainMemory.Size = config.MemorySize;
      }
 }

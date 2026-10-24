@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
+using Chippie_Lite_WPF.Computer;
 using Chippie_Lite_WPF.Computer.Components;
 
 namespace wpf_Console;
@@ -133,11 +134,11 @@ public partial class ConsoleGlyph
 
     public void SetForeground(int index)
     {
-        Foreground = new SolidColorBrush(ColorLibrary.GetColor(index));
+        Foreground = new SolidColorBrush(Chippie.MainColorLibrary.GetColor(index));
     }
     public void SetBackground(int index)
     {
-        Background = new SolidColorBrush(ColorLibrary.GetColor(index));
+        Background = new SolidColorBrush(Chippie.MainColorLibrary.GetColor(index));
     }
     
     public override string ToString()
