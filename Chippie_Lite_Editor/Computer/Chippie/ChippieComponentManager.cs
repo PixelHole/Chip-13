@@ -31,8 +31,7 @@ public static class ChippieComponentManager
     }
     public static List<T> GetComponentsOfType<T>() where T : class
     {
-        List<T> matches = Components.FindAll(component => component.GetType() == typeof(T)).ConvertAll(input => input as T)!;
-        return matches;
+        return Components.FindAll(component => component.GetType() == typeof(T)).ConvertAll(input => input as T)!;
     }
 
     internal static void ResetNonPermanentMemoryModules()
