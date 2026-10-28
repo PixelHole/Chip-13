@@ -35,7 +35,7 @@ public class MainWindowControl
     {
         try
         {
-            Chippie.RunRawAssembly(script);
+            Chippie.CompileAndRunAssembly(script);
         }
         catch (Exception e)
         {

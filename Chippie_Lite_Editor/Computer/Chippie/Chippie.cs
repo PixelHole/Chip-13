@@ -66,7 +66,7 @@ public static class Chippie
         SaveFileManager.LoadDefaultData();
     }
     
-    public static void RunRawAssembly(string raw)
+    public static void CompileAndRunAssembly(string raw)
     {
         if (IsRunning) return;
         FullFlush();
@@ -89,7 +89,6 @@ public static class Chippie
     {
         SafeExit = true;
         CanRun = false;
-        
     }
     
     private static bool CompileAndLoadAssembly(string raw)
@@ -149,7 +148,9 @@ public static class Chippie
         {
             if ((SingleStep && !CanGoToNextStep) || StepThread.IsAlive) continue;
             
-            if (InstructionBank.Count == 0 || RegisterBank.InstructionPointer.Content >= InstructionBank.Count || RegisterBank.InstructionPointer.Content < 0) break;
+            if (InstructionBank.Count == 0 ||
+                RegisterBank.InstructionPointer.Content >= InstructionBank.Count ||
+                RegisterBank.InstructionPointer.Content < 0) break;
             
             StepThread = new Thread(ExecutionStep);
             StepThread.Start();

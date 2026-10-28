@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Chippie_Lite_WPF.Computer.Instructions.Templates;
+namespace Chippie_Lite_WPF.Computer.Instructions;
 
 public class InstructionTemplate
 {
