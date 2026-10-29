@@ -12,7 +12,7 @@ namespace Chippie_Lite_WPF.Computer.Components
                 var action = instruction.Actions[i];
                 try
                 {
-                    InstructionActions.ExecuteAction(action, instruction.Arguments);
+                    if (InstructionActionConditions.EvaluateCondition(action)) InstructionActions.ExecuteAction(action);
                 }
                 catch (InstructionInterpretationException e)
                 {

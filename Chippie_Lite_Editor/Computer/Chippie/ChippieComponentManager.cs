@@ -1,4 +1,5 @@
 ﻿using Chippie_Lite_WPF.Computer.Components;
+using Chippie_Lite_WPF.Computer.Utility;
 
 namespace Chippie_Lite_WPF.Computer;
 
@@ -32,6 +33,12 @@ public static class ChippieComponentManager
     public static List<T> GetComponentsOfType<T>() where T : class
     {
         return Components.FindAll(component => component.GetType() == typeof(T)).ConvertAll(input => input as T)!;
+    }
+
+    public static T? GetNthComponentOfType<T>(int index) where T : class
+    {
+        var components = GetComponentsOfType<T>();
+        return components.Count == 0 ? null : components[IndexUtility.WrapIndex(index, components.Count)];
     }
 
     internal static void ResetNonPermanentMemoryModules()

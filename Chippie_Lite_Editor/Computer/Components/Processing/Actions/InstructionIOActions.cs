@@ -1,98 +1,78 @@
 ﻿using Chippie_Lite_WPF.Computer.Instructions;
-using Chippie_Lite_WPF.Computer.Instructions.Arguments.Base;
+using Chippie_Lite_WPF.Computer.Instructions.Arguments;
+using Chippie_Lite_WPF.Computer.Utility;
 using wpf_Console;
 
 namespace Chippie_Lite_WPF.Computer.Components.Actions;
 
 public static class InstructionIOActions
 { 
-    internal static void GetSerialInput(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void GetSerialInput(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 1);
-        
-        var reg = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 1);
 
         long input = IOBuffer.GetInput().Result;
 
-        reg.Content = input;
+        ActionUtility.InterpretWrite(action.Arguments[0], input, action.Instruction);
     }
-    internal static void GetKeyInput(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void GetKeyInput(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 1);
-        
-        var reg = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 1);
 
         int input = (int)IOBuffer.GetKeyInput().Result;
 
-        reg.Content = input;
+        ActionUtility.InterpretWrite(action.Arguments[0], input, action.Instruction);
     }
-    internal static void SendSerialOutput(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void SendSerialOutput(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 1);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 1);
         
-        var val = (int)InstructionArgument.GetNumber(arguments[action.Indices[0]]);
+        var val = ActionUtility.InterpretRead(action.Arguments[0], action.Instruction);
         
         IOBuffer.BufferOutput([val]);
     }
-    internal static void FlushIOBuffers(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void FlushIOBuffers(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 0);
-        
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 0);
         IOBuffer.FullFlush();
     }
-    internal static void SetCursorForeground(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void SetCursorForeground(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 1);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 1);
         
-        var val = (int)InstructionArgument.GetNumber(arguments[action.Indices[0]]);
+        var val = ActionUtility.InterpretRead(action.Arguments[0], action.Instruction);
 
-        IOInterface.SetForegroundIndex(val);
+        IOInterface.SetForegroundIndex((int)val);
     }
-    internal static void SetCursorBackground(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void SetCursorBackground(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 1);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 1);
         
-        var val = (int)InstructionArgument.GetNumber(arguments[action.Indices[0]]);
+        var val = ActionUtility.InterpretRead(action.Arguments[0], action.Instruction);
         
-        IOInterface.SetBackgroundIndex(val);
+        IOInterface.SetBackgroundIndex((int)val);
     }
-    internal static void SetConsoleBackground(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void SetConsoleBackground(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 1);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 1);
         
-        var val = (int)InstructionArgument.GetNumber(arguments[action.Indices[0]]);
+        var val = ActionUtility.InterpretRead(action.Arguments[0], action.Instruction);
         
-        IOInterface.SetConsoleBackgroundIndex(val);
+        IOInterface.SetConsoleBackgroundIndex((int)val);
     }
-    internal static void SetCursorLeft(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void SetCursor(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 1);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 2);
         
-        var val = (int)InstructionArgument.GetNumber(arguments[action.Indices[0]]);
-        
-        IOInterface.SetCursorLeft(val);
-    }
-    internal static void SetCursorTop(InstructionAction action, IList<InstructionArgument> arguments)
-    {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 1);
-        
-        var val = (int)InstructionArgument.GetNumber(arguments[action.Indices[0]]);
-        
-        IOInterface.SetCursorTop(val);
-    }
-    internal static void SetCursor(InstructionAction action, IList<InstructionArgument> arguments)
-    {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 2);
-        
-        var x = (int)InstructionArgument.GetNumber(arguments[action.Indices[0]]);
-        var y = (int)InstructionArgument.GetNumber(arguments[action.Indices[1]]);
+        var x = (int)ActionUtility.InterpretRead(action.Arguments[0], action.Instruction);
+        var y = (int)ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
         
         IOInterface.SetCursor(new Vector2Int(x, y));
     }
     
-    internal static void ClearConsole(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void ClearConsole(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 0);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 0);
         
         IOInterface.ClearConsole();
         IOInterface.SetCursor(new Vector2Int(0, 0));

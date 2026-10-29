@@ -40,7 +40,7 @@ public static class IOBuffer
 
     public static void BufferInput(string input)
     {
-        long[] nums = SerialUtility.AsciiToInts(input);
+        long[] nums = SerialUtility.AsciiToLongs(input);
         RegisterBank.InputBufferCount.Content += nums.Length;
         
         inputAccessPool.WaitOne();
@@ -115,9 +115,9 @@ public static class IOBuffer
     }
     public static void FlushKeyInputBuffer() => KeyInputBuffer.TryReceiveAll(out _);
     
-    public static void BufferOutput(int[] output)
+    public static void BufferOutput(long[] output)
     {
-        string parsed = SerialUtility.IntsToAscii(output);
+        string parsed = SerialUtility.LongsToAscii(output);
         
         outputAccessPool.WaitOne();
 

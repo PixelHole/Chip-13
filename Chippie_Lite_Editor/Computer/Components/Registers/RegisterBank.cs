@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions;
+using Chippie_Lite_WPF.Computer.Utility;
 
 namespace Chippie_Lite_WPF.Computer.Components
 {
@@ -89,9 +90,9 @@ namespace Chippie_Lite_WPF.Computer.Components
             return registers;
         }
         
-        public static Register GetRegister(int index)
+        public static Register? GetRegister(int index)
         {
-            return Registers[WrapIndex(index)];
+            return Registers.Count == 0 ? null : Registers[IndexUtility.WrapIndex(index, Registers.Count)];
         }
         public static Register? GetRegister(string name)
         {
@@ -104,13 +105,10 @@ namespace Chippie_Lite_WPF.Computer.Components
 
         public static List<Register> GetRegisters(IEnumerable<int> indices)
         {
-            List<Register> registers = new List<Register>();
+            var registers = new List<Register>();
             if (Registers.Count == 0) return registers;
 
-            foreach (var i in indices)
-            {
-                registers.Add(GetRegister(i));
-            }
+            registers.AddRange(indices.Select(i => GetRegister(i)!));
 
             return registers;
         }
@@ -135,10 +133,12 @@ namespace Chippie_Lite_WPF.Computer.Components
 
         public static int IndexOf(Register register)
         {
+            if (Registers.Count == 0) return -1;
             return Registers.IndexOf(register);
         }
         public static int IndexOf(string name)
         {
+            if (Registers.Count == 0) return -1;
             Register? match = GetRegister(name);
             if (match == null) return -1;
             return IndexOf(match);
@@ -146,14 +146,6 @@ namespace Chippie_Lite_WPF.Computer.Components
 
         public static void Lock() => Locked = true;
         public static void Unlock() => Locked = false;
-
-        private static int WrapIndex(int index)
-        {
-            if (Registers.Count == 0) return 0;
-            if (index >= Registers.Count) return index % Registers.Count;
-            if (index < 0) return (Registers.Count - 1) -index % Registers.Count;
-            return index;
-        }
 
         public static string GetRegistersCsv()
         {

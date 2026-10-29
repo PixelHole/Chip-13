@@ -2,24 +2,24 @@
 
 public static class StringUtility
 {
-    public static int TextToInt(string text)
+    public static long TextToInt(string text)
     {
-        if (IsString(text)) return StringToInt(text);
+        if (IsString(text)) return StringToLong(text);
         if (IsChar(text)) return CharToInt(text);
         throw new ArgumentException();
     }
 
-    private static int StringToInt(string text)
+    private static long StringToLong(string text)
     {
         string trimmed = text.Substring(1, int.Min(4, text.Length - 2));
 
-        return SerialUtility.WordToInt(trimmed);
+        return SerialUtility.WordToLong(trimmed);
     }
-    private static int CharToInt(string text)
+    private static long CharToInt(string text)
     {
         string trimmed = text[1].ToString();
 
-        return SerialUtility.WordToInt(trimmed);
+        return SerialUtility.WordToLong(trimmed);
     }
 
     public static bool IsString(string text)

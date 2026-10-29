@@ -1,4 +1,5 @@
 ﻿using System.Windows.Media;
+using Chippie_Lite_WPF.Computer.Utility;
 
 namespace Chippie_Lite_WPF.Computer.Components;
 
@@ -12,15 +13,8 @@ public static class ColorLibrary
     
     public static Color GetColor(int index)
     {
-        index = WrapIndex(index);
+        index = IndexUtility.WrapIndex(index, Colors.Count);
 
         return Colors[index];
-    }
-
-    private static int WrapIndex(int index)
-    {
-        if (index > Colors.Count) index %= Colors.Count;
-        if (index < 0) index = Colors.Count - (-index % Colors.Count);
-        return index;
     }
 }

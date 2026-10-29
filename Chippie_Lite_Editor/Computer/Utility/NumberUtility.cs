@@ -27,17 +27,17 @@ public static class NumberUtility
     public static long ParseBinary(string num)
     {
         num = RemoveFlags(num, "b", "0b", "0y", "_", "-");
-        return int.Parse(num, NumberStyles.BinaryNumber);
+        return long.Parse(num, NumberStyles.BinaryNumber);
     }
     public static long ParseHex(string num)
     {
         num = RemoveFlags(num, "0x", "0h", "_", "-");
-        return int.Parse(num, NumberStyles.HexNumber);
+        return long.Parse(num, NumberStyles.HexNumber);
     }
     public static long ParseDecimal(string num)
     {
         num = RemoveFlags(num, "d", "0d", "d");
-        return int.Parse(num);
+        return long.Parse(num);
     }
 
     public static string? ToBinary(long num, bool separate = false)

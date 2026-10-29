@@ -1,78 +1,36 @@
 ﻿using Chippie_Lite_WPF.Computer.Instructions;
-using Chippie_Lite_WPF.Computer.Instructions.Arguments.Base;
+using Chippie_Lite_WPF.Computer.Instructions.Arguments;
 using Chippie_Lite_WPF.Computer.Utility;
 
 namespace Chippie_Lite_WPF.Computer.Components.Actions;
 
 public static class InstructionLogicActions
 {
-    internal static void Not(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void And(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 2);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 3);
         
-        var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        var a = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-
-        dest.Content = ~a;
+        var a = ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
+        var b = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
+        
+        ActionUtility.InterpretWrite(action.Arguments[0], a & b, action.Instruction);
     }
-    internal static void And(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void Or(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 3);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 3);
         
-        var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        var a = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-        var b = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
+        var a = ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
+        var b = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
         
-        dest.Content = a & b;
+        ActionUtility.InterpretWrite(action.Arguments[0], a | b, action.Instruction);
     }
-    internal static void Nand(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void Xor(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 3);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 3);
         
-        var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        var a = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-        var b = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
+        var a = ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
+        var b = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
         
-        dest.Content = ~(a & b);
-    }
-    internal static void Or(InstructionAction action, IList<InstructionArgument> arguments)
-    {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 3);
-        
-        var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        var a = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-        var b = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
-
-        dest.Content = a | b;
-    }
-    internal static void Xor(InstructionAction action, IList<InstructionArgument> arguments)
-    {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 3);
-        
-        var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        var a = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-        var b = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
-        
-        dest.Content = a ^ b;
-    }
-    internal static void Nxor(InstructionAction action, IList<InstructionArgument> arguments)
-    {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 3);
-        
-        var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        var a = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-        var b = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
-        
-        dest.Content = ~(a ^ b);
-    }
-    internal static void Nor(InstructionAction action, IList<InstructionArgument> arguments)
-    {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 3);
-        
-        var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        var a = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-        var b = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
-        
-        dest.Content = ~(a | b);
+        ActionUtility.InterpretWrite(action.Arguments[0], a ^ b, action.Instruction);
     }
 }

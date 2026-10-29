@@ -1,4 +1,5 @@
 ﻿using Chippie_Lite_WPF.Computer.Instructions;
+using Chippie_Lite_WPF.Computer.Utility;
 
 namespace Chippie_Lite_WPF.Computer.Components;
 
@@ -30,7 +31,7 @@ public static class InstructionBank
 
     public static void ReplaceInstruction(int index, Instruction newIns)
     {
-        Instructions[WrapIndex(index)] = newIns;
+        Instructions[IndexUtility.WrapIndex(index, Instructions.Count)] = newIns;
     }
 
     public static void ClearInstructions()
@@ -38,13 +39,5 @@ public static class InstructionBank
         Instructions.Clear();
     }
     
-    public static Instruction GetInstruction(int index) => Instructions[WrapIndex(index)];
-
-    private static int WrapIndex(int index)
-    {
-        if (Count == 0) return 0;
-        if (index >= Instructions.Count) return index % Instructions.Count;
-        if (index < 0) return (Instructions.Count - 1) - (-index % Instructions.Count);
-        return index;
-    }
+    public static Instruction GetInstruction(int index) => Instructions[IndexUtility.WrapIndex(index, Instructions.Count)];
 }

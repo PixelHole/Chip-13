@@ -1,5 +1,5 @@
 ﻿using System.Runtime.Serialization;
-using Chippie_Lite_WPF.Computer.Instructions.Arguments.Base;
+using Chippie_Lite_WPF.Computer.Instructions.Arguments;
 
 namespace Chippie_Lite_WPF.Computer.Internal.Exceptions.Interpretation;
 

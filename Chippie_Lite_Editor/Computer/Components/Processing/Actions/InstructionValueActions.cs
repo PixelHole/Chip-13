@@ -1,132 +1,103 @@
-﻿using Chippie_Lite_WPF.Computer.Instructions;
-using Chippie_Lite_WPF.Computer.Instructions.Arguments.Base;
+﻿using System.Numerics;
+using Chippie_Lite_WPF.Computer.Instructions;
+using Chippie_Lite_WPF.Computer.Instructions.Arguments;
 using Chippie_Lite_WPF.Computer.Utility;
 
 namespace Chippie_Lite_WPF.Computer.Components.Actions;
 
 public static class InstructionValueActions
 {
-    internal static void Move(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void Add(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 2);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 3);
         
-        var a = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        var b = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-
-        a.Content = b;
+        var a = ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
+        var b = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
+        
+        ActionUtility.InterpretWrite(action.Arguments[0], a + b, action.Instruction);
     }
-    internal static void Add(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void Multiply(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 3);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 2);
         
-        var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        var a = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-        var b = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
+        var a = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
+        var b = ActionUtility.InterpretRead(action.Arguments[3], action.Instruction);
+
+        BigInteger result = a * b;
+
+        Register high = ActionUtility.GetRegister(action.Arguments[0], action.Instruction);
+        Register low = ActionUtility.GetRegister(action.Arguments[1], action.Instruction);
         
-        dest.Content = a + b;
+        low.Content = (long)result;
+        high.Content = (long)(result >> 64);
     }
-    internal static void Subtract(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void Power(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 3);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 2);
         
-        var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        var a = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-        var b = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
-        
-        dest.Content = a - b;
+        var a = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
+        var b = ActionUtility.InterpretRead(action.Arguments[3], action.Instruction);
+
+        BigInteger result = BigInteger.Pow(a, (int)b);
+
+        Register high = ActionUtility.GetRegister(action.Arguments[0], action.Instruction);
+        Register low = ActionUtility.GetRegister(action.Arguments[1], action.Instruction);
+
+        low.Content = (long)result;
+        high.Content = (long)(result >> 64);
     }
-    internal static void Multiply(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void Divide(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 2);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 3);
         
-        var a = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
-        var b = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-
-        long result = a * b;
-
-        Register high = RegisterBank.GetRegister("High")!;
-        Register low = RegisterBank.GetRegister("low")!;
-
-        low.Content = (int)result;
-        long shift = (long)Math.Pow(2, 32);
-        result /= shift;
-        high.Content = (int)result;
+        var a = ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
+        var b = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
+        
+        ActionUtility.InterpretWrite(action.Arguments[0], a / b, action.Instruction);
     }
-    internal static void Power(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void Remainder(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 2);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 3);
         
-        var a = InstructionArgument.GetNumber(arguments[action.Indices[0]]);
-        var b = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-
-        long result = (int)Math.Pow(a, b);
-
-        Register high = RegisterBank.GetRegister("High")!;
-        Register low = RegisterBank.GetRegister("low")!;
-
-        low.Content = (int)result;
-        long shift = (long)Math.Pow(2, 32);
-        result /= shift;
-        high.Content = (int)result;
+        var a = ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
+        var b = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
+        
+        ActionUtility.InterpretWrite(action.Arguments[0], a % b, action.Instruction);
     }
-    internal static void Divide(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void ShiftLeftLogic(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 3);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 3);
         
-        var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        var a = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-        var b = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
+        var value = ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
+        var amount = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
         
-        dest.Content = a / b;
+        ActionUtility.InterpretWrite(action.Arguments[0], value << (int)amount, action.Instruction);
     }
-    internal static void Remainder(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void ShiftRightLogic(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 3);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 3);
         
-        var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        var a = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-        var b = InstructionArgument.GetNumber(arguments[action.Indices[2]]);
+        var value = ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
+        var amount = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
         
-        dest.Content = a % b;
+        ActionUtility.InterpretWrite(action.Arguments[0], value >> (int)amount, action.Instruction);
     }
-    internal static void ShiftLeftLogic(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void ShiftLeftArithmatic(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 3);
-
-        var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        long value = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-        int amount = (int)InstructionArgument.GetNumber(arguments[action.Indices[2]]);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 3);
         
-        dest.Content = value << amount;
-    }
-    internal static void ShiftRightLogic(InstructionAction action, IList<InstructionArgument> arguments)
-    {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 3);
-
-        var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        long value = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-        int amount = (int)InstructionArgument.GetNumber(arguments[action.Indices[2]]);
-
-        dest.Content = value >> amount;
-    }
-    internal static void ShiftLeftArithmatic(InstructionAction action, IList<InstructionArgument> arguments)
-    {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 3);
-
-        var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        long value = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-        int amount = (int)InstructionArgument.GetNumber(arguments[action.Indices[2]]);
+        var value = ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
+        var amount = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
         
-        dest.Content = BitMath.ShiftLeft(value, amount, true);
+        ActionUtility.InterpretWrite(action.Arguments[0], BitMath.ShiftLeft(value, (int)amount, true), action.Instruction);
     }
-    internal static void ShiftRightArithmatic(InstructionAction action, IList<InstructionArgument> arguments)
+    internal static void ShiftRightArithmatic(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 3);
-
-        var dest = InstructionArgument.GetRegister(arguments[action.Indices[0]]);
-        long value = InstructionArgument.GetNumber(arguments[action.Indices[1]]);
-        int amount = (int)InstructionArgument.GetNumber(arguments[action.Indices[2]]);
-
-        dest.Content = value >>> amount;
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 3);
+        
+        var value = ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
+        var amount = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
+        
+        ActionUtility.InterpretWrite(action.Arguments[0], value >>> (int)amount, action.Instruction);
     }
 }

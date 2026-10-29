@@ -1,202 +1,110 @@
 ﻿using Chippie_Lite_WPF.Computer.Components.Actions;
 using Chippie_Lite_WPF.Computer.Instructions;
-using Chippie_Lite_WPF.Computer.Instructions.Arguments.Base;
+using Chippie_Lite_WPF.Computer.Instructions.Arguments;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions.Interpretation;
 
 namespace Chippie_Lite_WPF.Computer.Components;
 
 public static class InstructionActions
 {
-    public static void ExecuteAction(InstructionAction action, IList<InstructionArgument> arguments)
+    public static void ExecuteAction(InstructionAction action)
     {
         switch (action.Header.ToLower())
         {
-            case "move" :
-                InstructionValueActions.Move(action, arguments);
-                break;
-            
             case "add" :
-                InstructionValueActions.Add(action, arguments);
-                break;
-            
-            case "subtract" :
-                InstructionValueActions.Subtract(action, arguments);
+                InstructionValueActions.Add(action);
                 break;
             
             case "multiply" :
-                InstructionValueActions.Multiply(action, arguments);
+                InstructionValueActions.Multiply(action);
                 break;
             
             case "power" :
-                InstructionValueActions.Power(action, arguments);
+                InstructionValueActions.Power(action);
                 break;
             
             case "divide" :
-                InstructionValueActions.Divide(action, arguments);
+                InstructionValueActions.Divide(action);
                 break;
             
             case "remainder" :
-                InstructionValueActions.Remainder(action, arguments);
+                InstructionValueActions.Remainder(action);
                 break;
 
             case "shift left logic" :
-                InstructionValueActions.ShiftLeftLogic(action, arguments);
+                InstructionValueActions.ShiftLeftLogic(action);
                 break;
 
             case "shift right logic" :
-                InstructionValueActions.ShiftRightLogic(action, arguments);
+                InstructionValueActions.ShiftRightLogic(action);
                 break;
             
             case "shift left arithmatic" :
-                InstructionValueActions.ShiftLeftArithmatic(action, arguments);
+                InstructionValueActions.ShiftLeftArithmatic(action);
                 break;
 
             case "shift right arithmatic" :
-                InstructionValueActions.ShiftRightArithmatic(action, arguments);
-                break;
-            
-            case "not" :
-                InstructionLogicActions.Not(action, arguments);
+                InstructionValueActions.ShiftRightArithmatic(action);
                 break;
             
             case "and" :
-                InstructionLogicActions.And(action, arguments);
-                break;
-            
-            case "nand" :
-                InstructionLogicActions.Nand(action, arguments);
+                InstructionLogicActions.And(action);
                 break;
             
             case "or" :
-                InstructionLogicActions.Or(action, arguments);
+                InstructionLogicActions.Or(action);
                 break;
             
             case "xor" :
-                InstructionLogicActions.Xor(action, arguments);
-                break;
-            
-            case "nor" :
-                InstructionLogicActions.Nor(action, arguments);
-                break;
-            
-            case "nxor" :
-                InstructionLogicActions.Nxor(action, arguments);
-                break;
-            
-            case "jump" :
-                InstructionJumpActions.Jump(action, arguments);
-                break;
-            
-            case "jump relative" :
-                InstructionJumpActions.JumpRelative(action, arguments);
-                break;
-            
-            case "jump if equal" :
-                InstructionJumpActions.JumpIfEqual(action, arguments);
-                break;
-            
-            case "jump if equal relative" :
-                InstructionJumpActions.JumpIfEqualRelative(action, arguments);
-                break;
-            
-            case "jump if less" :
-                InstructionJumpActions.JumpIfLess(action, arguments);
-                break;
-            
-            case "jump if less relative" :
-                InstructionJumpActions.JumpIfLessRelative(action, arguments);
-                break;
-            
-            case "jump if greater" :
-                InstructionJumpActions.JumpIfGreater(action, arguments);
-                break;
-            
-            case "jump if greater relative" :
-                InstructionJumpActions.JumpIfGreaterRelative(action, arguments);
+                InstructionLogicActions.Xor(action);
                 break;
             
             case "serial input" :
-                InstructionIOActions.GetSerialInput(action, arguments);
+                InstructionIOActions.GetSerialInput(action);
                 break;
             
             case "key input" :
-                InstructionIOActions.GetKeyInput(action, arguments);
+                InstructionIOActions.GetKeyInput(action);
                 break;
             
             case "serial output" :
-                InstructionIOActions.SendSerialOutput(action, arguments);
+                InstructionIOActions.SendSerialOutput(action);
                 break;
             
             case "flush io buffers" :
-                InstructionIOActions.FlushIOBuffers(action, arguments);
+                InstructionIOActions.FlushIOBuffers(action);
                 break;
             
             case "cursor background" :
-                InstructionIOActions.SetCursorBackground(action, arguments);
+                InstructionIOActions.SetCursorBackground(action);
                 break;
             
             case "cursor foreground" :
-                InstructionIOActions.SetCursorForeground(action, arguments);
+                InstructionIOActions.SetCursorForeground(action);
                 break;
             
             case "console background" :
-                InstructionIOActions.SetConsoleBackground(action, arguments);
-                break;
-            
-            case "console cursor top" :
-                InstructionIOActions.SetCursorTop(action, arguments);
-                break;
-            
-            case "console cursor left" :
-                InstructionIOActions.SetCursorLeft(action, arguments);
+                InstructionIOActions.SetConsoleBackground(action);
                 break;
             
             case "console cursor" :
-                InstructionIOActions.SetCursor(action, arguments);
+                InstructionIOActions.SetCursor(action);
                 break;
             
             case "console clear" :
-                InstructionIOActions.ClearConsole(action, arguments);
-                break;
-            
-            case "memory write" :
-                InstructionMemoryActions.Write(action, arguments);
-                break;
-            
-            case "memory read" :
-                InstructionMemoryActions.Read(action, arguments);
+                InstructionIOActions.ClearConsole(action);
                 break;
             
             case "wait" :
-                InstructionMiscActions.Wait(action, arguments);
+                InstructionMiscActions.Wait(action);
                 break;
             
             case "beep" :
-                InstructionMiscActions.Beep(action, arguments);
+                InstructionMiscActions.Beep(action);
                 break;
             
-            case "sine wave" :
-                InstructionMiscActions.SineWave(action, arguments);
-                break;
-            
-            case "triangle wave" :
-                InstructionMiscActions.TriangleWave(action, arguments);
-                break;
-            
-            case "square wave" :
-                InstructionMiscActions.SquareWave(action, arguments);
-                break;
-            
-            case "SawTooth wave" :
-                InstructionMiscActions.SawToothWave(action, arguments);
-                break;
-            
-            case "white noise" :
-                InstructionMiscActions.WhiteNoise(action, arguments);
-                break;
-            
-            case "pink noise" :
-                InstructionMiscActions.PinkNoise(action, arguments);
+            case "audio signal" :
+                InstructionMiscActions.AudioWave(action);
                 break;
             
             case "terminate" :
@@ -204,25 +112,9 @@ public static class InstructionActions
                 return;
         }
     }
-
-
+    
     private static void Terminate()
     {
         Chippie.HaltOperation();
-    }
-    
-    internal static void CheckArgumentAndActionIndexCount(InstructionAction action, IList<InstructionArgument> arguments,
-        int expected)
-    {
-        CheckActionIndexCount(action, expected);
-        CheckArgumentCount(arguments, expected);
-    }
-    private static void CheckActionIndexCount(InstructionAction action, int expected)
-    {
-        if (action.Indices.Length < expected) throw new NotEnoughActionIndicesException(action.Indices.Length, expected);
-    }
-    private static void CheckArgumentCount(IList<InstructionArgument> arguments, int expected)
-    {
-        if (arguments.Count < expected) throw new NotEnoughActionIndicesException(arguments.Count, expected);
     }
 }

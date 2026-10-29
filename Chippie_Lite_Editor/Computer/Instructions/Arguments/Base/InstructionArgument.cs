@@ -1,7 +1,7 @@
 ﻿using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions.Interpretation;
 
-namespace Chippie_Lite_WPF.Computer.Instructions.Arguments.Base;
+namespace Chippie_Lite_WPF.Computer.Instructions.Arguments;
 
 public abstract class InstructionArgument
 {
@@ -33,6 +33,4 @@ public abstract class InstructionArgument
                 throw new UnsupportedArgumentTypeException(argument);
         }
     }
-    
-    
 }

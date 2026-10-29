@@ -2,7 +2,6 @@
 using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.Instructions;
 using Chippie_Lite_WPF.Computer.Instructions.Arguments;
-using Chippie_Lite_WPF.Computer.Instructions.Arguments.Base;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions.Base;
 

@@ -1,5 +1,6 @@
 ﻿using Chippie_Lite_WPF.Computer.Instructions;
-using Chippie_Lite_WPF.Computer.Instructions.Arguments.Base;
+using Chippie_Lite_WPF.Computer.Instructions.Arguments;
+using Chippie_Lite_WPF.Computer.Utility;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 
@@ -7,54 +8,31 @@ namespace Chippie_Lite_WPF.Computer.Components.Actions;
 
 public static class InstructionMiscActions
 {
-    public static void Beep(InstructionAction action, IList<InstructionArgument> arguments)
+    public static void Beep(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 2);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 2);
         
-        int freq = (int)InstructionArgument.GetNumber(arguments[action.Indices[0]]);
-        int dur = (int)InstructionArgument.GetNumber(arguments[action.Indices[1]]);
+        int freq = (int)ActionUtility.InterpretRead(action.Arguments[0], action.Instruction);
+        int dur = (int)ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
         
         Console.Beep(freq, dur);
     }
-    public static void Wait(InstructionAction action, IList<InstructionArgument> arguments)
+    public static void Wait(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 1);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 1);
         
-        int dur = (int)InstructionArgument.GetNumber(arguments[action.Indices[0]]);
+        int dur = (int)ActionUtility.InterpretRead(action.Arguments[0], action.Instruction);
         
         Thread.Sleep(dur);
     }
-    public static void SineWave(InstructionAction action, IList<InstructionArgument> arguments)
-    {
-        AudioInstruction(action, arguments, SignalGeneratorType.Sin);
-    }
-    public static void TriangleWave(InstructionAction action, IList<InstructionArgument> arguments)
-    {
-        AudioInstruction(action, arguments, SignalGeneratorType.Triangle);
-    }
-    public static void SquareWave(InstructionAction action, IList<InstructionArgument> arguments)
-    {
-        AudioInstruction(action, arguments, SignalGeneratorType.Square);
-    }
-    public static void SawToothWave(InstructionAction action, IList<InstructionArgument> arguments)
-    {
-        AudioInstruction(action, arguments, SignalGeneratorType.SawTooth);
-    }
-    public static void PinkNoise(InstructionAction action, IList<InstructionArgument> arguments)
-    {
-        AudioInstruction(action, arguments, SignalGeneratorType.Pink);
-    }
-    public static void WhiteNoise(InstructionAction action, IList<InstructionArgument> arguments)
-    {
-        AudioInstruction(action, arguments, SignalGeneratorType.White);
-    }
 
-    private static void AudioInstruction(InstructionAction action, IList<InstructionArgument> arguments, SignalGeneratorType type)
+    public static void AudioWave(InstructionAction action)
     {
-        InstructionActions.CheckArgumentAndActionIndexCount(action, arguments, 2);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, 2);
         
-        int freq = (int)InstructionArgument.GetNumber(arguments[action.Indices[0]]);
-        int dur = (int)InstructionArgument.GetNumber(arguments[action.Indices[1]]);
+        int freq = (int)ActionUtility.InterpretRead(action.Arguments[0], action.Instruction);
+        int dur = (int)ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
+        SignalGeneratorType type = (SignalGeneratorType)(ActionUtility.InterpretRead(action.Arguments[2], action.Instruction) % 7);
         
         PlayAudioWave(freq, dur, type);
     }

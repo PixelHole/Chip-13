@@ -1,6 +1,4 @@
-﻿using Chippie_Lite_WPF.Computer.Instructions.Arguments.Base;
-
-namespace Chippie_Lite_WPF.Computer.Instructions.Arguments;
+﻿namespace Chippie_Lite_WPF.Computer.Instructions.Arguments;
 
 public class NumberArgument : InstructionArgument
 {

@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using Chippie_Lite_WPF.Computer.Instructions.Arguments.Base;
+using Chippie_Lite_WPF.Computer.Instructions.Arguments;
 
 namespace Chippie_Lite_WPF.Computer.Instructions;
 
@@ -11,6 +11,7 @@ public struct Instruction : IEquatable<Instruction>
     public int ScriptLine { get; set; }
     public bool HasBreakpoint { get; set; }
 
+    public Dictionary<string, long> Variables { get; } = [];
 
     public Instruction(string header, IEnumerable<InstructionArgument> arguments, IEnumerable<InstructionAction> actions,
         bool hasBreakpoint = false)
@@ -20,7 +21,7 @@ public struct Instruction : IEquatable<Instruction>
         AddActions(actions);
         HasBreakpoint = hasBreakpoint;
     }
-
+    
     private void AddArguments(IEnumerable<InstructionArgument> arguments)
     {
         foreach (var argument in arguments)
@@ -32,10 +33,11 @@ public struct Instruction : IEquatable<Instruction>
     {
         foreach (var action in actions)
         {
+            action.SetInstruction(this);
             Actions.Add(action);
         }
     }
-
+    
     public static bool operator ==(Instruction a, Instruction b)
     {
         return a.Header.ToLower().Trim() == b.Header.ToLower().Trim() && a.Arguments == b.Arguments && a.Actions == b.Actions &&
