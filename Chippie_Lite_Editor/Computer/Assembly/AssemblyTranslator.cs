@@ -92,7 +92,7 @@ namespace Chippie_Lite_WPF.Computer.Assembly
             string[] parts = raw.Split(' ', '\t', StringSplitOptions.RemoveEmptyEntries);
             string header = parts[0].Trim();
 
-            var template = InstructionSet.FindTemplate(header);
+            var template = InstructionSetManager.ActiveInstructionSet.FindTemplate(header);
 
             if (template == null) throw new InvalidHeaderException(0, header);
             

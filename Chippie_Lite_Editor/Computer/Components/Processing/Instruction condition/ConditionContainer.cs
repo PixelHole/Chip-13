@@ -11,4 +11,9 @@ public struct ConditionContainer
         Number = number;
         Operator = @operator;
     }
+
+    public override string ToString()
+    {
+        return Operator == null ? Number : Operator.Value.Sign;
+    }
 }

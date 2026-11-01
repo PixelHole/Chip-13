@@ -4,10 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Cat"
+             xmlns:anim="https://github.com/whistyun/AnimatedImage.Wpf"
              mc:Ignorable="d"
              Background=" Transparent"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="64" d:DesignWidth="64">
     <Grid>
-        <Image x:Name="Sprite"/>
+        <Image x:Name="Sprite" anim:ImageBehavior.AnimatedSource="../../../Resources/Images/Cat/sit idle.gif" 
+               RenderOptions.BitmapScalingMode="NearestNeighbor"/>
     </Grid>
 </UserControl>

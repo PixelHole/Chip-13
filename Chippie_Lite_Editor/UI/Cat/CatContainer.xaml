@@ -5,8 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Cat"
              mc:Ignorable="d"
+             IsHitTestVisible="False"
+             Background="Transparent"
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        
-    </Grid>
+    <Canvas>
+        <local:Cat Canvas.Top="150" Canvas.Left="150"/>
+    </Canvas>
 </UserControl>

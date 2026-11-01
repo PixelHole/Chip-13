@@ -10,7 +10,7 @@ public class EnvironmentConfig
 {
     public IOSaveInstance IOData { get; }
     public MemorySaveInstance[] MemoryModules { get; }
-    public InstructionTemplate[] InstructionSet { get; }
+    public InstructionSetInstance InstructionSet { get; }
     public RegisterSaveInstance[] Registers { get; }
     public ColorsSaveInstance Colors { get; }
 
@@ -18,7 +18,7 @@ public class EnvironmentConfig
     [JsonConstructor]
     public EnvironmentConfig(IOSaveInstance ioData,
         MemorySaveInstance[] memoryModules,
-        InstructionTemplate[] instructionSet,
+        InstructionSetInstance instructionSet,
         RegisterSaveInstance[] registers,
         ColorsSaveInstance colors)
     {

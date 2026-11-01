@@ -9,7 +9,7 @@ public struct ConditionOperator
     
     public byte InputCount { get; private init; }
 
-    public delegate string Action(string[] lists, Instruction instruction);
+    public delegate bool Action(string[] lists, Instruction instruction);
     public readonly Action ActionResult;
 
 
@@ -19,5 +19,10 @@ public struct ConditionOperator
         Precedence = precedence;
         InputCount = inputCount;
         ActionResult = actionResult;
+    }
+
+    public string Operate(string[] lists, Instruction instruction)
+    {
+        return ActionResult.Invoke(lists, instruction) ? "true" : "false";
     }
 }

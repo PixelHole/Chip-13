@@ -29,7 +29,7 @@ public static class SaveFileManager
      }
      public static void LoadDefaultData()
      {
-          SaveInstance save = EmbeddedResourceUtility.DeserializeEmbeddedResource<SaveInstance>("Chippie_Lite_WPF.Default_instance.Default.json");
+          SaveInstance save = EmbeddedResourceUtility.DeserializeEmbeddedResource<SaveInstance>("Chippie_Lite_WPF.Resources.Data.Default.json");
           
           DeserializeConfig(save.Config);
      }
@@ -70,9 +70,10 @@ public static class SaveFileManager
 
           return memoryModules.ToArray();
      }
-     private static InstructionTemplate[] SerializeInstructionSet()
+     private static InstructionSetInstance SerializeInstructionSet()
      {
-          return InstructionSet.GetTemplates();
+          var activeSet = InstructionSetManager.ActiveInstructionSet;
+          return new InstructionSetInstance(activeSet.Name, activeSet.GetTemplates());
      }
      private static RegisterSaveInstance[] SerializeRegisters()
      {
@@ -102,9 +103,11 @@ public static class SaveFileManager
           DeserializeColors(config.Colors);
           DeserializeIO(config.IOData);
      }
-     private static void DeserializeInstructionSet(InstructionTemplate[] instructionSet)
+     private static void DeserializeInstructionSet(InstructionSetInstance instructionSet)
      {
-          InstructionSet.SetTemplates(instructionSet);
+          var set = instructionSet.ToSet();
+          if (!InstructionSetManager.HasSet(set)) InstructionSetManager.LoadSet(set);
+          InstructionSetManager.ActiveSetIndex = InstructionSetManager.IndexOf(set);
      }
      private static void DeserializeMemory(MemorySaveInstance[] memoryModules)
      {

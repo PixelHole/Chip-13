@@ -5,6 +5,7 @@ using System.Windows.Media;
 using Chippie_Lite_WPF.Computer;
 using Chippie_Lite_WPF.Computer.Components;
 using UI.SyntaxBox;
+using yt_unzipper;
 
 namespace Chippie_Lite_WPF.UI.Windows.Development;
 
@@ -72,11 +73,12 @@ public partial class CodeEditView
     {
         InitializeComponent();
         SetupSyntaxHighlighting();
+        UpdateSetComboBox();
         ConnectEvents();
     }
     private void SetupSyntaxHighlighting()
     {
-        var headers = InstructionSet.GetHeadersCsv();
+        var headers = InstructionSetManager.ActiveInstructionSet.GetHeadersCsv();
         
         KeywordRule headersRule = new KeywordRule
         {
@@ -114,27 +116,25 @@ public partial class CodeEditView
     }
     private void ConnectEvents()
     {
-        
+        InstructionSetManager.OnActiveSetChanged += OnOnActiveInstructionSetChanged;
+    }
+    private void OnOnActiveInstructionSetChanged(InstructionSet set, int index)
+    {
+        SetupSyntaxHighlighting();
     }
 
     public void SetEditable(bool editable)
     {
-        InputBox.IsEnabled = editable;
+        WPFUtility.DoUiAction(InputBox, () => InputBox.IsEnabled = editable);
     }
     
-    private void ZoomIn(int amount)
-    {
-        FontSize += amount;
-    }
-    private void ZoomOut(int amount)
-    {
-        FontSize -= amount;
-    }
-    private void ResetZoom() => FontSize = 32;
+    private void ZoomIn(int amount) => WPFUtility.DoUiAction(this, () => FontSize += amount);
+    private void ZoomOut(int amount) => WPFUtility.DoUiAction(this, () => FontSize -= amount);
+    private void ResetZoom() => WPFUtility.DoUiAction(this, () => FontSize = 32);
     
     private void UpdateLineDisplay(string[] lines)
     {
-        LineDisplay.Text = "";
+        WPFUtility.SetText(LineDisplay, "");
 
         int lineIndex = 1;
         
@@ -142,33 +142,66 @@ public partial class CodeEditView
         {
             if (string.IsNullOrEmpty(line) || string.IsNullOrWhiteSpace(line) || line.StartsWith('#'))
             {
-                LineDisplay.Text += ".\n";
+                WPFUtility.AppendText(LineDisplay, ".\n");
                 continue;
             }
 
-            LineDisplay.Text += lineIndex.ToString() + "\n";
+            WPFUtility.AppendText(LineDisplay, lineIndex.ToString() + "\n");
             lineIndex++;
         }
     }
     private void UpdateLineCount(string[] lines)
     {
         int count = lines.Count(line => !string.IsNullOrEmpty(line) && !string.IsNullOrWhiteSpace(line) && !line.StartsWith('#'));
-        LineCountDisplay.Content = $"LOC : {count}";
+        WPFUtility.SetContent(LineCountDisplay, $"LOC : {count}");
+    }
+    private void UpdateSetComboBox()
+    {
+        WPFUtility.DoUiAction(InstructionSetCB, UpdateComboBoxAction);
+    }
+    private void UpdateComboBoxAction()
+    {
+        var names = InstructionSetManager.GetSetNames();
+
+        for (int i = 0; i < names.Length; i++)
+        {
+            if (i < InstructionSetCB.Items.Count)
+            {
+                var item = InstructionSetCB.Items[i] as ComboBoxItem;
+                item.Content = names[i];
+                InstructionSetCB.Items[i] = item;
+            }
+            else
+            {
+                ComboBoxItem item = new ComboBoxItem
+                {
+                    Content = names[i]
+                };
+                InstructionSetCB.Items.Add(item);
+            }
+        }
+
+        for (int i = names.Length; i < InstructionSetCB.Items.Count; i++)
+        {
+            InstructionSetCB.Items.RemoveAt(InstructionSetCB.Items.Count - 1);
+        }
     }
 
     public string[] GetInputLines()
     {
-        return InputBox.Text.Split("\r\n");
+        return WPFUtility.GetText(InputBox).Split("\r\n");
     }
 
     public Point HighlightLine(int lineIndex)
     {
-        InputBox.ScrollToLine(lineIndex);
-        int start = InputBox.GetCharacterIndexFromLineIndex(lineIndex);
-        int length = InputBox.GetLineLength(lineIndex);
+        WPFUtility.DoUiAction(InputBox, () => InputBox.ScrollToLine(lineIndex));
+        int start = 0, length = 0;
+        WPFUtility.DoUiAction(InputBox, () => start = InputBox.GetCharacterIndexFromLineIndex(lineIndex));
+        WPFUtility.DoUiAction(InputBox, () => length = InputBox.GetLineLength(lineIndex));
         InputBox.Select(start, length);
 
-        var rect = InputBox.GetRectFromCharacterIndex(start + length - 1);
+        Rect rect = Rect.Empty;
+        WPFUtility.DoUiAction(InputBox, () => rect = InputBox.GetRectFromCharacterIndex(start + length - 1));
         return rect.BottomRight;
     }
     
@@ -195,5 +228,9 @@ public partial class CodeEditView
     private void InputBox_OnKeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == ZoomResetKey && Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftShift)) ResetZoom();
+    }
+    private void InstructionSetSelector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        
     }
 }

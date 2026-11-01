@@ -1,6 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using AnimatedImage.Wpf;
 
 namespace Chippie_Lite_WPF.UI.Cat;
 

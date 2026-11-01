@@ -58,12 +58,15 @@
             </ScrollViewer>
         </Border>
         
-        <Grid x:Name="CodeDataGrid" Grid.Row="1" Background="{StaticResource 'Deep Purple'}">
+        <StackPanel Orientation="Horizontal" x:Name="CodeDataGrid" Grid.Row="1" 
+                    Background="{StaticResource 'Deep Purple'}">
             <Label x:Name="LineCountDisplay" 
                    Background="Transparent" Foreground="{StaticResource White}"
                    FontFamily="{StaticResource TextFontAlt}" FontSize="16"
                    Content="LOC : 0"/>
-        </Grid>
+            
+            <ComboBox x:Name="InstructionSetCB" Style="{StaticResource ModernComboBox}" SelectedIndex="0" SelectionChanged="InstructionSetSelector_OnSelectionChanged"/>
+        </StackPanel>
         
     </Grid>
 </UserControl>

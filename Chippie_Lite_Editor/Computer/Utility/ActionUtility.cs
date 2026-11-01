@@ -12,14 +12,14 @@ public static class ActionUtility
         if (inp.StartsWith('~')) return ~InterpretRead(inp[1..], instruction);
         if (inp.StartsWith('-')) return -InterpretRead(inp[1..], instruction);
         if (inp.StartsWith('+')) return long.Abs(InterpretRead(inp[1..], instruction));
-        if (inp.StartsWith('!')) return ReadVariable(inp, instruction);
+        if (inp.StartsWith('@')) return ReadVariable(inp, instruction);
         if (inp.StartsWith('$')) return ReadRegister(inp, instruction);
         if (inp.StartsWith('^')) return InstructionArgument.GetNumber(ReadArgument(inp, instruction));
-        if (inp.StartsWith('&')) return ReadMemory(inp, instruction);
+        if (inp.StartsWith('#')) return ReadMemory(inp, instruction);
         if (NumberUtility.TryParseNumber(inp, out var num)) return num;
         return -1;
     }
-    // format : !VALUE
+    // format : @VALUE
     private static long ReadVariable(string inp, Instruction instruction)
     {
         inp = inp[1..];
@@ -43,7 +43,7 @@ public static class ActionUtility
     {
         return GetRegister(inp, instruction).Content;
     }
-    // format : &INDEX|ADDRESS
+    // format : #INDEX|ADDRESS
     private static long ReadMemory(string inp, Instruction instruction)
     {
         var destination = GetMemory(inp, instruction);
@@ -53,9 +53,9 @@ public static class ActionUtility
     
     public static void InterpretWrite(string inp, long value, Instruction instruction)
     {
-        if (inp.StartsWith('!')) WriteVariable(inp, value, instruction);
+        if (inp.StartsWith('@')) WriteVariable(inp, value, instruction);
         else if (inp.StartsWith('$')) WriteRegister(inp, value, instruction);
-        else if (inp.StartsWith('&')) WriteMemory(inp, value, instruction);
+        else if (inp.StartsWith('#')) WriteMemory(inp, value, instruction);
         else WriteVariable(inp, value, instruction);
     }
     private static void WriteVariable(string inp, long value, Instruction instruction)
@@ -84,6 +84,8 @@ public static class ActionUtility
         reg = RegisterBank.GetRegister(name);
         if (reg != null) return reg;
 
+        if (name.StartsWith('^')) return InstructionArgument.GetRegister(instruction.Arguments[(int)InterpretRead(name[1..], instruction)]);
+        
         long index = InterpretRead(name, instruction);
         if (index == -1) throw new InstructionInterpretationException($"could not complete action from instruction : {instruction}\n" +
                                                                       $"could not get register with index {inp}");

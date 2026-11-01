@@ -11,7 +11,6 @@ public static class JsonFileUtility
     {
         StreamReader reader;
         string json;
-        T result;
         try
         {
             reader = new StreamReader(path);
@@ -35,24 +34,9 @@ public static class JsonFileUtility
         
         return Deserialize<T>(json);
     }
-    public static T Deserialize<T>(string json)
-    {
-        T result;
-        
-        try
-        {
-            result = JsonSerializer.Deserialize<T>(json, JsonSerializerOptions.Web) ?? throw new ArgumentNullException();
-        }
-        catch (Exception e)
-        {
-            throw new FileParseException(e);
-        }
-
-        return result;
-    }
     public static void SerializeAndWrite(object obj, string path)
     {
-        string json = JsonSerializer.Serialize(obj, JsonSerializerOptions.Web);
+        string json = Serialize(obj);
         StreamWriter writer;
           
         try
@@ -75,5 +59,24 @@ public static class JsonFileUtility
           
         writer.Flush();
         writer.Close();
+    }
+    public static T Deserialize<T>(string json)
+    {
+        T result;
+        
+        try
+        {
+            result = JsonSerializer.Deserialize<T>(json, JsonSerializerOptions.Web) ?? throw new ArgumentNullException();
+        }
+        catch (Exception e)
+        {
+            throw new FileParseException(e);
+        }
+
+        return result;
+    }
+    public static string Serialize(object obj)
+    {
+        return JsonSerializer.Serialize(obj, JsonSerializerOptions.Web);
     }
 }

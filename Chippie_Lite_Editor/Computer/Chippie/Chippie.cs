@@ -1,6 +1,7 @@
 ﻿using Chippie_Lite_WPF.Computer.Assembly;
 using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.File;
+using Chippie_Lite_WPF.Computer.File.InstructionSets;
 using Chippie_Lite_WPF.Computer.Instructions;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions;
 using Chippie_Lite_WPF.UI.Elements;
@@ -12,7 +13,6 @@ public static class Chippie
     private static bool _singleStep = false;
     private static bool _isRunning = false;
     private static Instruction? lastInstruction;
-
     
     
     private static bool SafeExit { get; set; } = false;
@@ -63,6 +63,7 @@ public static class Chippie
 
     public static void Initialize()
     {
+        InstructionSetFileManager.LoadSets();
         SaveFileManager.LoadDefaultData();
     }
     

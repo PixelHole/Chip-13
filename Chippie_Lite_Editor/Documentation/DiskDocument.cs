@@ -12,12 +12,6 @@ public class DiskDocument
     public bool IsOpen { get; private set; }
 
     private StringBuilder ContentBuffer { get; set; }
-
-    public delegate void OpenedAction();
-    public event OpenedAction? OnOpened;
-    
-    public delegate void ClosedAction();
-    public event ClosedAction? OnClosed;
     
     
     private DiskDocument(string name, string[] address, string filePath)

@@ -103,9 +103,11 @@
       <None Remove="Resources\Images\Icons\SaveAs.png" />
       <Resource Include="Resources\Images\Icons\SaveAs.png" />
       <None Remove="Default instance\Default.json" />
-      <EmbeddedResource Include="Default instance\Default.json">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      </EmbeddedResource>
+      <Resource Include="Resources\Images\Logos\logo16.png" />
+      <Resource Include="Resources\Images\Logos\logo32.png" />
+      <Resource Include="Resources\Images\Logos\logo8.png" />
+      <None Remove="Resources\Images\Cat\sit idle.gif" />
+      <Resource Include="Resources\Images\Cat\sit idle.gif" />
     </ItemGroup>
 
     <ItemGroup>
@@ -157,15 +159,16 @@
         <XamlRuntime>Wpf</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
+      <Page Update="UI\Cat\Cat\Cat.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
     </ItemGroup>
 
     <ItemGroup>
-      <Resource Include="Resources\Images\logo16.png" />
-      <Resource Include="Resources\Images\logo32.png" />
-      <Resource Include="Resources\Images\logo8.png" />
-    </ItemGroup>
-
-    <ItemGroup>
+      <PackageReference Include="AnimatedImage" Version="2.1.4" />
+      <PackageReference Include="AnimatedImage.Wpf" Version="2.1.4" />
       <PackageReference Include="NAudio" Version="2.2.1" />
       <PackageReference Include="UI.SyntaxBox" Version="1.0.0" />
     </ItemGroup>
@@ -189,8 +192,18 @@
 
     <ItemGroup>
       <Folder Include="Resources\Icons\" />
+      <Folder Include="Resources\Images\Cat\" />
+      <Folder Include="UI\Cat\Cat\Animator\" />
       <Folder Include="UI\Documentation\" />
       <Folder Include="UI\MainApp\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Resources\Data\Default.json">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <None Remove="Resources\Data\CatStates.json" />
+      <None Include="Resources\Data\CatStates.txt" />
     </ItemGroup>
 
 </Project>

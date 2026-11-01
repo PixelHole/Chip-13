@@ -13,17 +13,10 @@ public struct InstructionAction : IEquatable<InstructionAction>
 
 
     [JsonConstructor]
-    public InstructionAction(string header, string condition, string[] arguments)
+    public InstructionAction(string header, string[] arguments, string condition = "")
     {
         Header = header;
         Condition = condition;
-        Arguments = arguments;
-    }
-    [JsonConstructor]
-    public InstructionAction(string header, string[] arguments)
-    {
-        Header = header;
-        Condition = "";
         Arguments = arguments;
     }
 

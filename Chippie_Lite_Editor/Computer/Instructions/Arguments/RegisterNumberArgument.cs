@@ -24,7 +24,7 @@ public class RegisterNumberArgument : InstructionArgument
     {
         int index = (int)NumberArgument.Number;
         if (RegisterArgument.Register != null) index += RegisterBank.IndexOf(RegisterArgument.Register);
-        return RegisterBank.GetRegister(index);
+        return RegisterBank.GetRegister(index)!;
     }
     
     public override string ToString()
