@@ -46,7 +46,7 @@ public partial class ErrorBox
         });
     }
     
-    private void CloseBtn_OnClick(SquareButton sender)
+    private void CloseBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         Close();
     }

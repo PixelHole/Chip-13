@@ -11,6 +11,7 @@ public struct Instruction : IEquatable<Instruction>
     public int ScriptLine { get; set; }
     public bool HasBreakpoint { get; set; }
 
+    public int ExpectedArgCount { get; set; }
     public Dictionary<string, long> Variables { get; } = [];
 
     public Instruction(string header, IEnumerable<InstructionArgument> arguments, IEnumerable<InstructionAction> actions,

@@ -1,9 +1,18 @@
 ﻿namespace Chippie_Lite_WPF.UI.Cat;
 
-public class CatState
+public struct CatState
 {
+    public string Name { get; private set; } = "State";
     private List<CatStateLink> Links { get; } = [];
-    
+    public bool CanTransition { get; set; } = true;
+    public TimeSpan Duration { get; set; }
+
+
+    public CatState(string name, TimeSpan duration)
+    {
+        Name = name;
+        Duration = duration;
+    }
 
     public void AddLink(CatState state, int chance)
     {
@@ -12,10 +21,9 @@ public class CatState
 
     public CatState Next()
     {
-        foreach (var link in Links)
-        {
-            if (link.GetChance()) return link.LinkedState;
-        }
+        if (!CanTransition) return this;
+        
+        foreach (var link in Links.Where(link => link.GetChance())) return link.LinkedState;
 
         return this;
     }

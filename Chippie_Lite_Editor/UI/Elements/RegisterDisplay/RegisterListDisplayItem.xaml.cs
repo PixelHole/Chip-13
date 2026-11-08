@@ -38,6 +38,8 @@ public partial class RegisterListDisplayItem : UserControl
             UpdateContentDisplay();
         }
     }
+
+    private byte RegisterLength { get; set; }
     
     
     public RegisterListDisplayItem(Register register)
@@ -55,6 +57,7 @@ public partial class RegisterListDisplayItem : UserControl
     }
     private void ConnectToRegister(Register register)
     {
+        RegisterLength = register.LengthLimit;
         IdLabel.Content = register.Id;
         DisplayedContent = register.Content;
         register.OnContentChanged += OnRegisterChanged;
@@ -69,8 +72,8 @@ public partial class RegisterListDisplayItem : UserControl
     {
         var text = displayFormat switch
         {
-            1 => NumberUtility.ToBinary(DisplayedContent, true),
-            2 => NumberUtility.ToHex(DisplayedContent, true),
+            1 => NumberUtility.ToBinary(DisplayedContent, RegisterLength, true),
+            2 => NumberUtility.ToHex(DisplayedContent, RegisterLength, true),
             _ => DisplayedContent.ToString()
         };
 

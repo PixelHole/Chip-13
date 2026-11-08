@@ -1,5 +1,6 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
+using Application = System.Windows.Application;
+using System.Windows.Input;
 
 namespace Chippie_Lite_WPF.UI.Elements;
 
@@ -9,13 +10,13 @@ public partial class WindowRibbon
     {
         InitializeComponent();
     }
-    private void MinimizeBtn_OnClick(SquareButton sender)
+    private void MinimizeBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         var window = Window.GetWindow(this);
         if (window == null) return;
         window.WindowState = WindowState.Minimized;
     }
-    private void FullscreenBtn_OnClick(SquareButton sender)
+    private void FullscreenBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         var window = Window.GetWindow(this);
         if (window == null) return;
@@ -27,7 +28,7 @@ public partial class WindowRibbon
             _ => window.WindowState
         };
     }
-    private void CloseBtn_OnClick(SquareButton sender)
+    private void CloseBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         var window = Window.GetWindow(this);
         if (window == Application.Current.MainWindow) Application.Current.Shutdown();

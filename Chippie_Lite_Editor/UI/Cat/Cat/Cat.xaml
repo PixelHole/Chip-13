@@ -1,4 +1,5 @@
-﻿<UserControl x:Class="Chippie_Lite_WPF.UI.Cat.Cat"
+﻿<!-- ReSharper disable once Xaml.RedundantAttachedProperty -->
+<UserControl x:Class="Chippie_Lite_WPF.UI.Cat.Cat"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,9 +8,12 @@
              xmlns:anim="https://github.com/whistyun/AnimatedImage.Wpf"
              mc:Ignorable="d"
              Background=" Transparent"
-             d:DesignHeight="64" d:DesignWidth="64">
-    <Grid>
+             Canvas.Bottom="0">
+    <StackPanel>
+        <Label x:Name="Label" Foreground="{StaticResource White}" FontSize="16" FontFamily="{StaticResource TextFont}" 
+               VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+               Content="Name"/>
         <Image x:Name="Sprite" anim:ImageBehavior.AnimatedSource="../../../Resources/Images/Cat/sit idle.gif" 
                RenderOptions.BitmapScalingMode="NearestNeighbor"/>
-    </Grid>
+    </StackPanel>
 </UserControl>

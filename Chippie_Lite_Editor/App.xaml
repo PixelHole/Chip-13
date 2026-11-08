@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="/UI/Windows/MainWindow.xaml"
-             Startup="App_OnStartup">
+             Startup="App_OnStartup"
+             Exit="App_OnExit">
     <Application.Resources>
         <FontFamily x:Key="TextFont">/Resources/Fonts/#Kenney Mini Regular</FontFamily>
         <FontFamily x:Key="TextFontAlt">/Resources/Fonts/#Kenney Mini Square Regular</FontFamily>
@@ -160,10 +161,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-        <!-- ======================================================== -->
-        <!-- TOGGLE BUTTON TEMPLATE (Arrow & Background Base)         -->
-        <!-- ======================================================== -->
+        
         <ControlTemplate x:Key="ComboBoxToggleButtonTemplate" TargetType="ToggleButton">
             <Border x:Name="TemplateRoot"
                     Background="{TemplateBinding Background}"
@@ -188,10 +186,6 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
-
-        <!-- ======================================================== -->
-        <!-- COMBOBOX ITEM STYLE (Hover & Selected States)            -->
-        <!-- ======================================================== -->
         <Style x:Key="ModernComboBoxItemStyle" TargetType="ComboBoxItem">
             <Setter Property="SnapsToDevicePixels" Value="True"/>
             <Setter Property="Padding" Value="10,4"/>
@@ -220,10 +214,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-        <!-- ======================================================== -->
-        <!-- MAIN COMBOBOX STYLE                                      -->
-        <!-- ======================================================== -->
         <Style x:Key="ModernComboBox" TargetType="ComboBox">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="{StaticResource White}"/>
@@ -276,6 +266,67 @@
                                 </Border>
                             </Popup>
                         </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="ModernListBoxItemStyle" TargetType="ListBoxItem">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Foreground" Value="{StaticResource 'Deep Purple'}"/>
+            <Setter Property="FontFamily" Value="{StaticResource TextFont}"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="ItemBorder"
+                                Background="Transparent"
+                                Padding="8"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <!-- Hover state -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource 'Deep Purple'}"/>
+                                <Setter Property="Foreground" Value="{StaticResource White}"/>
+                            </Trigger>
+
+                            <!-- Selected state -->
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource Red}"/>
+                                <Setter Property="Foreground" Value="{StaticResource White}"/>
+                            </Trigger>
+
+                            <!-- Selected + Hover state -->
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="True"/>
+                                    <Condition Property="IsMouseOver" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource Red}"/>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ModernListBoxStyle" TargetType="ListBox">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource ModernListBoxItemStyle}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
+                        <Border Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="True">
+                            <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}">
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </ScrollViewer>
+                        </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

@@ -75,7 +75,7 @@ public partial class DocumentTab : UserControl
         else Body.Background = mouseInside ? BackgroundHoverColor : BackgroundDefaultColor;
     }
     
-    private void CloseBtn_OnClick(SquareButton sender)
+    private void CloseBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         Owner.CloseTabRequest(this);
     }

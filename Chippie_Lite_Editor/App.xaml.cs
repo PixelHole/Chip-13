@@ -21,4 +21,8 @@ public partial class App
             ChippeExceptionHandler.HandleInitException(exception);
         }
     }
+    private void App_OnExit(object sender, ExitEventArgs e)
+    {
+        Chippie.HaltOperation();
+    }
 }

@@ -34,7 +34,7 @@ public partial class SquareButton : UserControl
     public Brush BackgroundDefaultColor { get; set; } = new SolidColorBrush(Colors.Transparent);
     public Brush BackgroundClickColor { get; set; } = new SolidColorBrush(Color.FromRgb(255, 119, 168));
     
-    public delegate void ClickAction(SquareButton sender);
+    public delegate void ClickAction(SquareButton sender, MouseButtonEventArgs e);
     public event ClickAction? Click;
     
     
@@ -83,7 +83,7 @@ public partial class SquareButton : UserControl
     {
         mouseDown = false;
         UpdateColor();
-        Click?.Invoke(this);
+        Click?.Invoke(this, e);
         e.Handled = true;
     }
 }

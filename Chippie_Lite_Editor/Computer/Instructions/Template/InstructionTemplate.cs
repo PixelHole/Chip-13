@@ -24,4 +24,20 @@ public class InstructionTemplate
     {
         return $"{Name} [{Header}]";
     }
+
+    protected bool Equals(InstructionTemplate other)
+    {
+        return Name == other.Name && Header == other.Header && ArgumentTypes.SequenceEqual(other.ArgumentTypes) && Actions.SequenceEqual(other.Actions);
+    }
+    public override bool Equals(object? obj)
+    {
+        if (obj is null) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != GetType()) return false;
+        return Equals((InstructionTemplate)obj);
+    }
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Name, Header, ArgumentTypes, Actions);
+    }
 }

@@ -1,4 +1,6 @@
 ﻿using System.Globalization;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Chippie_Lite_WPF.Computer.Utility;
 
@@ -40,26 +42,39 @@ public static class NumberUtility
         return long.Parse(num);
     }
 
-    public static string? ToBinary(long num, bool separate = false)
+    public static string ToBinary(long num, int length = 64, bool separate = false, int separationLength = 8)
     {
-        string? result = Convert.ToString(num, 2).PadLeft(32, '0') + "b";
-        if (separate)
-        {
-           result = $"{result.Substring(0, 8)}-{result.Substring(8, 8)}-{result.Substring(16, 8)}-{result.Substring(24, 8)}b";
-        }
+        string converted = Convert.ToString(num, 2).PadLeft(length, '0');
 
-        return result;
+        int firstLength = converted.Length % separationLength;
+        if (firstLength == 0) firstLength = separationLength;
+
+        StringBuilder result = new StringBuilder(converted[..firstLength]);
+
+        for (int i = firstLength; i < converted.Length; i += separationLength)
+        {
+            result.Append('-');
+            result.Append(converted.Substring(firstLength, separationLength));
+        }
+        
+        return result.ToString();
     }
-    public static string? ToHex(long num, bool separate = false)
+    public static string ToHex(long num, int length = 64, bool separate = false, int separationLength = 4)
     {
-        string? result = "0x" + Convert.ToString(num, 16).PadLeft(8, '0');
+        var converted = Convert.ToString(num, 16).PadLeft(length / 8, '0');
 
-        if (separate)
+        int firstLength = converted.Length % separationLength;
+        if (firstLength == 0) firstLength = separationLength;
+
+        StringBuilder result = new StringBuilder(converted[..firstLength]);
+
+        for (int i = firstLength; i < converted.Length; i += separationLength)
         {
-            result = $"{result.Substring(0, 6)}-{result.Substring(6, 4)}";
+            result.Append('-');
+            result.Append(converted.Substring(firstLength, separationLength));
         }
 
-        return result;
+        return result.ToString();
     }
 
     private static string RemoveFlags(string str, params string[] flags)

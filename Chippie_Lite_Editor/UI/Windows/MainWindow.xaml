@@ -16,7 +16,7 @@
         Closing="MainWindow_OnClosing">
     
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="32" ResizeBorderThickness="4" CornerRadius="0" />
+        <WindowChrome CaptionHeight="32" ResizeBorderThickness="4" CornerRadius="0"/>
     </WindowChrome.WindowChrome>
     
     <Grid Background="{StaticResource 'Dark Blue'}">
@@ -26,7 +26,7 @@
         </Grid.RowDefinitions>
         
         <Grid x:Name="Toolbar" Grid.Row="0" WindowChrome.IsHitTestVisibleInChrome="True">
-            <Rectangle x:Name="DragBox" Fill="{StaticResource 'Deep Purple'}" MouseDown="DragBox_OnMouseDown"/>
+            <Rectangle Fill="{StaticResource 'Deep Purple'}" IsHitTestVisible="False"/>
             
             <StackPanel Grid.Column="0" Orientation="Horizontal">
                 <elements:SquareButton x:Name="ToolbarLogoBtn"  Click="ToolbarLogoBtn_OnClick" ToolTip="About"
@@ -78,14 +78,14 @@
                                        SelectedHoverColor="{StaticResource Pink}"
                                        SelectedClickColor="{StaticResource Bisque}"
                                        Selected="False"/>
-                <!-- <elements:ToggleButton x:Name="ConsoleWindowBtn" OnSelected="ConsoleWindowBtn_OnOnSelected" -->
-                <!--                        Icon="../../../Resources/Images/Icons/BigI.png"  -->
-                <!--                        UnselectedHoverColor="{StaticResource Red}"  -->
-                <!--                        UnselectedClickColor="{StaticResource Pink}" -->
-                <!--                        SelectedDefaultColor="{StaticResource Red}" -->
-                <!--                        SelectedHoverColor="{StaticResource Pink}" -->
-                <!--                        SelectedClickColor="{StaticResource Bisque}" -->
-                <!--                        Selected="False"/> -->
+                <elements:ToggleButton x:Name="ConsoleWindowBtn" OnSelected="ConsoleWindowBtn_OnOnSelected"
+                                       Icon="../../../Resources/Images/Icons/BigI.png"
+                                       UnselectedHoverColor="{StaticResource Red}"
+                                       UnselectedClickColor="{StaticResource Pink}"
+                                       SelectedDefaultColor="{StaticResource Red}"
+                                       SelectedHoverColor="{StaticResource Pink}"
+                                       SelectedClickColor="{StaticResource Bisque}"
+                                       Selected="False"/>
             </StackPanel>
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -120,7 +120,7 @@
         
         <windows:DevelopmentArea Grid.Row="1" x:Name="DevArea" x:FieldModifier="public"/>
         
-        <!-- <cat:CatContainer Grid.Row="1"/> -->
+        <cat:CatContainer x:Name="CatContainer" Grid.Row="1"/>
         
     </Grid>
 </Window>

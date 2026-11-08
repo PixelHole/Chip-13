@@ -53,8 +53,18 @@ public class InstructionSet
 
         return csv.ToString();
     }
-    
-    
+
+    protected bool Equals(InstructionSet other)
+    {
+        return Templates.SequenceEqual(other.Templates);
+    }
+    public override bool Equals(object? obj)
+    {
+        if (obj is null) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != GetType()) return false;
+        return Equals((InstructionSet)obj);
+    }
     public override int GetHashCode()
     {
         return Templates.GetHashCode();

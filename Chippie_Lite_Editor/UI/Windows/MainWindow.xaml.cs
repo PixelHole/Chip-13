@@ -6,6 +6,7 @@ using Chippie_Lite_WPF.Computer.Internal.Exceptions.Base;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions.Interpretation;
 using Chippie_Lite_WPF.Controls;
 using Chippie_Lite_WPF.UI.Elements;
+using yt_unzipper;
 
 namespace Chippie_Lite_WPF.UI.Windows;
 
@@ -43,7 +44,7 @@ public partial class MainWindow
     }
     private void UpdateTabButtons(int index)
     {
-        ToggleButton[] buttons = [CodeWindowBtn, MemoryWindowBtn, RunWindowBtn/*, ConsoleWindowBtn*/];
+        ToggleButton[] buttons = [CodeWindowBtn, MemoryWindowBtn, RunWindowBtn, ConsoleWindowBtn];
 
         for (int i = 0; i < buttons.Length; i++)
         {
@@ -85,48 +86,50 @@ public partial class MainWindow
         else RunToEndBtn.Dispatcher.Invoke(() => RunToEndBtn.Visibility = visible && Mode == AppMode.Run ? Visibility.Visible : Visibility.Collapsed);
     }
     
-    private void StopBtn_OnClick(SquareButton sender)
+    private void StopBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         Control.Halt();
     }
-    private void RunBtn_OnClick(SquareButton sender)
+    private void RunBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         Control.RunScript(DevArea.GetInputCode());
     }
-    private void RestartBtn_OnClick(SquareButton sender)
+    private void RestartBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         Control.Restart();
     }
-    private void SingleStepBtn_OnClick(SquareButton sender)
+    private void SingleStepBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         Control.NextStep();
     }
-    private void RunToEndBtn_OnClick(SquareButton sender)
+    private void RunToEndBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         Control.RunToEnd();
     }
     
-    private void ToolbarLogoBtn_OnClick(SquareButton sender)
+    private void ToolbarLogoBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
-        
+        if (e.ChangedButton == MouseButton.Left) CatContainer.Control.SpawnCat();
+        else if (e.ChangedButton == MouseButton.Right) CatContainer.Control.DespawnCat();
+        e.Handled = true;
     }
-    private void ToolbarNewBtn_OnClick(SquareButton sender)
+    private void ToolbarNewBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         if (Mode is not AppMode.Run) Control.RequestNewInstance();
     }
-    private void ToolbarSaveBtn_OnClick(SquareButton sender)
+    private void ToolbarSaveBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         Control.RequestSave();
     }
-    private void ToolbarSaveAsBtn_OnClick(SquareButton sender)
+    private void ToolbarSaveAsBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         Control.RequestSaveAs();
     }
-    private void ToolbarOpenBtn_OnClick(SquareButton sender)
+    private void ToolbarOpenBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         if (Mode is not AppMode.Run) Control.RequestLoad();
     }
-    private void ToolbarHelpBtn_OnClick(SquareButton sender)
+    private void ToolbarHelpBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         Control.OpenHelpWindow();
     }

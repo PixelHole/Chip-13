@@ -2,9 +2,9 @@
 
 namespace Chippie_Lite_WPF.UI.Windows.Development;
 
-public partial class MemoryEditView : UserControl
+public partial class ConfigView : UserControl
 {
-    public MemoryEditView()
+    public ConfigView()
     {
         InitializeComponent();
     }

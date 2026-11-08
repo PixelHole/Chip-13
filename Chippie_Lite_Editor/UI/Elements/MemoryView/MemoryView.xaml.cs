@@ -312,11 +312,11 @@ public partial class MemoryView
         }
     }
     
-    private void PageUpBtn_OnClick(SquareButton sender)
+    private void PageUpBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         CurrentPage++;
     }
-    private void PageDownBtn_OnClick(SquareButton sender)
+    private void PageDownBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         CurrentPage--;
     }
@@ -333,7 +333,7 @@ public partial class MemoryView
         
         SearchBox.Foreground = InvalidNumberBrush;
     }
-    private void SearchBtn_OnClick(SquareButton sender)
+    private void SearchBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         GoToSearchedAddress();
     }

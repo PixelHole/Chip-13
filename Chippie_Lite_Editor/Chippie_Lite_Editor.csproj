@@ -108,6 +108,12 @@
       <Resource Include="Resources\Images\Logos\logo8.png" />
       <None Remove="Resources\Images\Cat\sit idle.gif" />
       <Resource Include="Resources\Images\Cat\sit idle.gif" />
+      <None Remove="Resources\Images\Cat\sit idle blink.gif" />
+      <Resource Include="Resources\Images\Cat\sit idle blink.gif" />
+      <None Remove="Resources\Images\Cat\sleep.gif" />
+      <Resource Include="Resources\Images\Cat\sleep.gif" />
+      <None Remove="Resources\Images\Cat\Walk.gif" />
+      <Resource Include="Resources\Images\Cat\Walk.gif" />
     </ItemGroup>
 
     <ItemGroup>
@@ -193,17 +199,15 @@
     <ItemGroup>
       <Folder Include="Resources\Icons\" />
       <Folder Include="Resources\Images\Cat\" />
-      <Folder Include="UI\Cat\Cat\Animator\" />
       <Folder Include="UI\Documentation\" />
-      <Folder Include="UI\MainApp\" />
     </ItemGroup>
 
     <ItemGroup>
       <EmbeddedResource Include="Resources\Data\Default.json">
         <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </EmbeddedResource>
-      <None Remove="Resources\Data\CatStates.json" />
-      <None Include="Resources\Data\CatStates.txt" />
+      <None Remove="Resources\Data\CatNames.csv" />
+      <EmbeddedResource Include="Resources\Data\CatNames.csv" />
     </ItemGroup>
 
 </Project>

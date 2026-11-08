@@ -12,7 +12,7 @@
     
     <Grid Background="{StaticResource 'Dark Blue'}">
         <development:CodeEditView x:Name="CodeEditControl" Margin="0"/>
-        <development:MemoryEditView x:Name="MemoryEditControl" Visibility="Collapsed"/>
+        <development:ConfigView x:Name="MemoryEditControl" Visibility="Collapsed"/>
         <development:RunView x:Name="RunWindow" Visibility="Collapsed"/>
     </Grid>
 </UserControl>

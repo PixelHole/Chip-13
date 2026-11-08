@@ -40,7 +40,7 @@ public partial class ConfirmationPrompt
             ButtonsPanel.Children.Add(button);
         }
     }
-    private void ButtonOnClick(SquareButton sender)
+    private void ButtonOnClick(SquareButton sender, MouseEventArgs e)
     {
         OnButtonSelected?.Invoke(sender.Label);
         Close();

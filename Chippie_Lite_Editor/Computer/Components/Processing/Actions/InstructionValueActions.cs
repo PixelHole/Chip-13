@@ -29,7 +29,7 @@ public static class InstructionValueActions
         Register low = ActionUtility.GetRegister(action.Arguments[1], action.Instruction);
         
         low.Content = (long)result;
-        high.Content = (long)(result >> 64);
+        high.Content = (long)(result >> low.LengthLimit);
     }
     internal static void Power(InstructionAction action)
     {

@@ -7,8 +7,7 @@
              mc:Ignorable="d"
              IsHitTestVisible="False"
              Background="Transparent"
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Canvas>
-        <local:Cat Canvas.Top="150" Canvas.Left="150"/>
-    </Canvas>
+             d:DesignHeight="300" d:DesignWidth="300"
+             SizeChanged="CatContainer_OnSizeChanged">
+    <Canvas x:Name="CatCanvas"/>
 </UserControl>

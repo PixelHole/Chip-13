@@ -6,10 +6,10 @@ namespace Chippie_Lite_WPF.Computer.Instructions;
 public struct InstructionAction : IEquatable<InstructionAction>
 {
     [JsonIgnore]
-    public Instruction Instruction { get; set; }
-    public string Header { get; private set; }
-    public string Condition { get; private set; }
-    public string[] Arguments { get; private set; }
+    public Instruction Instruction { get; private set; }
+    public string Header { get; }
+    public string Condition { get; }
+    public string[] Arguments { get; }
 
 
     [JsonConstructor]
@@ -21,18 +21,17 @@ public struct InstructionAction : IEquatable<InstructionAction>
     }
 
     public void SetInstruction(Instruction ins) => Instruction = ins;
-    
-    public override bool Equals([NotNullWhen(true)] object? obj)
-    {
-        if (obj is InstructionAction other) return Equals(other);
-        return base.Equals(obj);
-    }
+
     public bool Equals(InstructionAction other)
     {
-        return Header == other.Header && Arguments.Equals(other.Arguments);
+        return Header == other.Header && Condition == other.Condition && Arguments.SequenceEqual(other.Arguments);
+    }
+    public override bool Equals(object? obj)
+    {
+        return obj is InstructionAction other && Equals(other);
     }
     public override int GetHashCode()
     {
-        return HashCode.Combine(Header, Arguments);
+        return HashCode.Combine(Instruction, Header, Condition, Arguments);
     }
 }

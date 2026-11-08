@@ -47,31 +47,37 @@
                                    Selected="True"/>
         </StackPanel>
         
-        <Grid x:Name="RowGrid" Grid.Column="0" Margin="0, 0, 4, 0">
+        <Grid x:Name="RowGrid" Grid.Column="0" Margin="0, 4, 4, 0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1.5*"/>
-                <RowDefinition/>
+                <RowDefinition Height="4"/>
+                <RowDefinition MinHeight="175" MaxHeight="300"/>
             </Grid.RowDefinitions>
             
             <Grid x:Name="ColumnGrid">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition MaxWidth="300"/>
+                    <ColumnDefinition MaxWidth="300" MinWidth="150"/>
+                    <ColumnDefinition Width="4"/>
                     <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition MaxWidth="300"/>
+                    <ColumnDefinition Width="4"/>
+                    <ColumnDefinition MaxWidth="300" MinWidth="150"/>
                 </Grid.ColumnDefinitions>
                 
-                <elements:InstructionDisplayList x:Name="InstructionDisplayList" Grid.Column="0" Margin="0, 4, 0 ,0"/>
+                <elements:InstructionDisplayList x:Name="InstructionDisplayList" Grid.Column="0"/>
                 
-                <!-- <development:SerialIOConsole Grid.Column="1" Margin="4, 4, 0, 0"/> -->
+                <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="Transparent"/>
                 
-                <console:ChippieConsole Grid.Column="1" Margin="4, 4, 0, 0"/>
+                <console:ChippieConsole Grid.Column="2"/>
                 
-                <elements:RegisterList Grid.Column="2" x:Name="RegisterList" Margin="4, 4, 0, 0" Mode="View"/>
+                <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" Background="Transparent"/>
+                
+                <elements:RegisterList Grid.Column="4" x:Name="RegisterList" Mode="View"/>
                 
             </Grid>
             
+            <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent"/>
             
-            <elements:MemoryView Grid.Row="1" Margin="0, 4, 0, 0" Mode="View"/>
+            <elements:MemoryView Grid.Row="2" Mode="View"/>
             
         </Grid>
         

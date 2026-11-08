@@ -52,9 +52,7 @@ public static class InstructionSetManager
 
         return names;
     }
-    
-    public static bool HasSet(int code) => LoadedSets.Any(set => set.GetHashCode() == code);
-    public static bool HasSet(InstructionSet set) => HasSet(set.GetHashCode());
-    public static int IndexOf(int code) => LoadedSets.FindIndex(set => set.GetHashCode() == code);
-    public static int IndexOf(InstructionSet set) => IndexOf(set.GetHashCode());
+
+    public static bool HasSet(InstructionSet set) => LoadedSets.Contains(set);
+    public static int IndexOf(InstructionSet set) => LoadedSets.IndexOf(set);
 }
