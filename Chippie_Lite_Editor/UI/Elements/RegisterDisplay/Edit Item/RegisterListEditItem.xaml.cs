@@ -9,6 +9,19 @@ namespace Chippie_Lite_WPF.UI.Elements;
 
 public sealed partial class RegisterListEditItem
 {
+    public static readonly DependencyProperty IsPressedProperty = DependencyProperty.Register(
+        nameof(IsPressed),
+        typeof(bool),
+        typeof(RegisterListEditItem),
+        new PropertyMetadata(false)
+    );
+
+    public bool IsPressed
+    {
+        get => (bool)GetValue(IsPressedProperty);
+        set => SetValue(IsPressedProperty, value);
+    }
+    
     internal RegisterList List;
     private RegisterListEditControl Control { get; }
 
@@ -52,10 +65,7 @@ public sealed partial class RegisterListEditItem
         LoadRegisterData();
     }
     
-    private void RegisterListEditItem_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
-    {
-        EditRegister();
-    }
+    
     private void EditBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         EditRegister();
@@ -67,5 +77,23 @@ public sealed partial class RegisterListEditItem
     private void DeleteBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         DeleteRegister();
+    }
+    
+    private void RegisterListEditItem_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+        EditRegister();
+    }
+    
+    private void RegisterListEditItem_OnMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        IsPressed = true;
+    }
+    private void RegisterListEditItem_OnMouseUp(object sender, MouseButtonEventArgs e)
+    {
+        IsPressed = false;
+    }
+    private void RegisterListEditItem_OnMouseLeave(object sender, MouseEventArgs e)
+    {
+        IsPressed = false;
     }
 }

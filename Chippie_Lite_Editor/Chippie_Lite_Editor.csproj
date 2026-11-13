@@ -118,6 +118,12 @@
       <Resource Include="Resources\Images\Icons\Duplicate.png" />
       <None Remove="Resources\Images\Icons\Trash.png" />
       <Resource Include="Resources\Images\Icons\Trash.png" />
+      <None Remove="Resources\Images\Icons\Circle.png" />
+      <Resource Include="Resources\Images\Icons\Circle.png" />
+      <None Remove="Resources\Images\Icons\Circle dark.png" />
+      <Resource Include="Resources\Images\Icons\Circle dark.png" />
+      <None Remove="Resources\Images\Icons\Circle filled.png" />
+      <Resource Include="Resources\Images\Icons\Circle filled.png" />
     </ItemGroup>
 
     <ItemGroup>
@@ -183,6 +189,9 @@
         <Generator>MSBuild:Compile</Generator>
         <XamlRuntime>Wpf</XamlRuntime>
         <SubType>Designer</SubType>
+      </Page>
+      <Page Update="UI\Elements\Colors Edit\ColorsList.xaml">
+        <Generator>MSBuild:Compile</Generator>
       </Page>
     </ItemGroup>
 

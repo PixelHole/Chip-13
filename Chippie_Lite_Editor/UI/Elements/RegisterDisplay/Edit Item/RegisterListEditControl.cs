@@ -27,7 +27,8 @@ public class RegisterListEditControl
             return;
         }
 
-        EditWindow = new RegisterEditWindow(View.AssignedRegister) {
+        
+        EditWindow = new RegisterEditWindow(View.AssignedRegister!, "Edit Register") {
             Owner = MainWindow.MainWindowIns
         };
         EditWindow.Closed += EditWindowOnClosed;

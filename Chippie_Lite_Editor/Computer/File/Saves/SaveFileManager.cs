@@ -87,7 +87,7 @@ public static class SaveFileManager
      {
           List<ColorSaveInstance> colors = [];
           
-          foreach (var color in ColorLibrary.Colors)
+          foreach (var color in ColorLibrary.GetColors())
           {
                colors.Add(new ColorSaveInstance(color));
           }

@@ -18,7 +18,7 @@
     
     <Grid>
         <Border BorderThickness="2" BorderBrush="{StaticResource 'Dark Blue'}">
-            <elements:TitledFrame Title="Edit Register" Style="{StaticResource Chippie.TitledFrame.Default}">
+            <elements:TitledFrame x:Name="Frame" Title="Edit Register" Style="{StaticResource Chippie.TitledFrame.Default}">
             <elements:TitledFrame.TopContent>
                 <Grid HorizontalAlignment="Right" Margin="0">
                     <elements:SquareButton Icon="../../../../Resources/Images/Icons/strike_invert.png"

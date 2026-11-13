@@ -61,13 +61,18 @@ public partial class RegisterList : UserControl
             Grid.SetRow(item, i);
         }
 
-        for (int i = RegisterListGrid.Children.Count; i > RegisterBank.Count; i--) RemoveItem(i - 1);
-        
-        for (int i = RegisterListGrid.Children.Count; i < RegisterBank.Count; i++)
+        if (RegisterListGrid.Children.Count > RegisterBank.Count)
         {
-            var item = AddItem();
-            Grid.SetRow(item, i);
-            item.AssignedRegister = RegisterBank.GetRegister(i);
+            while (RegisterListGrid.Children.Count > RegisterBank.Count) RemoveItem(RegisterListGrid.Children.Count - 1);
+        }
+        else
+        {
+            for (int i = RegisterListGrid.Children.Count; i < RegisterBank.Count; i++)
+            {
+                var item = AddItem();
+                Grid.SetRow(item, i);
+                item.AssignedRegister = RegisterBank.GetRegister(i);
+            }
         }
     }
     private RegisterListItem AddItem()

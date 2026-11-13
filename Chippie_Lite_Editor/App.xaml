@@ -386,7 +386,7 @@
                BasedOn="{StaticResource {x:Type elements:TitledFrame}}">
 
             <Setter Property="BorderBrush"
-                    Value="{StaticResource Deep Purple}"/>
+                    Value="{StaticResource 'Deep Purple'}"/>
 
             <Setter Property="BorderThickness"
                     Value="4,0,4,4"/>
@@ -418,6 +418,101 @@
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="VerticalContentAlignment" Value="Stretch"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        </Style>
+        
+        <!-- Transparent clickable track hit-area -->
+        <Style x:Key="SliderTransparentTrackButton" TargetType="RepeatButton">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Rectangle Fill="Transparent" Height="20"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Thumb Style (Circular with Hover/Drag Animation) -->
+        <Style x:Key="ModernSliderThumb" TargetType="Thumb">
+            <Setter Property="Width" Value="16"/>
+            <Setter Property="Height" Value="16"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Grid RenderTransformOrigin="0.5,0.5">
+                            
+                            <Image Source="../../../../Resources/Images/Icons/Circle filled.png">
+                                <Image.Effect>
+                                    <DropShadowEffect BlurRadius="4" ShadowDepth="1" Opacity="0.25" Color="Black"/>
+                                </Image.Effect>
+                            </Image>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Main Modern Slider Style -->
+        <Style x:Key="ModernSliderStyle" TargetType="Slider">
+            <Setter Property="MinHeight" Value="24"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="IsMoveToPointEnabled" Value="True"/>
+            <Setter Property="Background" Value="{StaticResource White}"/> <!-- Unfilled track -->
+            <Setter Property="Foreground" Value="{StaticResource Red}"/> <!-- Active fill & thumb -->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Slider">
+                        <Grid VerticalAlignment="Center">
+                            <!-- Unfilled Track Background -->
+                            <Border Height="8"
+                                    Background="{TemplateBinding Background}"
+                                    VerticalAlignment="Center"/>
+
+                            <!-- Track & Thumb -->
+                            <Track x:Name="PART_Track">
+                                <!-- Filled Left Portion -->
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="{x:Static Slider.DecreaseLarge}"
+                                                  Foreground="{TemplateBinding Foreground}"
+                                                  Focusable="False"
+                                                  IsTabStop="False">
+                                        <RepeatButton.Template>
+                                            <ControlTemplate TargetType="RepeatButton">
+                                                <Grid Background="Transparent">
+                                                    <Border Height="8"
+                                                            VerticalAlignment="Center"
+                                                            Background="{TemplateBinding Foreground}"/>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </RepeatButton.Template>
+                                    </RepeatButton>
+                                </Track.DecreaseRepeatButton>
+
+                                <!-- Unfilled Right Hit Area -->
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Command="{x:Static Slider.IncreaseLarge}"
+                                                  Style="{StaticResource SliderTransparentTrackButton}"/>
+                                </Track.IncreaseRepeatButton>
+
+                                <!-- Draggable Thumb -->
+                                <Track.Thumb>
+                                    <Thumb Style="{StaticResource ModernSliderThumb}"
+                                           Foreground="{TemplateBinding Foreground}"/>
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Application.Resources>
 </Application>

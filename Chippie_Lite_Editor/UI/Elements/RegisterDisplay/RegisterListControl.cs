@@ -26,7 +26,7 @@ public class RegisterListControl
             return;
         }
         
-        CreateWindow = new RegisterEditWindow(new Register("", "")) {
+        CreateWindow = new RegisterEditWindow(new Register("Register", "reg"), "Create Register") {
             Owner = MainWindow.MainWindowIns
         };
         CreateWindow.Closed += CreateWindowOnClosed;

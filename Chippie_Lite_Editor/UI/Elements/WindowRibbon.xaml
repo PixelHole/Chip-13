@@ -7,7 +7,6 @@
              mc:Ignorable="d"
              Background="Transparent"
              Height="32"
-             Width="96"
              d:DesignHeight="32" d:DesignWidth="96">
     <Grid>
         <StackPanel Orientation="Horizontal">

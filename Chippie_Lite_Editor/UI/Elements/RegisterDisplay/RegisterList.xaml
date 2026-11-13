@@ -9,7 +9,7 @@
              d:DesignHeight="400" d:DesignWidth="200">
     <Grid>
         <elements:TitledFrame Title="Registers" Style="{StaticResource Chippie.TitledFrame.Default}">
-            <ScrollViewer x:Name="ScrollView" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
                           Style="{StaticResource Chippie.ScrollViewer}">
                 <Grid x:Name="RegisterListGrid" VerticalAlignment="Top" Background="Transparent" IsSharedSizeScope="True"/>
             </ScrollViewer>

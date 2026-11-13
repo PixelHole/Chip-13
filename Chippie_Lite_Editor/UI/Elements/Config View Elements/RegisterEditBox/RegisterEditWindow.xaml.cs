@@ -26,11 +26,12 @@ public partial class RegisterEditWindow : Window
     public event EditOkAction? OnEditOk;
     
     
-    public RegisterEditWindow(Register assignedRegister)
+    public RegisterEditWindow(Register assignedRegister, string title)
     {
         InitializeComponent();
         AssignedRegister = assignedRegister;
         ShowInTaskbar = false;
+        Frame.Title = title;
     }
 
     private void LoadRegisterData()

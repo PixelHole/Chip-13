@@ -9,9 +9,9 @@
              d:DesignHeight="500" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MinWidth="50" MaxWidth="225"/>
+            <ColumnDefinition MinWidth="165" Width="*"/>
             <ColumnDefinition Width="4"/>
-            <ColumnDefinition MinWidth="150"/>
+            <ColumnDefinition MinWidth="150" Width="3*"/>
         </Grid.ColumnDefinitions>
         
         <elements:TitledFrame Title="Configurations" Style="{StaticResource Chippie.TitledFrame.Default}"
@@ -30,7 +30,7 @@
         <Grid x:Name="ConfigPropertiesContainer" Grid.Column="2" Margin="0, 4, 0, 0">
             <elements:RegisterList Mode="Edit"/>
             <config:IOEdit Visibility="Collapsed"/>
-            <config:ColorsEdit Visibility="Collapsed"/>
+            <elements:ColorsList Mode="Edit" Visibility="Collapsed"/>
             <elements:MemoryView Mode="Edit" Visibility="Collapsed"/>
             <config:InstructionSetEdit Visibility="Collapsed"/>
         </Grid>

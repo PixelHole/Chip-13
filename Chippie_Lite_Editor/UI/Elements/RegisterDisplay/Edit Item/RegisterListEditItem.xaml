@@ -7,18 +7,35 @@
                         mc:Ignorable="d"
                         MinHeight="38"
                         d:DesignHeight="32" d:DesignWidth="256"
-                        MouseDoubleClick="RegisterListEditItem_OnMouseDoubleClick">
+                        MouseDoubleClick="RegisterListEditItem_OnMouseDoubleClick"
+                        MouseDown="RegisterListEditItem_OnMouseDown" MouseUp="RegisterListEditItem_OnMouseUp"
+                        MouseLeave="RegisterListEditItem_OnMouseLeave">
     <local:RegisterListItem.Style>
-        <Style TargetType="UserControl">
+        <Style TargetType="local:RegisterListEditItem">
             <Setter Property="Background" Value="{StaticResource 'Dark Blue'}"/>
             
             <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                        <Condition Property="IsPressed" Value="False"/>
+                    </MultiTrigger.Conditions>
+                    
                     <Setter Property="Background" Value="{StaticResource 'Darkish Blue'}"/>
-                </Trigger>
+                </MultiTrigger>
+                
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                        <Condition Property="IsPressed" Value="True"/>
+                    </MultiTrigger.Conditions>
+                    
+                    <Setter Property="Background" Value="{StaticResource 'Darkisher Blue'}"/>
+                </MultiTrigger>
             </Style.Triggers>
         </Style>
     </local:RegisterListItem.Style>
+    
     <Border BorderThickness="0, 0, 0, 4" BorderBrush="{StaticResource 'Deep Purple'}">
         <Grid>
             <Grid.ColumnDefinitions>
