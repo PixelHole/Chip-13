@@ -3,18 +3,89 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d"
-             Background="Transparent">
-    <Grid Name="Body" MouseEnter="Body_OnMouseEnter" MouseLeave="Body_OnMouseLeave"
+             xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Elements"
+             d:DesignWidth="32" d:DesignHeight="32"
+             x:Name="Root"
+             mc:Ignorable="d">
+    <UserControl.Style>
+        <Style TargetType="local:ToggleButton">
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="Selected" Value="False"/>
+                        <Condition Property="IsMouseOver" Value="False"/>
+                        <Condition Property="IsPressed" Value="False"/>
+                    </MultiTrigger.Conditions>
+                    
+                    <Setter Property="Background" Value="{Binding UnselectedDefaultColor, RelativeSource={RelativeSource Self}}"/>
+                </MultiTrigger>
+                
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="Selected" Value="False"/>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                        <Condition Property="IsPressed" Value="False"/>
+                    </MultiTrigger.Conditions>
+                    
+                    <Setter Property="Background" Value="{Binding UnselectedHoverColor, RelativeSource={RelativeSource Self}}"/>
+                </MultiTrigger>
+                
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="Selected" Value="False"/>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                        <Condition Property="IsPressed" Value="True"/>
+                    </MultiTrigger.Conditions>
+                    
+                    <Setter Property="Background" Value="{Binding UnselectedClickColor, RelativeSource={RelativeSource Self}}"/>
+                </MultiTrigger>
+                
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="Selected" Value="True"/>
+                        <Condition Property="IsMouseOver" Value="False"/>
+                        <Condition Property="IsPressed" Value="False"/>
+                    </MultiTrigger.Conditions>
+                    
+                    <Setter Property="Background" Value="{Binding SelectedDefaultColor, RelativeSource={RelativeSource Self}}"/>
+                </MultiTrigger>
+                
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="Selected" Value="True"/>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                        <Condition Property="IsPressed" Value="False"/>
+                    </MultiTrigger.Conditions>
+                    
+                    <Setter Property="Background" Value="{Binding SelectedHoverColor, RelativeSource={RelativeSource Self}}"/>
+                </MultiTrigger>
+                
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="Selected" Value="True"/>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                        <Condition Property="IsPressed" Value="True"/>
+                    </MultiTrigger.Conditions>
+                    
+                    <Setter Property="Background" Value="{Binding SelectedClickColor, RelativeSource={RelativeSource Self}}"/>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
+    
+    <Grid MouseLeave="Body_OnMouseLeave"
           MouseDown="Body_OnMouseDown" MouseUp="Body_OnMouseUp">
         
-        <Label x:Name="TextDisplay" Foreground="{StaticResource White}" Margin="0"
-               FontFamily="{StaticResource TextFontAlt}" FontSize="16" Content=""
+        <Label Foreground="{StaticResource White}" Margin="0"
+               FontFamily="{StaticResource TextFontAlt}" FontSize="16"
                VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+               VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+               Content="{Binding Label, ElementName=Root}"/>
         
-        <Image x:Name="ImageDisplay" Margin="4" RenderOptions.BitmapScalingMode="NearestNeighbor"
-               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Image Margin="4"
+               SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor"
+               VerticalAlignment="Center" HorizontalAlignment="Center"
+               Source="{Binding Icon, ElementName=Root}"/>
         
     </Grid>
 </UserControl>

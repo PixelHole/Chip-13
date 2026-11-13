@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -6,8 +7,31 @@ namespace Chippie_Lite_WPF.UI.Elements;
 
 public partial class SquareButton : UserControl
 {
-    private bool mouseDown = false;
-    private bool mouseInside = false;
+    public static readonly DependencyProperty IsPressedProperty = DependencyProperty.Register(
+        nameof(IsPressed),
+        typeof(bool),
+        typeof(SquareButton),
+        new PropertyMetadata(false)
+    );
+    public static readonly DependencyProperty DefaultColorProperty = DependencyProperty.Register(
+        nameof(BackgroundDefaultColor),
+        typeof(Brush),
+        typeof(SquareButton),
+        new PropertyMetadata(new SolidColorBrush(Colors.Transparent))
+    );
+    public static readonly DependencyProperty HoverColorProperty = DependencyProperty.Register(
+        nameof(BackgroundHoverColor),
+        typeof(Brush),
+        typeof(SquareButton),
+        new PropertyMetadata(new SolidColorBrush(Color.FromRgb(131, 118, 156)))
+        );
+    public static readonly DependencyProperty ClickColorProperty = DependencyProperty.Register(
+        nameof(BackgroundClickColor),
+        typeof(Brush),
+        typeof(SquareButton),
+        new PropertyMetadata(new SolidColorBrush(Color.FromRgb(255, 119, 168)))
+    );
+    
     private string _label = null!;
     private ImageSource _icon = null!;
     
@@ -30,9 +54,27 @@ public partial class SquareButton : UserControl
         }
     }
 
-    public Brush BackgroundHoverColor { get; set; } = new SolidColorBrush(Color.FromRgb(131, 118, 156));
-    public Brush BackgroundDefaultColor { get; set; } = new SolidColorBrush(Colors.Transparent);
-    public Brush BackgroundClickColor { get; set; } = new SolidColorBrush(Color.FromRgb(255, 119, 168));
+    public Brush BackgroundHoverColor 
+    { 
+        get => (Brush)GetValue(DefaultColorProperty);
+        set => SetValue(DefaultColorProperty, value);
+    }
+    public Brush BackgroundDefaultColor 
+    { 
+        get => (Brush)GetValue(HoverColorProperty);
+        set => SetValue(HoverColorProperty, value);
+    }
+    public Brush BackgroundClickColor 
+    { 
+        get => (Brush)GetValue(ClickColorProperty);
+        set => SetValue(ClickColorProperty, value);
+    }
+
+    public bool IsPressed
+    {
+        get => (bool)GetValue(IsPressedProperty);
+        set => SetValue(IsPressedProperty, value);
+    }
     
     public delegate void ClickAction(SquareButton sender, MouseButtonEventArgs e);
     public event ClickAction? Click;
@@ -43,47 +85,18 @@ public partial class SquareButton : UserControl
         InitializeComponent();
     }
     
-    private void SetColor(Brush color)
+    private void Body_OnMouseUp(object sender, MouseButtonEventArgs e)
     {
-        Body.Background = color;
-    }
-    private void UpdateColor()
-    {
-        switch (mouseDown)
-        {
-            case true :
-                SetColor(mouseInside ? BackgroundClickColor : BackgroundHoverColor);
-                break;
-            case false :
-                SetColor(mouseInside ? BackgroundHoverColor : BackgroundDefaultColor);
-                break;
-        }
-    }
-    
-    private void Body_OnMouseEnter(object sender, MouseEventArgs e)
-    {
-        mouseInside = true;
+        Click?.Invoke(this, e);
+        IsPressed = false;
         e.Handled = true;
-        UpdateColor();
-    }
-    private void Body_OnMouseLeave(object sender, MouseEventArgs e)
-    {
-        mouseInside = false;
-        mouseDown = false;
-        e.Handled = true;
-        UpdateColor();
     }
     private void Body_OnMouseDown(object sender, MouseButtonEventArgs e)
     {
-        mouseDown = true;
-        e.Handled = true;
-        UpdateColor();
+        IsPressed = true;
     }
-    private void Body_OnMouseUp(object sender, MouseButtonEventArgs e)
+    private void Body_OnMouseLeave(object sender, MouseEventArgs e)
     {
-        mouseDown = false;
-        UpdateColor();
-        Click?.Invoke(this, e);
-        e.Handled = true;
+        IsPressed = false;
     }
 }

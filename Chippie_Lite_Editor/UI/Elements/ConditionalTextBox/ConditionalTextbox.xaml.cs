@@ -2,39 +2,51 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Chippie_Lite_WPF.Computer.Utility;
 using Chippie_Lite_WPF.Controls;
 
 namespace Chippie_Lite_WPF.UI.Elements;
 
 public partial class ConditionalTextbox
 {
+    public static readonly DependencyProperty RetainTextProperty = DependencyProperty.Register(nameof(RetainText), typeof(bool), typeof(ConditionalTextbox), new PropertyMetadata(null)); 
+    public static readonly DependencyProperty ValidBrushProperty = DependencyProperty.Register(nameof(ValidTextBrush), typeof(Brush), typeof(ConditionalTextbox), new PropertyMetadata(null)); 
+    public static readonly DependencyProperty InvalidBrushProperty = DependencyProperty.Register(nameof(InvalidTextBrush), typeof(Brush), typeof(ConditionalTextbox), new PropertyMetadata(null)); 
+    
     public required Predicate<string> Condition
     {
         set => validatorBuffer = new ValidatedBuffer<string>(value)!;
     }
     private ValidatedBuffer<string?> validatorBuffer { get; set; } = null!;
 
-    public new FontFamily FontFamily
+    public string Text
     {
-        get => ContentBox.FontFamily;
-        set => ContentBox.FontFamily = value;
-    }
-    public new double FontSize
-    {
-        get => ContentBox.FontSize;
-        set => ContentBox.FontSize = value;
-    }
-    public new bool IsEnabled
-    {
-        get => ContentBox.IsEnabled;
-        set => ContentBox.IsEnabled = value;
+        get => WPFUtility.GetText(ContentBox);
+        set
+        {
+            validatorBuffer.Set(value);
+            WPFUtility.SetText(ContentBox, validatorBuffer.Get() ?? "");
+        }
     }
     
-    public bool RetainText { get; set; } = true;
-    
-    public Brush? ValidTextBrush { get; set; }
-    public Brush? InvalidTextBrush { get; set; }
+    public bool RetainText
+    {
+        get => (bool)GetValue(RetainTextProperty);
+        set => SetValue(RetainTextProperty, value);
+    }
 
+    public Brush? ValidTextBrush
+    {
+        get => (Brush?)GetValue(ValidBrushProperty);
+        set => SetValue(ValidBrushProperty, value);
+    }
+
+    public Brush? InvalidTextBrush
+    {
+        get => (Brush?)GetValue(InvalidBrushProperty);
+        set => SetValue(InvalidBrushProperty, value);
+    }
+    
     public delegate void TextConfirmAction(string text);
     public event TextConfirmAction? TextConfirmed;
     
@@ -48,37 +60,7 @@ public partial class ConditionalTextbox
         ValidTextBrush ??= Application.Current.Resources["White"] as Brush;
         InvalidTextBrush ??= Application.Current.Resources["White"] as Brush;
     }
-
-    public void SetText(string? text)
-    {
-        validatorBuffer.Set(text);
-        
-        if (Dispatcher.CheckAccess())
-        {
-            ContentBox.Text = validatorBuffer.Get();
-        }
-        else
-        {
-            Dispatcher.Invoke(() => ContentBox.Text = validatorBuffer.Get());
-        }
-    }
-    public string GetText()
-    {
-        string text = "";
-
-        if (Dispatcher.CheckAccess())
-        {
-            text = ContentBox.Text;
-        }
-        else
-        {
-            Dispatcher.Invoke(() => text = ContentBox.Text);
-        }
-
-        return text;
-    }
-
-
+    
     private void TryConfirmText()
     {
         if (validatorBuffer.Set(ContentBox.Text)) TextConfirmed?.Invoke(ContentBox.Text);
@@ -98,5 +80,9 @@ public partial class ConditionalTextbox
     private void ContentBox_OnLostFocus(object sender, RoutedEventArgs e)
     {
         TryConfirmText();
+    }
+    private void ContentBox_OnGotFocus(object sender, RoutedEventArgs e)
+    {
+        
     }
 }

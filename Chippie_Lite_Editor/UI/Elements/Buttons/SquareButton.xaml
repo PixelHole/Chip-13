@@ -3,10 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             Background="Transparent"
+             xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
+             d:DesignWidth="32"
+             d:DesignHeight="32"
              mc:Ignorable="d">
-    <Grid Name="Body" MouseEnter="Body_OnMouseEnter" MouseLeave="Body_OnMouseLeave"
-          MouseDown="Body_OnMouseDown" MouseUp="Body_OnMouseUp">
+    <UserControl.Style>
+        <Style TargetType="{x:Type elements:SquareButton}">
+            <Setter Property="Background" Value="{Binding BackgroundDefaultColor, RelativeSource={RelativeSource Self}}"/>
+            
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                        <Condition Property="IsPressed" Value="False"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="{Binding BackgroundHoverColor, RelativeSource={RelativeSource Self}}"/>
+                </MultiTrigger>
+                
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                        <Condition Property="IsPressed" Value="True"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="{Binding BackgroundClickColor, RelativeSource={RelativeSource Self}}"/>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
+    
+    <Grid Name="Body" MouseLeave="Body_OnMouseLeave" MouseUp="Body_OnMouseUp" MouseDown="Body_OnMouseDown">
         
         <TextBlock x:Name="TextDisplay" Foreground="{StaticResource White}" Margin="4"
                FontFamily="{StaticResource TextFontAlt}" FontSize="18"

@@ -91,7 +91,7 @@
                         
                     </Grid>
                     
-                    <ScrollViewer x:Name="CellGridViewer" Grid.Row="1" Style="{StaticResource StyledScrollViewer}" >
+                    <ScrollViewer x:Name="CellGridViewer" Grid.Row="1" Style="{StaticResource Chippie.ScrollViewer}" >
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="128"/>

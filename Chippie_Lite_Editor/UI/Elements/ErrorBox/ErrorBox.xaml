@@ -11,36 +11,23 @@
              Background="{StaticResource 'Dark Blue'}"
              MinHeight="64" MinWidth="64"
              MaxWidth="500">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="32" ResizeBorderThickness="4" CornerRadius="0"/>
+    </WindowChrome.WindowChrome>
+    
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="32"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        
-        <Grid Grid.Row="0" Background="{StaticResource Red}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="32"/>
-            </Grid.ColumnDefinitions>
+        <elements:TitledFrame x:Name="Frame" Style="{StaticResource Chippie.TitledFrame.Default}" Title="Error">
+            <elements:TitledFrame.TopContent>
+                <Grid HorizontalAlignment="Right" WindowChrome.IsHitTestVisibleInChrome="True">
+                    <elements:SquareButton Click="CloseBtn_OnClick" Width="32" Height="32"
+                                           Icon="../../../Resources/Images/Icons/strike_invert.png"
+                                           BackgroundHoverColor="{StaticResource Pink}" 
+                                           BackgroundClickColor="{StaticResource Bisque}"/>
+                </Grid>
+            </elements:TitledFrame.TopContent>
             
-            <Rectangle Fill="{StaticResource Red}" 
-                       MouseDown="DragBox_OnMouseDown"/>
-            
-            <Label x:Name="TitleLabel" Grid.Column="0" 
-                   FontFamily="{StaticResource TextFontAlt}" FontSize="16"
-                   Foreground="{StaticResource White}" Background="Transparent"
-                   Focusable="False" IsHitTestVisible="False"/>
-            
-            <elements:SquareButton Grid.Column="1" Click="CloseBtn_OnClick" Width="32" Height="32"
-                                   Icon="../../../Resources/Images/Icons/strike_invert.png"
-                                BackgroundHoverColor="{StaticResource Pink}" 
-                                BackgroundClickColor="{StaticResource Bisque}"/>
-            
-        </Grid>
-        
-        <Border Grid.Row="1" BorderBrush="{StaticResource Red}" BorderThickness="4, 0, 4, 4">
             <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
-                          Background="Transparent" Style="{StaticResource StyledScrollViewer}">
+                          Background="Transparent" Style="{StaticResource Chippie.ScrollViewer}">
                 
                 <TextBlock x:Name="MessageBox" Background="Transparent" Foreground="{StaticResource White}"
                            FontFamily="{StaticResource TextFont}" FontSize="16" Margin="4" 
@@ -48,7 +35,6 @@
                 
             </ScrollViewer>
             
-        </Border>
-        
+        </elements:TitledFrame>
     </Grid>
 </Window>

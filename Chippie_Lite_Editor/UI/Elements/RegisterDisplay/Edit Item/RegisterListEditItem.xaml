@@ -1,0 +1,67 @@
+﻿<local:RegisterListItem x:Class="Chippie_Lite_WPF.UI.Elements.RegisterListEditItem"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                        xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Elements"
+                        mc:Ignorable="d"
+                        MinHeight="38"
+                        d:DesignHeight="32" d:DesignWidth="256"
+                        MouseDoubleClick="RegisterListEditItem_OnMouseDoubleClick">
+    <local:RegisterListItem.Style>
+        <Style TargetType="UserControl">
+            <Setter Property="Background" Value="{StaticResource 'Dark Blue'}"/>
+            
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource 'Darkish Blue'}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </local:RegisterListItem.Style>
+    <Border BorderThickness="0, 0, 0, 4" BorderBrush="{StaticResource 'Deep Purple'}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+        
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="48" SharedSizeGroup="NameSizeGroup"/>
+                    <ColumnDefinition MinWidth="48" SharedSizeGroup="IdSizeGroup"/>
+                    <ColumnDefinition MinWidth="48" SharedSizeGroup="LengthSizeGroup"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" x:Name="NameLabel"
+                       Style="{StaticResource Chippie.Label.Default}" FontSize="18" Content="Name"/>
+                <Label Grid.Column="1" x:Name="IdLabel" HorizontalContentAlignment="Center"
+                       Style="{StaticResource Chippie.Label.Default}" FontSize="14" IsEnabled="False" Content="Id"/>
+                <Label Grid.Column="2" x:Name="SizeLabel" HorizontalContentAlignment="Center"
+                       Style="{StaticResource Chippie.Label.Default}" FontSize="14" IsEnabled="False" Content="[32]"/>
+            </Grid>
+        
+            <Grid Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                
+                    <local:SquareButton x:Name="EditBtn" Width="26" Height="26" Icon="../../../../Resources/Images/Icons/edit.png"
+                                        Click="EditBtn_OnClick"/>
+                    <local:SquareButton x:Name="DuplicateBtn" Width="26" Height="26" Icon="../../../../Resources/Images/Icons/Duplicate.png"
+                                        Click="DuplicateBtn_OnClick"/>
+                    <local:SquareButton x:Name="DeleteBtn" Width="26" Height="26" Icon="../../../../Resources/Images/Icons/Trash.png"
+                                        Click="DeleteBtn_OnClick"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
+</local:RegisterListItem>

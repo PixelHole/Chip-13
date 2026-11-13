@@ -5,8 +5,28 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
              Background="Transparent"
-             d:DesignHeight="32" d:DesignWidth="256">
-    <TextBox x:Name="ContentBox" TextChanged="ContentBox_OnTextChanged" KeyDown="ContentBox_OnKeyDown" LostFocus="ContentBox_OnLostFocus"
-             Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
-             CaretBrush="{StaticResource White}"/>
+             d:DesignHeight="32" d:DesignWidth="256"
+             x:Name="Root">
+    <TextBox x:Name="ContentBox" 
+             FontFamily="{Binding FontFamily, ElementName=Root}" 
+             FontSize="{Binding FontSize, ElementName=Root}"
+             IsEnabled="{Binding IsEnabled, ElementName=Root}"
+             TextChanged="ContentBox_OnTextChanged" KeyDown="ContentBox_OnKeyDown" LostFocus="ContentBox_OnLostFocus" GotFocus="ContentBox_OnGotFocus"
+             BorderBrush="Transparent" BorderThickness="0"
+             VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+             VerticalContentAlignment="Center"
+             CaretBrush="{StaticResource White}">
+        
+        <TextBox.Style>
+            <Style TargetType="TextBox">
+                <Setter Property="Background" Value="Transparent"/>
+                
+                <Style.Triggers>
+                    <Trigger Property="IsFocused" Value="True">
+                        <Setter Property="Background" Value="{StaticResource 'Darkish Blue'}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </TextBox.Style>
+    </TextBox>
 </UserControl>

@@ -17,7 +17,7 @@
         
         <Border BorderBrush="{StaticResource 'Deep Purple'}" BorderThickness="4, 0">
             <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
-                          Background="Transparent" Style="{StaticResource StyledScrollViewer}">
+                          Background="Transparent" Style="{StaticResource Chippie.ScrollViewer}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="64"/>
@@ -65,7 +65,7 @@
                    FontFamily="{StaticResource TextFontAlt}" FontSize="16"
                    Content="LOC : 0"/>
             
-            <ComboBox x:Name="InstructionSetCB" Style="{StaticResource ModernComboBox}" SelectedIndex="0" SelectionChanged="InstructionSetSelector_OnSelectionChanged"/>
+            <ComboBox x:Name="InstructionSetCB" Style="{StaticResource Chippie.ComboBox}" SelectedIndex="0" SelectionChanged="InstructionSetSelector_OnSelectionChanged"/>
         </StackPanel>
         
     </Grid>

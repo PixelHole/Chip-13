@@ -1,7 +1,11 @@
 ﻿<Application x:Class="Chippie_Lite_WPF.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="/UI/Windows/MainWindow.xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
+             mc:Ignorable="d"
+             StartupUri="/UI/Windows/Main/MainWindow.xaml"
              Startup="App_OnStartup"
              Exit="App_OnExit">
     <Application.Resources>
@@ -13,6 +17,8 @@
         <FontFamily x:Key="PublicPixel">/Resources/Fonts/#Public Pixel</FontFamily>
         <Brush x:Key="Black">#000000</Brush>
         <Brush x:Key="Dark Blue">#1d2b53</Brush>
+        <Brush x:Key="Darkish Blue">#233361</Brush>
+        <Brush x:Key="Darkisher Blue">#324478</Brush>
         <Brush x:Key="Deep Purple">#7e2553</Brush>
         <Brush x:Key="Dark Green">#008751</Brush>
         <Brush x:Key="Brown">#ab5236</Brush>
@@ -27,9 +33,9 @@
         <Brush x:Key="Faded Purple">#83769c</Brush>
         <Brush x:Key="Pink">#ff77a8</Brush>
         <Brush x:Key="Bisque">#ffccaa</Brush>
-        <ImageSource x:Key="LogoWhiteBig">Resources\Images\logo32.png</ImageSource>
-        <ImageSource x:Key="LogoWhiteMed">Resources\Images\logo16.png</ImageSource>
-        <ImageSource x:Key="LogoWhiteSml">Resources\Images\logo8.png</ImageSource>
+        <ImageSource x:Key="LogoWhiteBig">Resources/Images/Logos/logo32.png</ImageSource>
+        <ImageSource x:Key="LogoWhiteMed">Resources\Images\Logos\logo16.png</ImageSource>
+        <ImageSource x:Key="LogoWhiteSml">Resources\Images\Logos\logo8.png</ImageSource>
         
         <ImageSource x:Key="ThumbUpIcon" >Resources/Images/Icons/ThumbUp.png</ImageSource>
         <ImageSource x:Key="ThumbDownIcon">Resources/Images/Icons/ThumbDown.png</ImageSource>
@@ -37,7 +43,7 @@
         <ImageSource x:Key="FolderIcon">Resources/Images/Icons/file2.png</ImageSource>
         <ImageSource x:Key="FileIcon">Resources/Images/Icons/File.png</ImageSource>
 
-        <Style x:Key="StyledScrollBarUpBtn" TargetType="{x:Type RepeatButton}">
+        <Style x:Key="Chippie.ScrollBarUpBtn" TargetType="{x:Type RepeatButton}">
             <Setter Property="SnapsToDevicePixels" Value="True"/>
             <Setter Property="OverridesDefaultStyle" Value="true"/>
             <Setter Property="Focusable" Value="false"/>
@@ -62,7 +68,7 @@
             </Setter>
         </Style>
         
-        <Style x:Key="StyledScrollBarDownBtn" TargetType="{x:Type RepeatButton}">
+        <Style x:Key="Chippie.ScrollBarDownBtn" TargetType="{x:Type RepeatButton}">
             <Setter Property="SnapsToDevicePixels" Value="True"/>
             <Setter Property="OverridesDefaultStyle" Value="true"/>
             <Setter Property="Focusable" Value="false"/>
@@ -87,7 +93,7 @@
             </Setter>
         </Style>
         
-        <Style x:Key="StyledScrollBarThumb" TargetType="{x:Type Thumb}">
+        <Style x:Key="Chippie.ScrollBarThumb" TargetType="{x:Type Thumb}">
             <Setter Property="SnapsToDevicePixels" Value="True"/>
             <Setter Property="OverridesDefaultStyle" Value="true"/>
             <Setter Property="IsTabStop" Value="false"/>
@@ -101,7 +107,7 @@
             </Setter>
         </Style>
 
-        <ControlTemplate x:Key="StyledVerticalScrollBar"
+        <ControlTemplate x:Key="Chippie.VerticalScrollBar"
                          TargetType="{x:Type ScrollBar}">
             <Grid Background="{StaticResource 'Faded Purple'}">
                 <Grid.RowDefinitions>
@@ -110,17 +116,17 @@
                     <RowDefinition Height="16"/>
                 </Grid.RowDefinitions>
                 
-                <RepeatButton Grid.Row="0" Style="{StaticResource StyledScrollBarUpBtn}" Height="16" Width="16"
+                <RepeatButton Grid.Row="0" Style="{StaticResource Chippie.ScrollBarUpBtn}" Height="16" Width="16"
                               Command="ScrollBar.LineUpCommand" Content="M 0 4 L 8 4 L 4 0 Z" />
                 
                 <Track Name="PART_Track" Grid.Row="1" IsDirectionReversed="true">
                     <Track.Thumb>
-                        <Thumb Style="{StaticResource StyledScrollBarThumb}" Margin="0"
+                        <Thumb Style="{StaticResource Chippie.ScrollBarThumb}" Margin="0"
                                Background="{StaticResource 'Faded Purple'}" BorderBrush="Transparent" />
                     </Track.Thumb>
                 </Track>
                 
-                <RepeatButton Grid.Row="2" Style="{StaticResource StyledScrollBarDownBtn}" Height="16" Width="16"
+                <RepeatButton Grid.Row="2" Style="{StaticResource Chippie.ScrollBarDownBtn}" Height="16" Width="16"
                               Command="ScrollBar.LineDownCommand" Content="M 0 0 L 4 4 L 8 0 Z"/>
             </Grid>
         </ControlTemplate>
@@ -133,12 +139,12 @@
                     <Setter Property="Width" Value="16"/>
                     <Setter Property="Height" Value="Auto" />
                     <Setter Property="Template"
-                            Value="{StaticResource StyledVerticalScrollBar}" />
+                            Value="{StaticResource Chippie.VerticalScrollBar}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
         
-        <Style x:Key="StyledScrollViewer" TargetType="{x:Type ScrollViewer}">
+        <Style x:Key="Chippie.ScrollViewer" TargetType="{x:Type ScrollViewer}">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -162,19 +168,19 @@
             </Setter>
         </Style>
         
-        <ControlTemplate x:Key="ComboBoxToggleButtonTemplate" TargetType="ToggleButton">
+        <ControlTemplate x:Key="Chippie.ToggleButtonTemplate" TargetType="ToggleButton">
             <Border x:Name="TemplateRoot"
                     Background="{TemplateBinding Background}"
                     SnapsToDevicePixels="True">
                 <Grid HorizontalAlignment="Right" Width="32">
                     <!-- Dropdown Chevron Arrow -->
                     <Label x:Name="Arrow"
-                          Content="△"
-                          FontSize="16"
-                          FontFamily="{StaticResource PixelCode}"
-                          Foreground="{StaticResource White}"
-                          HorizontalAlignment="Center"
-                          VerticalAlignment="Center"/>
+                           Content="△"
+                           FontSize="16"
+                           FontFamily="{StaticResource PixelCode}"
+                           Foreground="{StaticResource White}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
                 </Grid>
             </Border>
             <ControlTemplate.Triggers>
@@ -186,7 +192,7 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
-        <Style x:Key="ModernComboBoxItemStyle" TargetType="ComboBoxItem">
+        <Style x:Key="Chippie.ComboBoxItem" TargetType="ComboBoxItem">
             <Setter Property="SnapsToDevicePixels" Value="True"/>
             <Setter Property="Padding" Value="10,4"/>
             <Setter Property="Foreground" Value="{StaticResource White}"/>
@@ -214,7 +220,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="ModernComboBox" TargetType="ComboBox">
+        <Style x:Key="Chippie.ComboBox" TargetType="ComboBox">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="{StaticResource White}"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
@@ -222,14 +228,14 @@
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="FontFamily" Value="{StaticResource TextFontAlt}"/>
             <Setter Property="Padding" Value="10,0,32,0"/>
-            <Setter Property="ItemContainerStyle" Value="{StaticResource ModernComboBoxItemStyle}"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource Chippie.ComboBoxItem}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ComboBox">
                         <Grid>
                             <!-- Clickable Toggle Button (Arrow & Box) -->
                             <ToggleButton x:Name="ToggleButton"
-                                          Template="{StaticResource ComboBoxToggleButtonTemplate}"
+                                          Template="{StaticResource Chippie.ToggleButtonTemplate}"
                                           Focusable="False"
                                           IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           ClickMode="Press"
@@ -271,9 +277,9 @@
             </Setter>
         </Style>
         
-        <Style x:Key="ModernListBoxItemStyle" TargetType="ListBoxItem">
+        <Style x:Key="Chippie.ListBoxItem" TargetType="ListBoxItem">
             <Setter Property="SnapsToDevicePixels" Value="True"/>
-            <Setter Property="Foreground" Value="{StaticResource 'Deep Purple'}"/>
+            <Setter Property="Foreground" Value="{StaticResource White}"/>
             <Setter Property="FontFamily" Value="{StaticResource TextFont}"/>
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -314,14 +320,14 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="ModernListBoxStyle" TargetType="ListBox">
+        <Style x:Key="Chippie.ListBox" TargetType="ListBox">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-            <Setter Property="ItemContainerStyle" Value="{StaticResource ModernListBoxItemStyle}"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource Chippie.ListBoxItem}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBox">
-                        <Border Background="{TemplateBinding Background}"
+                        <Border Background="{TemplateBinding Background}" 
                                 SnapsToDevicePixels="True">
                             <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}">
                                 <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
@@ -332,5 +338,86 @@
             </Setter>
         </Style>
         
+        <Style TargetType="{x:Type elements:TitledFrame}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type elements:TitledFrame}">
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                        
+                            <Grid Grid.Row="0" Background="{TemplateBinding BorderBrush}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{TemplateBinding Title}"
+                                           Foreground="{TemplateBinding Foreground}"
+                                           FontSize="{TemplateBinding FontSize}"
+                                           FontFamily="{StaticResource TextFontAlt}"
+                                           VerticalAlignment="Center"
+                                           Margin="4, 0"/>
+                                
+                                <Grid Grid.Column="1">
+                                    <ContentPresenter ContentSource="TopContent" WindowChrome.IsHitTestVisibleInChrome="True" 
+                                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                </Grid>
+                                
+                            </Grid>
+                        
+                            <Border Grid.Row="1"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    BorderBrush="{TemplateBinding BorderBrush}">
+
+                                <ContentPresenter ContentSource="Content" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            </Border>
+
+                        </Grid>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="Chippie.TitledFrame.Default"
+               TargetType="{x:Type elements:TitledFrame}"
+               BasedOn="{StaticResource {x:Type elements:TitledFrame}}">
+
+            <Setter Property="BorderBrush"
+                    Value="{StaticResource Deep Purple}"/>
+
+            <Setter Property="BorderThickness"
+                    Value="4,0,4,4"/>
+
+            <Setter Property="Foreground"
+                    Value="{StaticResource White}"/>
+
+            <Setter Property="FontSize"
+                    Value="20"/>
+        </Style>
+        <Style x:Key="Chippie.Label.Default"
+               TargetType="{x:Type Label}">
+            
+            <Setter Property="FontFamily" Value="{StaticResource TextFont}"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="{StaticResource White}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="Chippie.Border.Default" TargetType="{x:Type Border}">
+            <Setter Property="BorderThickness" Value="4"/>
+            <Setter Property="BorderBrush" Value="{StaticResource 'Deep Purple'}"/>
+            <Setter Property="CornerRadius" Value="0"/>
+        </Style>
+        
+        <Style x:Key="ConditionalTextbox.Default" TargetType="{x:Type elements:ConditionalTextbox}">
+            <Setter Property="FontFamily" Value="{StaticResource TextFont}"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        </Style>
     </Application.Resources>
 </Application>

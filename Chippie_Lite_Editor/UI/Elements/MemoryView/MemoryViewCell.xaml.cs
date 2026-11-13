@@ -38,8 +38,8 @@ public partial class MemoryViewCell : UserControl
             InputBox.IsEnabled = mode == ControlMode.Edit;
         });
     }
-    public void SetText(string? text) => InputBox.SetText(text);
-    public string GetText() => InputBox.GetText();
+    public void SetText(string? text) => InputBox.Text = text;
+    public string GetText() => InputBox.Text;
     public void SetAddressText(string text)
     {
         if (Dispatcher.CheckAccess())

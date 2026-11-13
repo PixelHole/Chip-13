@@ -1,16 +1,18 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using Chippie_Lite_WPF.Computer;
 using Chippie_Lite_WPF.Computer.Components;
+using Chippie_Lite_WPF.Computer.Utility;
+using Chippie_Lite_WPF.UI.Elements.Config_View_Elements.RegisterEditBox;
 
 namespace Chippie_Lite_WPF.UI.Elements;
 
 public partial class RegisterList : UserControl
 {
     private ControlMode mode = ControlMode.View;
-    private Brush ParentBorderBrush = null!;
-
+    private RegisterListControl Control { get; }
 
     public required ControlMode Mode
     {
@@ -20,57 +22,116 @@ public partial class RegisterList : UserControl
             bool changed = mode != value;
             mode = value;
             if (!changed) return;
-            UpdateListItems();
+            UpdateList();
         }
     }
+    
     
     public RegisterList()
     {
         InitializeComponent();
-        FetchColors();
-        UpdateListItems();
+        ConnectEvents();
+        Control = new RegisterListControl(this);
     }
-
-    private void FetchColors()
+    
+    private void ConnectEvents()
     {
-        try
-        {
-            ParentBorderBrush = ((Parent as Border)!).BorderBrush;
-        }
-        catch (Exception)
-        {
-            ParentBorderBrush = (Application.Current.Resources["Deep Purple"] as Brush)!;
-        }
+        RegisterBank.OnRegisterAdded += RegisterBankOnOnRegisterAdded;
+        RegisterBank.OnRegisterRemoved += RegisterBankOnOnRegisterRemoved;
     }
-
-    private void UpdateListItems()
+    
+    private void UpdateList()
     {
-        RegisterListPanel.Children.Clear();
+        UpdateListRows();
+        UpdateItems();
+    }
+    
+    private void UpdateItems()
+    {
+        if (RegisterBank.Count == 0)
+        {
+            RegisterListGrid.Children.Clear();
+            return;
+        }
+
+        for (int i = 0; i < RegisterListGrid.Children.Count; i++)
+        {
+            var item = RegisterListGrid.Children[i] as RegisterListItem;
+            item!.AssignedRegister = RegisterBank.GetRegister(i);
+            Grid.SetRow(item, i);
+        }
+
+        for (int i = RegisterListGrid.Children.Count; i > RegisterBank.Count; i--) RemoveItem(i - 1);
         
-        foreach (var register in RegisterBank.GetAllRegisters())
+        for (int i = RegisterListGrid.Children.Count; i < RegisterBank.Count; i++)
         {
-            AddRegisterItem(register);
+            var item = AddItem();
+            Grid.SetRow(item, i);
+            item.AssignedRegister = RegisterBank.GetRegister(i);
         }
     }
-    private void AddRegisterItem(Register register)
+    private RegisterListItem AddItem()
     {
-        Border itemBorder = new Border()
-        {
-            BorderThickness = new Thickness(0, 0, 0, 4),
-            BorderBrush = ParentBorderBrush
-        };
+        RegisterListItem item = null!;
         switch (Mode)
         {
             case ControlMode.View :
-                RegisterListDisplayItem viewItem = new RegisterListDisplayItem(register);
-                itemBorder.Child = viewItem;
+                item = new RegisterListDisplayItem();
                 break;
             
             case ControlMode.Edit :
-                RegisterListEditItem EditItem = new RegisterListEditItem(register);
-                itemBorder.Child = EditItem;
+                item = new RegisterListEditItem(this);
                 break;
         }
-        RegisterListPanel.Children.Add(itemBorder);
+        RegisterListGrid.Children.Add(item);
+        return item;
+    }
+    private void RemoveItem(int index)
+    {
+        RegisterListGrid.Children.RemoveAt(index);
+    }
+
+    private void ClearListRows()
+    {
+        WPFUtility.DoUiAction(RegisterListGrid, () => RegisterListGrid.RowDefinitions.Clear());
+    }
+    private void UpdateListRows()
+    {
+        int count = RegisterBank.Count;
+        if (count == 0)
+        {
+            RegisterListGrid.RowDefinitions.Clear();
+            return;
+        }
+        if (RegisterListGrid.RowDefinitions.Count == count) return;
+
+        int diff = int.Abs(RegisterListGrid.RowDefinitions.Count - count);
+
+        for (int i = 0; i < diff; i++)
+        {
+            if (RegisterListGrid.RowDefinitions.Count < count) AddListRow();
+            else RemoveListRow();
+        }
+    }
+    private void AddListRow()
+    {
+        WPFUtility.DoUiAction(RegisterListGrid, () => RegisterListGrid.RowDefinitions.Add(new RowDefinition()));
+    }
+    private void RemoveListRow()
+    {
+        WPFUtility.DoUiAction(RegisterListGrid, () => RegisterListGrid.RowDefinitions.RemoveAt(RegisterListGrid.RowDefinitions.Count - 1));
+    }
+    
+    private void RegisterBankOnOnRegisterRemoved(Register register, int index)
+    {
+        UpdateList();
+    }
+    private void RegisterBankOnOnRegisterAdded(Register register, int index)
+    {
+        UpdateList();
+    }
+    private void AddBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
+    {
+        Control.ShowCreateWindow();
     }
 }

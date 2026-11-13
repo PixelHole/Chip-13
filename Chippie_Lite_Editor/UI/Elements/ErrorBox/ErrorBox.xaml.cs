@@ -2,6 +2,8 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Chippie_Lite_WPF.Computer.Utility;
+using Chippie_Lite_WPF.UI.Windows;
 
 namespace Chippie_Lite_WPF.UI.Elements;
 
@@ -10,12 +12,14 @@ public partial class ErrorBox
     private ErrorBox()
     {
         InitializeComponent();
+        Application.Current.Exit += (sender, args) => Close();
         SizeToContent = SizeToContent.WidthAndHeight;
     }
 
     public static ErrorBox Pop(string title = "Error", string msg = "An error has occured", Point point = default)
     {
         ErrorBox box = new ErrorBox();
+        box.Owner = MainWindow.MainWindowIns;
         box.SetMessage(title, msg);
         
         box.Show();
@@ -27,21 +31,17 @@ public partial class ErrorBox
 
     public void SetPosition(Point point)
     {
-        Left = point.X;
-        Top = point.Y;
+        WPFUtility.DoUiAction(this, () =>
+        {
+            Left = point.X;
+            Top = point.Y;
+        });
     }
     public void SetMessage(string title = "Error", string msg = "An error has occured")
     {
-        if (CheckAccess())
+        WPFUtility.DoUiAction(this, () =>
         {
-            TitleLabel.Content = title;
-            MessageBox.Text = msg;
-            return;
-        }
-
-        Dispatcher.Invoke(() =>
-        {
-            TitleLabel.Content = title;
+            Frame.Title = title;
             MessageBox.Text = msg;
         });
     }
@@ -49,11 +49,5 @@ public partial class ErrorBox
     private void CloseBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         Close();
-    }
-    
-    
-    private void DragBox_OnMouseDown(object sender, MouseButtonEventArgs e)
-    {
-        DragMove();
     }
 }

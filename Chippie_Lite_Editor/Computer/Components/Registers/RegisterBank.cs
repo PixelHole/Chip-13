@@ -7,20 +7,37 @@ namespace Chippie_Lite_WPF.Computer.Components
     public static class RegisterBank
     {
         private static List<Register> Registers { get; set; } = [];
+        public static int Count => Registers.Count;
         public static bool Locked { get; private set; }
+
+        public delegate void RegisterAddAction(Register register, int index);
+        public delegate void RegisterRemoveAction(Register register, int index);
+
+        public static event RegisterAddAction? OnRegisterAdded;
+        public static event RegisterRemoveAction? OnRegisterRemoved;
 
         public static Register InstructionPointer =>
             GetRegister("Instruction Pointer") ?? throw new RegisterNotFoundException(0, "IP");
 
         public static Register InputBufferCount =>
             GetRegister("Input Buffer Count") ?? throw new RegisterNotFoundException(0, "IB");
-        
 
+
+        public static bool InsertRegister(Register register, int index)
+        {
+            if (Locked) return false;
+            if (GetRegister(register.Name) != null) return false;
+            Registers.Insert(index, register);
+            OnRegisterAdded?.Invoke(register, index);
+            return true;
+        }
+        
         public static bool AddRegister(Register register)
         {
             if (Locked) return false;
             if (GetRegister(register.Name) != null) return false;
             Registers.Add(register);
+            OnRegisterAdded?.Invoke(register, Count - 1);
             return true;
         }
         public static int AddRegisters(IEnumerable<Register> registers)
@@ -50,7 +67,11 @@ namespace Chippie_Lite_WPF.Computer.Components
         public static bool RemoveRegister(Register register)
         {
             if (Locked) return false;
-            return Registers.Remove(register);
+            int index = IndexOf(register);
+            if (index == -1) return false;
+            Registers.Remove(register);
+            OnRegisterRemoved?.Invoke(register, index); 
+            return true;
         }
         public static int RemoveRegisters(IEnumerable<Register> registers)
         {

@@ -29,7 +29,7 @@
                     </Grid.ColumnDefinitions>
         
                     <Border BorderThickness="0, 0, 4, 0" BorderBrush="{StaticResource 'Deep Purple'}">
-                        <ScrollViewer Style="{StaticResource StyledScrollViewer}" 
+                        <ScrollViewer Style="{StaticResource Chippie.ScrollViewer}" 
                                       HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
                             <StackPanel x:Name="ContentList"/>
                         </ScrollViewer>
@@ -58,7 +58,7 @@
                                        Foreground="{StaticResource White}"
                                        FontFamily="{StaticResource Monogram}" FontSize="48"
                                        Text="Title"/>
-                            <ScrollViewer x:Name="BodyScrollViewer" Grid.Row="1" Style="{StaticResource StyledScrollViewer}"
+                            <ScrollViewer x:Name="BodyScrollViewer" Grid.Row="1" Style="{StaticResource Chippie.ScrollViewer}"
                                           HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
                                           MouseWheel="BodyScrollViewer_OnMouseWheel">
                                 <!-- <local:FormattedTextDisplay x:Name="BodyBlock" -->

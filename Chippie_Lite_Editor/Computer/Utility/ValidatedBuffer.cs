@@ -1,4 +1,4 @@
-﻿namespace Chippie_Lite_WPF.Controls;
+﻿namespace Chippie_Lite_WPF.Computer.Utility;
 
 public class ValidatedBuffer<T>(Predicate<T> rule)
 {

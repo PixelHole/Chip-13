@@ -16,6 +16,7 @@ public partial class ConfirmationPrompt
     public ConfirmationPrompt(string title, string body, IEnumerable<string>? buttons = null)
     {
         InitializeComponent();
+        Application.Current.Exit += (sender, args) => Close();
         buttons ??= ["Cancel", "Ok"];
         SizeToContent = SizeToContent.WidthAndHeight;
         TitleBlock.Text = title;

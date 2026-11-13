@@ -6,8 +6,8 @@ public class Register
 {
     private long _content;
     
-    public string Name { get; }
-    public string Id { get; }
+    public string Name { get; set; }
+    public string Id { get; set; }
 
     public long Content
     {
@@ -58,6 +58,17 @@ public class Register
 
     public static implicit operator long(Register reg) => reg.Content;
     public static implicit operator int(Register reg) => (int)reg.Content;
+
+    public static bool operator ==(Register? a, Register? b)
+    {
+        if (a is null && b is null) return true;
+        if (a is null || b is null) return false;
+        return a.Equals(b);
+    }
+    public static bool operator !=(Register? a, Register? b)
+    {
+        return !(a == b);
+    }
 
     public override bool Equals(object? obj)
     {

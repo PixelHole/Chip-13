@@ -4,22 +4,36 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
+             xmlns:config="clr-namespace:Chippie_Lite_WPF.UI.Config"
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MinWidth="150" MaxWidth="225"/>
+            <ColumnDefinition MinWidth="50" MaxWidth="225"/>
             <ColumnDefinition Width="4"/>
             <ColumnDefinition MinWidth="150"/>
         </Grid.ColumnDefinitions>
         
-        <ListBox Style="{StaticResource ModernListBoxStyle}">
-            <ListBoxItem Content="test"/>
-            <ListBoxItem Content="test 2"/>
-            <ListBoxItem Content=" test 3"/>
-        </ListBox>
+        <elements:TitledFrame Title="Configurations" Style="{StaticResource Chippie.TitledFrame.Default}"
+                              Margin="0, 4, 0, 0">
+            <ListBox x:Name="ConfigList" Style="{StaticResource Chippie.ListBox}" SelectedIndex="0" SelectionChanged="ConfigList_OnSelectionChanged">
+                <ListBoxItem Content="Registers"/>
+                <ListBoxItem Content="IO"/>
+                <ListBoxItem Content="Colors"/>
+                <ListBoxItem Content="Memory"/>
+                <ListBoxItem Content="Instruction Set"/>
+            </ListBox>
+        </elements:TitledFrame>
         
-        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="Transparent"/>
+        
+        <Grid x:Name="ConfigPropertiesContainer" Grid.Column="2" Margin="0, 4, 0, 0">
+            <elements:RegisterList Mode="Edit"/>
+            <config:IOEdit Visibility="Collapsed"/>
+            <config:ColorsEdit Visibility="Collapsed"/>
+            <elements:MemoryView Mode="Edit" Visibility="Collapsed"/>
+            <config:InstructionSetEdit Visibility="Collapsed"/>
+        </Grid>
         
     </Grid>
 </UserControl>
