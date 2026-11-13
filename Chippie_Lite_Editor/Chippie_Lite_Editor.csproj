@@ -114,14 +114,13 @@
       <Resource Include="Resources\Images\Cat\sleep.gif" />
       <None Remove="Resources\Images\Cat\Walk.gif" />
       <Resource Include="Resources\Images\Cat\Walk.gif" />
+      <None Remove="Resources\Images\Icons\Duplicate.png" />
+      <Resource Include="Resources\Images\Icons\Duplicate.png" />
+      <None Remove="Resources\Images\Icons\Trash.png" />
+      <Resource Include="Resources\Images\Icons\Trash.png" />
     </ItemGroup>
 
     <ItemGroup>
-      <Page Update="UI\Windows\MainWindow.xaml">
-        <Generator>MSBuild:Compile</Generator>
-        <XamlRuntime>Wpf</XamlRuntime>
-        <SubType>Designer</SubType>
-      </Page>
       <Page Update="UI\Elements\PageSelect\PageSelect.xaml">
         <Generator>MSBuild:Compile</Generator>
         <XamlRuntime>Wpf</XamlRuntime>
@@ -166,6 +165,21 @@
         <SubType>Designer</SubType>
       </Page>
       <Page Update="UI\Cat\Cat\Cat.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="UI\Elements\RegisterDisplay\Edit Item\RegisterListEditItem.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="UI\Windows\Main\MainWindow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="UI\Elements\RegisterDisplay\Display Item\RegisterListDisplayItem.xaml">
         <Generator>MSBuild:Compile</Generator>
         <XamlRuntime>Wpf</XamlRuntime>
         <SubType>Designer</SubType>

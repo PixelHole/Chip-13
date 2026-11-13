@@ -2,7 +2,7 @@
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using AnimatedImage.Wpf;
-using yt_unzipper;
+using Chippie_Lite_WPF.Computer.Utility;
 using Timer = System.Timers.Timer;
 
 namespace Chippie_Lite_WPF.UI.Cat.Animator;

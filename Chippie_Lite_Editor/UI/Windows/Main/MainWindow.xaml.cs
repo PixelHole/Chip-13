@@ -6,13 +6,13 @@ using Chippie_Lite_WPF.Computer.Internal.Exceptions.Base;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions.Interpretation;
 using Chippie_Lite_WPF.Controls;
 using Chippie_Lite_WPF.UI.Elements;
-using yt_unzipper;
 
 namespace Chippie_Lite_WPF.UI.Windows;
 
 
 public partial class MainWindow
 {
+    public static MainWindow MainWindowIns { get; private set; }
     private MainWindowControl Control { get; }
     private AppMode Mode { get; set; } = AppMode.Edit;
     
@@ -22,6 +22,7 @@ public partial class MainWindow
         WindowStyle = WindowStyle.None;
         InitializeComponent();
         Control = new MainWindowControl(this);
+        MainWindowIns = this;
     }
 
 

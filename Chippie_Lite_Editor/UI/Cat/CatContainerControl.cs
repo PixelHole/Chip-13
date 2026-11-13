@@ -1,7 +1,6 @@
 ﻿using System.Timers;
 using System.Windows;
 using Chippie_Lite_WPF.Computer.Utility;
-using yt_unzipper;
 using Timer = System.Timers.Timer;
 
 namespace Chippie_Lite_WPF.UI.Cat;
@@ -14,8 +13,6 @@ public class CatContainerControl
     private Cat?[] Cats { get; } = new Cat[12];
     private int Count { get; set; }
     private Timer UpdateTimer { get; } = new Timer(TimeSpan.FromMilliseconds(50));
-
-    private bool Running = true;
 
     public CatContainerControl(CatContainer view)
     {
