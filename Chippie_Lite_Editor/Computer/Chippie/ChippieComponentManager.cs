@@ -7,6 +7,10 @@ public static class ChippieComponentManager
 {
     public static List<ChippieComponent> Components { get; } = [];
 
+    public delegate void ComponentAddedAction(ChippieComponent component, int index);
+    public delegate void ComponentRemovedAction(ChippieComponent component, int index); 
+    public static event ComponentAddedAction? OnComponentAdded;
+    public static event ComponentRemovedAction? OnComponentRemoved;
 
     public static void RemoveAllComponentsOfType<T>() where T : ChippieComponent
     {
@@ -20,10 +24,15 @@ public static class ChippieComponentManager
     public static void AddComponent(ChippieComponent component)
     {
         Components.Add(component);
+        OnComponentAdded?.Invoke(component, Components.Count - 1);
     }
     public static bool RemoveComponent(ChippieComponent component)
     {
-        return Components.Remove(component);
+        int index = Components.IndexOf(component);
+        if (index == -1) return false;
+        Components.Remove(component);
+        OnComponentAdded?.Invoke(component, index);
+        return true;
     }
 
     public static T? GetComponentOfType<T>() where T : class

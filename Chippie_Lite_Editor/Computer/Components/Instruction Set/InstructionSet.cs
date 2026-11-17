@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Chippie_Lite_WPF.Computer.Instructions;
+using Chippie_Lite_WPF.Computer.Utility;
 
 namespace Chippie_Lite_WPF.Computer.Components;
 
@@ -7,6 +8,15 @@ public class InstructionSet
 {
     public string Name { get; }
     private List<InstructionTemplate> Templates { get; } = [];
+    public int Count => Templates.Count;
+
+    public delegate void TemplateAddedAction(InstructionSet set, InstructionTemplate template, int index);
+    public delegate void TemplateRemovedAction(InstructionSet set, InstructionTemplate template, int index);
+
+    public event TemplateAddedAction? OnTemplateAdded;
+    public event TemplateRemovedAction? OnTemplateRemoved;
+    
+    
 
 
     public InstructionSet(string name, IEnumerable<InstructionTemplate> templates)
@@ -23,7 +33,24 @@ public class InstructionSet
             Templates.Add(template);
         }
     }
-    
+    public bool AddTemplate(InstructionTemplate template)
+    {
+        if (FindTemplate(t => t.Name == template.Name || t.Header == template.Header) != null) return false;
+        Templates.Add(template);
+        OnTemplateAdded?.Invoke(this, template, Count - 1);
+        return true;
+    }
+    public bool RemoveTemplate(InstructionTemplate template)
+    {
+        var match = FindTemplate(t => t.Name == template.Name || t.Header == template.Header);
+        if (match == null) return false;
+        int index = Templates.IndexOf(match);
+        Templates.Remove(template);
+        OnTemplateRemoved?.Invoke(this, template, index);
+        return true;
+    }
+
+    public InstructionTemplate GetTemplate(int index) => Templates[IndexUtility.WrapIndex(index, Templates.Count)];
     public InstructionTemplate[] GetTemplates()
     {
         return Templates.ToArray();

@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Chippie_Lite_WPF.UI.Windows;
 
 namespace Chippie_Lite_WPF.UI.Elements;
 
@@ -16,7 +17,8 @@ public partial class ConfirmationPrompt
     public ConfirmationPrompt(string title, string body, IEnumerable<string>? buttons = null)
     {
         InitializeComponent();
-        Application.Current.Exit += (sender, args) => Close();
+        Owner = MainWindow.MainWindowIns;
+        Application.Current.Exit += (_, _) => Close();
         buttons ??= ["Cancel", "Ok"];
         SizeToContent = SizeToContent.WidthAndHeight;
         TitleBlock.Text = title;

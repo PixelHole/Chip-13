@@ -60,7 +60,9 @@ public static class SaveFileManager
                     blocks.Add(new MemoryBlockSaveInstance(block));
                }
                
-               memoryModules.Add(new MemorySaveInstance(memory.Size,
+               memoryModules.Add(new MemorySaveInstance(
+                    memory.Name,
+                    memory.Size,
                     memory.LengthLimit,
                     memory.ReadOnly,
                     memory.Permanent,

@@ -1,7 +1,11 @@
-﻿namespace Chippie_Lite_WPF.Computer.Components;
+﻿using System.Globalization;
+
+namespace Chippie_Lite_WPF.Computer.Components;
 
 public class Memory : ChippieComponent
 {
+    public string Name { get; set; }
+    
     internal readonly int BlockAddRange;
     private List<MemoryBlock> RuntimeStorage { get; set; } = [];
     private List<MemoryBlock> InitialStorage { get; set; } = [];
@@ -9,7 +13,9 @@ public class Memory : ChippieComponent
 
     public int Size { get; set; }
     public byte LengthLimit { get; set; }
-    public bool Permanent { get; set; } = false; 
+    public bool Permanent { get; set; } = false;
+
+    public double SizeInBytes => Size * LengthLimit / 8d;
     
     private long Mask
     {
@@ -29,8 +35,9 @@ public class Memory : ChippieComponent
     public event InitialStorageUpdateAction? OnInitialStorageUpdated;
 
 
-    public Memory(int blockAddRange = 3, bool readOnly = false, bool permanent = false, int size = 8192, byte lengthLimit = 32)
+    public Memory(string name = "Memory", int blockAddRange = 3, bool readOnly = false, bool permanent = false, int size = 8192, byte lengthLimit = 32)
     {
+        Name = name;
         BlockAddRange = blockAddRange;
         ReadOnly = readOnly;
         Permanent = permanent;
@@ -184,4 +191,18 @@ public class Memory : ChippieComponent
 
     private bool IsIndexInRange(int index) => index >= 0 && index < Size;
     private bool IsIndexOutOfHardRange(int index) => index < 0 || index >= Size;
+
+    public string GetSizeString()
+    {
+        int index = 0;
+        string[] labels = ["Bs", "KBs", "MBs", "GBs"];
+        double size = SizeInBytes;
+        while (size > 1024)
+        {
+            index++;
+            size /= 1024;
+        }
+
+        return size.ToString(CultureInfo.InvariantCulture) + labels[index];
+    }
 }

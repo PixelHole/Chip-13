@@ -11,7 +11,8 @@ public partial class ConditionalTextbox
 {
     public static readonly DependencyProperty RetainTextProperty = DependencyProperty.Register(nameof(RetainText), typeof(bool), typeof(ConditionalTextbox), new PropertyMetadata(null)); 
     public static readonly DependencyProperty ValidBrushProperty = DependencyProperty.Register(nameof(ValidTextBrush), typeof(Brush), typeof(ConditionalTextbox), new PropertyMetadata(null)); 
-    public static readonly DependencyProperty InvalidBrushProperty = DependencyProperty.Register(nameof(InvalidTextBrush), typeof(Brush), typeof(ConditionalTextbox), new PropertyMetadata(null)); 
+    public static readonly DependencyProperty InvalidBrushProperty = DependencyProperty.Register(nameof(InvalidTextBrush), typeof(Brush), typeof(ConditionalTextbox), new PropertyMetadata(null));
+    public static readonly DependencyProperty PlaceholderProperty = DependencyProperty.Register(nameof(Placeholder), typeof(string), typeof(ConditionalTextbox), new PropertyMetadata(string.Empty));
     
     public required Predicate<string> Condition
     {
@@ -27,6 +28,11 @@ public partial class ConditionalTextbox
             validatorBuffer.Set(value);
             WPFUtility.SetText(ContentBox, validatorBuffer.Get() ?? "");
         }
+    }
+    public string Placeholder
+    {
+        get => (string)GetValue(PlaceholderProperty);
+        set => SetValue(PlaceholderProperty, value);
     }
     
     public bool RetainText

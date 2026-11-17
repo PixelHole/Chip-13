@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.Utility;
@@ -19,11 +20,14 @@ public partial class ColorsList : UserControl
             RefreshItems();
         }
     }
+
+    private ColorsListControl Control { get; set; }
     
     public ColorsList()
     {
         InitializeComponent();
         ConnectEvents();
+        Control = new ColorsListControl(this);
     }
     private void ConnectEvents()
     {
@@ -40,22 +44,17 @@ public partial class ColorsList : UserControl
     private void ClearItems() => ItemPanel.Children.Clear();
     private void UpdateItems()
     {
+        if (ItemPanel.Children.Count > ColorLibrary.Count) 
+            while (ItemPanel.Children.Count > ColorLibrary.Count) RemoveItem(ItemPanel.Children.Count - 1);
+        else if (ItemPanel.Children.Count < ColorLibrary.Count) 
+            while (ItemPanel.Children.Count < ColorLibrary.Count) AddItem();
+        
         for (int i = 0; i < ItemPanel.Children.Count; i++)
         {
             var item = (ItemPanel.Children[i] as ColorsListItem)!;
             item.AssignedBrush = new SolidColorBrush(ColorLibrary.GetColor(i));
             item.Index = i;
         }
-
-        if (ItemPanel.Children.Count > ColorLibrary.Count) 
-            while (ItemPanel.Children.Count > ColorLibrary.Count) RemoveItem(ItemPanel.Children.Count - 1);
-        else
-            while (ItemPanel.Children.Count < ColorLibrary.Count)
-            {
-                var item = AddItem();
-                item.AssignedBrush = new SolidColorBrush(ColorLibrary.GetColor(ItemPanel.Children.Count - 1));
-                item.Index = ItemPanel.Children.Count - 1;
-            }
     }
     private ColorsListItem AddItem()
     {
@@ -81,5 +80,9 @@ public partial class ColorsList : UserControl
     private void ColorLibraryOnOnColorUpdated(Color color, int index)
     {
         UpdateItems();
+    }
+    private void AddBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
+    {
+        Control.ShowCreateWindow();
     }
 }

@@ -124,6 +124,10 @@
       <Resource Include="Resources\Images\Icons\Circle dark.png" />
       <None Remove="Resources\Images\Icons\Circle filled.png" />
       <Resource Include="Resources\Images\Icons\Circle filled.png" />
+      <None Remove="Resources\Images\UI\tube_end.png" />
+      <Resource Include="Resources\Images\UI\tube_end.png" />
+      <None Remove="Resources\Images\UI\tube_start.png" />
+      <Resource Include="Resources\Images\UI\tube_start.png" />
     </ItemGroup>
 
     <ItemGroup>
@@ -222,6 +226,7 @@
     <ItemGroup>
       <Folder Include="Resources\Icons\" />
       <Folder Include="Resources\Images\Cat\" />
+      <Folder Include="Resources\Images\UI\" />
       <Folder Include="UI\Documentation\" />
     </ItemGroup>
 

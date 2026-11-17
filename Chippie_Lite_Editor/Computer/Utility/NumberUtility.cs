@@ -19,11 +19,50 @@ public static class NumberUtility
             return false;
         }
     }
+    public static bool TryParseHex(string input, out long num)
+    {
+        try
+        {
+            num = ParseHex(input);
+            return true;
+        }
+        catch (Exception)
+        {
+            num = -1;
+            return false;
+        }
+    }
+    public static bool TryParseBinary(string input, out long num)
+    {
+        try
+        {
+            num = ParseBinary(input);
+            return true;
+        }
+        catch (Exception)
+        {
+            num = -1;
+            return false;
+        }
+    }
+    public static bool TryParseDecimal(string input, out long num)
+    {
+        try
+        {
+            num = ParseDecimal(input);
+            return true;
+        }
+        catch (Exception)
+        {
+            num = -1;
+            return false;
+        }
+    }
     public static long ParseNumber(string num)
     {
         num = num.ToLower();
         if ((num.EndsWith('b') && !num.StartsWith("0x")) || num.StartsWith("0b") || num.StartsWith("0y")) return ParseBinary(num);
-        if (num.StartsWith("0x") || num.StartsWith("0h") || num.StartsWith("0c")) return ParseHex(num);
+        if (num.StartsWith("0x") || num.StartsWith("0h") || num.StartsWith("0c") || num.StartsWith('#')) return ParseHex(num);
         return ParseDecimal(num);
     }
     public static long ParseBinary(string num)
@@ -33,7 +72,7 @@ public static class NumberUtility
     }
     public static long ParseHex(string num)
     {
-        num = RemoveFlags(num, "0x", "0h", "_", "-");
+        num = RemoveFlags(num, "0x", "0h", "_", "-", "#");
         return long.Parse(num, NumberStyles.HexNumber);
     }
     public static long ParseDecimal(string num)

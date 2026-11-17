@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Chippie_Lite_WPF.Computer.Utility;
 
 namespace Chippie_Lite_WPF.UI.Elements;
 
@@ -77,8 +78,11 @@ public partial class ColorPicker : UserControl
     {
         var brush = new SolidColorBrush(color);
         PreviewFill.Background = brush;
-
-        HexText.Text = $"#{color.A:X2}{color.R:X2}{color.G:X2}{color.B:X2}";
+        
+        HexText.Text = $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+        RTextbox.Text = color.R.ToString();
+        GTextbox.Text = color.G.ToString();
+        BTextbox.Text = color.B.ToString();
     }
 
     private void UpdateThumbPosition()
@@ -141,7 +145,7 @@ public partial class ColorPicker : UserControl
 
         var color = Color.FromArgb(255, (byte)Math.Round(RSlider.Value),
             (byte)Math.Round(GSlider.Value), (byte)Math.Round(BSlider.Value));
-
+        
         _isUpdating = true;
         RgbToHsv(color, ref _hue, out _saturation, out _brightness);
         HueSlider.Value = _hue;
@@ -217,5 +221,52 @@ public partial class ColorPicker : UserControl
             h = 60 * (((r - g) / delta) + 4);
 
         if (h < 0) h += 360;
+    }
+    private void RGBTextbox_OnTextConfirmed(string text)
+    {
+        if (_isUpdating) return;
+
+        var color = Color.FromArgb(255, (byte)NumberUtility.ParseNumber(RTextbox.Text),
+            (byte)NumberUtility.ParseNumber(GTextbox.Text), (byte)NumberUtility.ParseNumber(BTextbox.Text));
+        
+        _isUpdating = true;
+        RgbToHsv(color, ref _hue, out _saturation, out _brightness);
+        HueSlider.Value = _hue;
+        RSlider.Value = color.R;
+        GSlider.Value = color.G;
+        BSlider.Value = color.B;
+        HueStop.Color = HsvToColor(_hue, 1, 1, 255);
+        SelectedColor = color;
+        UpdatePreviews(color);
+        UpdateThumbPosition();
+        _isUpdating = false;
+    }
+    private void HexText_OnTextConfirmed(string text)
+    {
+        // TODO : Fix. READ FROM HEX CONVERT TO COLOR
+        
+        if (_isUpdating) return;
+
+        var color = Color.FromArgb(255, (byte)NumberUtility.ParseHex(text.Substring(1, 2)),
+            (byte)NumberUtility.ParseHex(text.Substring(3, 2)), (byte)NumberUtility.ParseHex(text.Substring(5, 2)));
+        
+        _isUpdating = true;
+        RgbToHsv(color, ref _hue, out _saturation, out _brightness);
+        HueSlider.Value = _hue;
+        HueStop.Color = HsvToColor(_hue, 1, 1, 255);
+        SelectedColor = color;
+        UpdatePreviews(color);
+        UpdateThumbPosition();
+        _isUpdating = false;
+    }
+
+    public bool ColorByteCondition(string s)
+    {
+        return NumberUtility.TryParseNumber(s, out var num) && num is >= 0 and < 256;
+    }
+    public bool HexCodeCondition(string s)
+    {
+        if (!NumberUtility.TryParseHex(s, out var num)) System.Console.WriteLine(s);
+        return s.Length == 7 && NumberUtility.TryParseHex(s, out _);
     }
 }

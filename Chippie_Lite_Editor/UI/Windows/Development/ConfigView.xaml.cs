@@ -24,7 +24,7 @@ public partial class ConfigView
     {
         InitializeComponent();
         // TODO : DEBUG PARAMETER
-        ConfigList.SelectedIndex = 2;
+        ConfigList.SelectedIndex = 4;
     }
 
     private void UpdatePropertiesPage(int old, int newPage)

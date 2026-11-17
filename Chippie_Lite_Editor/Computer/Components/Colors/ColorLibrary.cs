@@ -1,5 +1,6 @@
 ﻿using System.Windows.Media;
 using Chippie_Lite_WPF.Computer.Utility;
+using Chippie_Lite_WPF.UI.Elements;
 
 namespace Chippie_Lite_WPF.Computer.Components;
 
@@ -39,7 +40,7 @@ public static class ColorLibrary
         OnColorRemoved?.Invoke(color, index);
         return true;
     }
-    
+
     public static Color GetColor(int index)
     {
         index = IndexUtility.WrapIndex(index, Colors.Count);

@@ -54,25 +54,20 @@ public partial class RegisterList : UserControl
             return;
         }
 
+        if (RegisterListGrid.Children.Count > RegisterBank.Count)
+            while (RegisterListGrid.Children.Count > RegisterBank.Count) RemoveItem(RegisterListGrid.Children.Count - 1);
+        else if (RegisterListGrid.Children.Count < RegisterBank.Count)
+            for (int i = RegisterListGrid.Children.Count; i < RegisterBank.Count; i++)
+            {
+                var item = AddItem();
+                Grid.SetRow(item, i);
+            }
+        
         for (int i = 0; i < RegisterListGrid.Children.Count; i++)
         {
             var item = RegisterListGrid.Children[i] as RegisterListItem;
             item!.AssignedRegister = RegisterBank.GetRegister(i);
             Grid.SetRow(item, i);
-        }
-
-        if (RegisterListGrid.Children.Count > RegisterBank.Count)
-        {
-            while (RegisterListGrid.Children.Count > RegisterBank.Count) RemoveItem(RegisterListGrid.Children.Count - 1);
-        }
-        else
-        {
-            for (int i = RegisterListGrid.Children.Count; i < RegisterBank.Count; i++)
-            {
-                var item = AddItem();
-                Grid.SetRow(item, i);
-                item.AssignedRegister = RegisterBank.GetRegister(i);
-            }
         }
     }
     private RegisterListItem AddItem()

@@ -5,6 +5,7 @@ namespace Chippie_Lite_WPF.Computer.File.DefaultStates;
 
 public class MemorySaveInstance
 {
+    public string Name { get; }
     public int MemorySize { get; }
     public byte LengthLimit { get; }
     public bool ReadOnly { get; }
@@ -14,8 +15,9 @@ public class MemorySaveInstance
 
 
     [JsonConstructor]
-    public MemorySaveInstance(int memorySize, byte lengthLimit, bool readOnly, bool permanent, int blockAddRange, MemoryBlockSaveInstance[] blocks)
+    public MemorySaveInstance(string name, int memorySize, byte lengthLimit, bool readOnly, bool permanent, int blockAddRange, MemoryBlockSaveInstance[] blocks)
     {
+        Name = name;
         MemorySize = memorySize;
         LengthLimit = lengthLimit;
         ReadOnly = readOnly;
@@ -26,7 +28,7 @@ public class MemorySaveInstance
 
     public Memory ToMemory()
     {
-        Memory memory = new Memory(BlockAddRange, ReadOnly, Permanent, MemorySize, LengthLimit);
+        Memory memory = new Memory(Name, BlockAddRange, ReadOnly, Permanent, MemorySize, LengthLimit);
         
         MemoryBlock[] blocks = new MemoryBlock[Blocks.Length];
 

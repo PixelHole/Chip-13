@@ -137,6 +137,7 @@ public static class WPFUtility
     }
     public static void BringWindowToTop(Window window)
     {
+        window.WindowState = WindowState.Normal;
         window.Topmost = true;
     }
 

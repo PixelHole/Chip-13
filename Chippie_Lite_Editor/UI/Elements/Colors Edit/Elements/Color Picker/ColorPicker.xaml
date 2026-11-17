@@ -75,8 +75,8 @@
         <Grid Margin="8">
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition Height="42"/>
-                <RowDefinition Height="74"/>
+                <RowDefinition Height="52"/>
+                <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
             
             <Border Grid.Row="0" BorderBrush="{StaticResource 'Deep Purple'}" 
@@ -137,25 +137,25 @@
                         Background="{StaticResource CheckerboardBrush}">
                     <Border x:Name="PreviewFill"/>
                 </Border>
-                <TextBlock x:Name="HexText"
-                           Grid.Column="1"
-                           Margin="12,0,0,0"
-                           VerticalAlignment="Center"
-                           FontSize="16"
-                           FontFamily="{StaticResource TextFont}"
-                           Foreground="{StaticResource White}"/>
+                <Border Grid.Column="1"  BorderBrush="{StaticResource 'Deep Purple'}" 
+                        BorderThickness="4" Margin="12,0,0,0">
+                    <local:ConditionalTextbox x:Name="HexText"
+                                              InvalidTextBrush="{StaticResource Red}"
+                                              Condition="HexCodeCondition"
+                                              TextConfirmed="HexText_OnTextConfirmed"/>
+                </Border>
             </Grid>
                         
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="22"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="34"/>
+                    <ColumnDefinition Width="56"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*" MinHeight="32"/>
+                    <RowDefinition Height="*" MinHeight="32"/>
+                    <RowDefinition Height="*" MinHeight="32"/>
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" 
@@ -167,12 +167,15 @@
                         Style="{StaticResource ModernSliderStyle}"
                         Maximum="255" VerticalAlignment="Center" 
                         ValueChanged="RgbaSlider_ValueChanged"/>
-                <TextBlock Grid.Row="0" Grid.Column="2" 
-                           Text="{Binding Value, ElementName=RSlider, StringFormat={}{0:0}}" 
-                           HorizontalAlignment="Right" VerticalAlignment="Center"
-                           FontSize="16"
-                           FontFamily="{StaticResource TextFont}"
-                           Foreground="{StaticResource White}"/>
+                <Border Grid.Row="0" Grid.Column="2" Margin="12,4,0,0" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        BorderBrush="{StaticResource 'Deep Purple'}"
+                        BorderThickness="4">
+                    <local:ConditionalTextbox x:Name="RTextbox" Style="{StaticResource ConditionalTextbox.Default}"
+                                              InvalidTextBrush="{StaticResource Red}"
+                                              Condition="ColorByteCondition"
+                                              TextConfirmed="RGBTextbox_OnTextConfirmed"/>
+                </Border>
 
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="G" VerticalAlignment="Center"
                            FontSize="16"
@@ -182,12 +185,16 @@
                         Style="{StaticResource ModernSliderStyle}"
                         Maximum="255" VerticalAlignment="Center" 
                         ValueChanged="RgbaSlider_ValueChanged"/>
-                <TextBlock Grid.Row="1" Grid.Column="2" 
-                           Text="{Binding Value, ElementName=GSlider, StringFormat={}{0:0}}" 
-                           HorizontalAlignment="Right" VerticalAlignment="Center"
-                           FontSize="16"
-                           FontFamily="{StaticResource TextFont}"
-                           Foreground="{StaticResource White}"/>
+                <Border Grid.Row="1" Grid.Column="2" Margin="12,4,0,0" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        BorderBrush="{StaticResource 'Deep Purple'}"
+                        BorderThickness="4">
+                    <local:ConditionalTextbox x:Name="GTextbox" Style="{StaticResource ConditionalTextbox.Default}"
+                                              InvalidTextBrush="{StaticResource Red}"
+                                              Condition="ColorByteCondition"
+                                              TextConfirmed="RGBTextbox_OnTextConfirmed"/>
+                </Border>
+                
 
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="B" VerticalAlignment="Center"
                            FontSize="16"
@@ -197,12 +204,15 @@
                         Style="{StaticResource ModernSliderStyle}"
                         Maximum="255" VerticalAlignment="Center" 
                         ValueChanged="RgbaSlider_ValueChanged"/>
-                <TextBlock Grid.Row="2" Grid.Column="2" 
-                           Text="{Binding Value, ElementName=BSlider, StringFormat={}{0:0}}" 
-                           HorizontalAlignment="Right" VerticalAlignment="Center"
-                           FontSize="16"
-                           FontFamily="{StaticResource TextFont}"
-                           Foreground="{StaticResource White}"/>
+                <Border Grid.Row="2" Grid.Column="2" Margin="12,4,0,0" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        BorderBrush="{StaticResource 'Deep Purple'}"
+                        BorderThickness="4">
+                    <local:ConditionalTextbox x:Name="BTextbox" Style="{StaticResource ConditionalTextbox.Default}"
+                                              Condition="ColorByteCondition"
+                                              TextConfirmed="RGBTextbox_OnTextConfirmed"
+                                              InvalidTextBrush="{StaticResource Red}"/>
+                </Border>
             </Grid>
         </Grid>
     </Grid>

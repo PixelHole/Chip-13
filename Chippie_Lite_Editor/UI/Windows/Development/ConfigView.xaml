@@ -31,7 +31,7 @@
             <elements:RegisterList Mode="Edit"/>
             <config:IOEdit Visibility="Collapsed"/>
             <elements:ColorsList Mode="Edit" Visibility="Collapsed"/>
-            <elements:MemoryView Mode="Edit" Visibility="Collapsed"/>
+            <config:MemoryEdit Visibility="Collapsed"/>
             <config:InstructionSetEdit Visibility="Collapsed"/>
         </Grid>
         

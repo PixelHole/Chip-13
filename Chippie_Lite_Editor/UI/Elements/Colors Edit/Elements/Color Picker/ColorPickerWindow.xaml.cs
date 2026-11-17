@@ -7,8 +7,21 @@ namespace Chippie_Lite_WPF.UI.Elements;
 
 public partial class ColorPickerWindow : Window
 {
+    public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
+        nameof(Title),
+        typeof(string),
+        typeof(ColorPickerWindow),
+        new PropertyMetadata("Pick Color")
+        );
+    
     public delegate void ConfirmAction(object sender, Color color);
     public event ConfirmAction? OnConfirm;
+
+    public string Title
+    {
+        get => (string)GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
     
     
     public ColorPickerWindow(Color color)

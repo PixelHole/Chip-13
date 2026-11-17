@@ -37,20 +37,20 @@
     <Border BorderThickness="0, 0, 0, 4" BorderBrush="{StaticResource 'Deep Purple'}">
         <Grid Margin="4, 8">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" MinWidth="32"/>
-                <ColumnDefinition Width="*" MinWidth="128"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="2*" MinWidth="128"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
         
             <Label x:Name="IndexLabel" Style="{StaticResource Chippie.Label.Default}"
-                   VerticalAlignment="Stretch" Margin="4, 0"/>
+                   VerticalAlignment="Stretch" Margin="16, 0"/>
         
             <local:ColorDisplay x:Name="ColorDisplay" Grid.Column="1"/>
         
-            <StackPanel Grid.Column="2" HorizontalAlignment="Right" Orientation="Horizontal">
+            <StackPanel Grid.Column="2" HorizontalAlignment="Right" Orientation="Horizontal" Margin="16, 0">
                 <StackPanel.Style>
                     <Style TargetType="StackPanel">
-                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Setter Property="Visibility" Value="Hidden"/>
 
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">

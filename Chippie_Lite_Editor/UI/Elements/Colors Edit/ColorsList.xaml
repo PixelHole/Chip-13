@@ -9,6 +9,17 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <elements:TitledFrame Style="{StaticResource Chippie.TitledFrame.Default}" Title="Colors">
+            <elements:TitledFrame.TopContent>
+                <Grid HorizontalAlignment="Right">
+                    <elements:SquareButton x:Name="AddBtn" Margin="4" 
+                                           Icon="../../../Resources/Images/Icons/plus.png"
+                                           BackgroundDefaultColor="{StaticResource 'Deep Purple'}"
+                                           BackgroundHoverColor="{StaticResource Red}"
+                                           BackgroundClickColor="{StaticResource Pink}"
+                                           Click="AddBtn_OnClick"/>
+                </Grid>
+            </elements:TitledFrame.TopContent>
+            
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
                           Style="{StaticResource Chippie.ScrollViewer}">
                 <StackPanel x:Name="ItemPanel" Orientation="Vertical"/>

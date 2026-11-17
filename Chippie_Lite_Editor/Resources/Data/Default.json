@@ -9,9 +9,30 @@
     },
     "memoryModules": [
       {
-        "memorySize": 8192,
+        "name":"Main Memory",
+        "memorySize": 128,
         "lengthLimit": 32,
         "readOnly": false,
+        "permanent": false,
+        "blockAddRange": 3,
+        "blocks": [
+        ]
+      },
+      {
+        "name":"DISK",
+        "memorySize": 64,
+        "lengthLimit": 32,
+        "readOnly": false,
+        "permanent": true,
+        "blockAddRange": 3,
+        "blocks": [
+        ]
+      },
+      {
+        "name":"ROM",
+        "memorySize": 256,
+        "lengthLimit": 32,
+        "readOnly": true,
         "permanent": false,
         "blockAddRange": 3,
         "blocks": [

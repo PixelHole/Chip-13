@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="Chippie_Lite_WPF.UI.Config.Edit_Window.ArgumentListItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Config.Edit_Window"
+             xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
+             mc:Ignorable="d"
+             d:DesignHeight="32" d:DesignWidth="300"
+             MouseDown="ArgumentListItem_OnMouseDown" MouseUp="ArgumentListItem_OnMouseUp"
+             MouseLeave="ArgumentListItem_OnMouseLeave">
+    <UserControl.Style>
+        <Style TargetType="local:ArgumentListItem">
+            <Setter Property="Background" Value="{StaticResource 'Dark Blue'}"/>
+            
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                        <Condition Property="IsPressed" Value="False"/>
+                    </MultiTrigger.Conditions>
+                    
+                    <Setter Property="Background" Value="{StaticResource 'Darkish Blue'}"/>
+                </MultiTrigger>
+                
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                        <Condition Property="IsPressed" Value="True"/>
+                    </MultiTrigger.Conditions>
+                    
+                    <Setter Property="Background" Value="{StaticResource 'Darkisher Blue'}"/>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <ComboBox Style="{StaticResource Chippie.ComboBox}" Selected="Selector_OnSelected">
+            <ComboBoxItem Content="Value"/>
+            <ComboBoxItem Content="Register"/>
+            <ComboBoxItem Content="Register & Value"/>
+        </ComboBox>
+        
+        <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="16, 0">
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Hidden"/>
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            
+            <elements:SquareButton x:Name="DuplicateBtn" Width="26" Height="26" Icon="../../../../Resources/Images/Icons/Duplicate.png"
+                                Click="DuplicateBtn_OnClick"/>
+            <elements:SquareButton x:Name="DeleteBtn" Width="26" Height="26" Icon="../../../../Resources/Images/Icons/Trash.png"
+                                Click="DeleteBtn_OnClick"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
