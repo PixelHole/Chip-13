@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
              xmlns:development="clr-namespace:Chippie_Lite_WPF.UI.Windows.Development"
-             xmlns:consoleControlLibrary="clr-namespace:ConsoleControlLibrary"
              xmlns:console="clr-namespace:Chippie_Lite_WPF.UI.Elements.Console"
              mc:Ignorable="d"
              Background="Transparent"

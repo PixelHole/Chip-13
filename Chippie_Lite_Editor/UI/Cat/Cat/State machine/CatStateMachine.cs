@@ -1,8 +1,7 @@
 ﻿using System.Timers;
-using Chippie_Lite_WPF.Computer.Utility;
 using Timer = System.Timers.Timer;
 
-namespace Chippie_Lite_WPF.UI.Cat;
+namespace Chippie_Lite_WPF.UI.Cat.Cat;
 
 public class CatStateMachine
 {

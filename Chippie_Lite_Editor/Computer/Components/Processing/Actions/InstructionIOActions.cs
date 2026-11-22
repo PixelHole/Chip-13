@@ -1,7 +1,7 @@
 ﻿using Chippie_Lite_WPF.Computer.Instructions;
 using Chippie_Lite_WPF.Computer.Instructions.Arguments;
 using Chippie_Lite_WPF.Computer.Utility;
-using wpf_Console;
+using Chippie_Lite_WPF.UI.ConsoleControl.Units;
 
 namespace Chippie_Lite_WPF.Computer.Components.Actions;
 

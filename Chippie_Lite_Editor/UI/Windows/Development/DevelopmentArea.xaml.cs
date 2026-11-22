@@ -1,13 +1,8 @@
-﻿using System.Numerics;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using Chippie_Lite_WPF.Computer.Internal.Exceptions;
-using Chippie_Lite_WPF.Computer.Internal.Exceptions.Base;
-using Chippie_Lite_WPF.Computer.Internal.Exceptions.Interpretation;
-using Chippie_Lite_WPF.UI.Elements;
 using Vector = System.Windows.Vector;
 
-namespace Chippie_Lite_WPF.UI.Windows;
+namespace Chippie_Lite_WPF.UI.Windows.Development;
 
 public partial class DevelopmentArea : UserControl
 {

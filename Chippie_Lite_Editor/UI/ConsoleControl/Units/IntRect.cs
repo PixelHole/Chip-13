@@ -1,4 +1,4 @@
-﻿namespace wpf_Console;
+﻿namespace Chippie_Lite_WPF.UI.ConsoleControl.Units;
 
 public class IntRect
 {

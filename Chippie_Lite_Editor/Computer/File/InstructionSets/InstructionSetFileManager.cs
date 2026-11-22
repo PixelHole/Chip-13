@@ -1,5 +1,5 @@
 ﻿using Chippie_Lite_WPF.Computer.Components;
-using Chippie_Lite_WPF.Computer.File.DefaultStates;
+using Chippie_Lite_WPF.Computer.File.Components;
 using Chippie_Lite_WPF.Computer.Utility;
 
 namespace Chippie_Lite_WPF.Computer.File.InstructionSets;

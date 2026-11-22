@@ -6,6 +6,7 @@
         xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
         xmlns:windows="clr-namespace:Chippie_Lite_WPF.UI.Windows"
         xmlns:cat="clr-namespace:Chippie_Lite_WPF.UI.Cat"
+        xmlns:development="clr-namespace:Chippie_Lite_WPF.UI.Windows.Development"
         mc:Ignorable="d"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -119,7 +120,7 @@
             
         </Grid>
         
-        <windows:DevelopmentArea Grid.Row="1" x:Name="DevArea" x:FieldModifier="public"/>
+        <development:DevelopmentArea Grid.Row="1" x:Name="DevArea" x:FieldModifier="public"/>
         
         <cat:CatContainer x:Name="CatContainer" Grid.Row="1"/>
         

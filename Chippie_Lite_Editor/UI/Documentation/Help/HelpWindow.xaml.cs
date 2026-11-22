@@ -1,9 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using Chippie_Lite_WPF.Documentation;
-using Chippie_Lite_WPF.UI.Help;
 
-namespace Chippie_Lite_WPF.UI.Windows.Help;
+namespace Chippie_Lite_WPF.UI.Help;
 
 public partial class HelpWindow : Window
 {

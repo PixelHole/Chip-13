@@ -2,7 +2,7 @@
 using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.Instructions;
 
-namespace Chippie_Lite_WPF.Computer.File.DefaultStates;
+namespace Chippie_Lite_WPF.Computer.File.Components;
 
 public class InstructionSetInstance
 {

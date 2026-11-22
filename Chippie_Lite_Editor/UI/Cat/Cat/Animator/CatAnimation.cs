@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace Chippie_Lite_WPF.UI.Cat.Animator;
+namespace Chippie_Lite_WPF.UI.Cat.Cat.Animator;
 
 public struct CatAnimation
 {

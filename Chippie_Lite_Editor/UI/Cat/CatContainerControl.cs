@@ -10,7 +10,7 @@ public class CatContainerControl
     private CatContainer View { get; }
     private string[] Names = ["Unloaded"];
     
-    private Cat?[] Cats { get; } = new Cat[12];
+    private Cat.Cat?[] Cats { get; } = new Cat.Cat[12];
     private int Count { get; set; }
     private Timer UpdateTimer { get; } = new Timer(TimeSpan.FromMilliseconds(50));
 
@@ -63,7 +63,7 @@ public class CatContainerControl
     public void SpawnCat(string name = "")
     {
         if (Count == Cats.Length) return;
-        Cat cat = new Cat(name == "" ? GetRandomName() : name, View);
+        Cat.Cat cat = new Cat.Cat(name == "" ? GetRandomName() : name, View);
         Cats[Count] = cat;
         Count++;
         WPFUtility.DoUiAction(View.CatCanvas, () => View.CatCanvas.Children.Add(cat));

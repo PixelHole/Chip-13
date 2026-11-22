@@ -186,4 +186,12 @@ public partial class InstructionSetEdit : UserControl
     {
         SearchBox.Text = "";
     }
+    private void ImportBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
+    {
+        
+    }
+    private void ExportBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
+    {
+        
+    }
 }

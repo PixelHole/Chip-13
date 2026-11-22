@@ -18,9 +18,10 @@ public partial class ConditionalTextbox
     {
         set => validatorBuffer = new ValidatedBuffer<string>(value)!;
     }
-    private ValidatedBuffer<string?> validatorBuffer { get; set; } = null!;
+    
+    private ValidatedBuffer<string?> validatorBuffer { get; set; } = new(_ => true);
 
-    private Timer ConfirmTimer = new();
+    private readonly Timer ConfirmTimer = new();
 
     public string Text
     {

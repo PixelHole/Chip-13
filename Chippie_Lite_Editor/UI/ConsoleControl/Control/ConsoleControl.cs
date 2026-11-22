@@ -5,8 +5,9 @@ using System.Windows.Media;
 using Chippie_Lite_WPF.Computer;
 using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.Components.Actions;
-using ConsoleControlLibrary;
-using wpf_Console;
+using Chippie_Lite_WPF.UI.ConsoleControl.Enums;
+using Chippie_Lite_WPF.UI.ConsoleControl.Units;
+using Chippie_Lite_WPF.UI.ConsoleControl.Views;
 
 // ReSharper disable once CheckNamespace
 namespace Wpf_ConsoleIO;

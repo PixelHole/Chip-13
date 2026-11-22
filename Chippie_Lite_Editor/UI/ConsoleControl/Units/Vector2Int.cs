@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using System.Text.Json.Serialization;
 
-namespace wpf_Console
+namespace Chippie_Lite_WPF.UI.ConsoleControl.Units
 {
     public class Vector2Int
     {

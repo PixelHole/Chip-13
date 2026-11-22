@@ -5,7 +5,6 @@ using System.Windows.Media;
 using Chippie_Lite_WPF.Computer;
 using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.Utility;
-using wpf_Console;
 
 namespace Chippie_Lite_WPF.UI.Elements;
 

@@ -5,7 +5,7 @@ using AnimatedImage.Wpf;
 using Chippie_Lite_WPF.Computer.Utility;
 using Timer = System.Timers.Timer;
 
-namespace Chippie_Lite_WPF.UI.Cat.Animator;
+namespace Chippie_Lite_WPF.UI.Cat.Cat.Animator;
 
 public class CatAnimator
 {

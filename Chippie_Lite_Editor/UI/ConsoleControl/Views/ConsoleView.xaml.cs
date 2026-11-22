@@ -5,15 +5,15 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Chippie_Lite_WPF.Computer;
 using Chippie_Lite_WPF.Computer.Components;
-using wpf_Console;
-using Wpf_ConsoleIO;
+using Chippie_Lite_WPF.UI.ConsoleControl.Enums;
+using Chippie_Lite_WPF.UI.ConsoleControl.Units;
 
-namespace ConsoleControlLibrary;
+namespace Chippie_Lite_WPF.UI.ConsoleControl.Views;
 
 public partial class ConsoleView : UserControl
 {
     private bool initialized = false;
-    private ConsoleControl Control = null!;
+    private Wpf_ConsoleIO.ConsoleControl Control = null!;
 
     public Vector2Int GlyphCount { get; private set; } = new Vector2Int(32, 16);
     public int GlyphCountX
@@ -47,7 +47,7 @@ public partial class ConsoleView : UserControl
     {
         MinWidth = MinimumSize.Width;
         MinHeight = MinimumSize.Height;
-        Control = new ConsoleControl(this);
+        Control = new Wpf_ConsoleIO.ConsoleControl(this);
     }
     private void SetupCaret()
     {

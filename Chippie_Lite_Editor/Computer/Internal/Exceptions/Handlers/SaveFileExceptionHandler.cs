@@ -1,11 +1,10 @@
 ﻿using System.IO;
 using System.Security;
 using System.Text.Json;
-using Chippie_Lite_WPF.Computer.Internal.Exceptions;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions.File;
 using Chippie_Lite_WPF.UI.Elements;
 
-namespace Chippie_Lite_WPF.Computer.File;
+namespace Chippie_Lite_WPF.Computer.Internal.Exceptions.Handlers;
 
 public static class SaveFileExceptionHandler
 {

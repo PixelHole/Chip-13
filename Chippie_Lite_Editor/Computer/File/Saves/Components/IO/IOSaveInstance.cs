@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using wpf_Console;
+using Chippie_Lite_WPF.UI.ConsoleControl.Units;
 
 namespace Chippie_Lite_WPF.Computer.File.Components;
 

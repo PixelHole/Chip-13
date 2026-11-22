@@ -1,4 +1,4 @@
-﻿namespace Chippie_Lite_WPF.UI.Windows.Help;
+﻿namespace Chippie_Lite_WPF.UI.Help;
 
 public enum ContentListItemMode
 {

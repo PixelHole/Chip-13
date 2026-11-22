@@ -1,15 +1,13 @@
 ﻿using System.ComponentModel;
-using System.IO;
 using Chippie_Lite_WPF.Computer;
 using Chippie_Lite_WPF.Computer.File;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions.Base;
-using Chippie_Lite_WPF.Computer.Internal.Exceptions.Interpretation;
+using Chippie_Lite_WPF.Computer.Internal.Exceptions.Handlers;
 using Chippie_Lite_WPF.UI.Elements;
-using Chippie_Lite_WPF.UI.Windows;
-using Chippie_Lite_WPF.UI.Windows.Help;
+using Chippie_Lite_WPF.UI.Help;
 using Microsoft.Win32;
 
-namespace Chippie_Lite_WPF.Controls;
+namespace Chippie_Lite_WPF.UI.Windows;
 
 public class MainWindowControl
 {
@@ -164,7 +162,7 @@ public class MainWindowControl
     {
         try
         {
-            SaveFileManager.SaveData(Owner.DevArea.GetInputCode().Trim(), path);
+            SaveFileManager.SaveToFile(path);
             if (string.IsNullOrWhiteSpace(FilePath)) FilePath = path;
         }
         catch (Exception e)
@@ -178,7 +176,7 @@ public class MainWindowControl
         
         try
         {
-            code = SaveFileManager.LoadData(path);
+            code = SaveFileManager.LoadFromFile(path);
         }
         catch (Exception e)
         {

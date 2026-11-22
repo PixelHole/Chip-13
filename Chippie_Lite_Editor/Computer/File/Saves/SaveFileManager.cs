@@ -1,29 +1,29 @@
-﻿using System.Drawing;
-using System.IO;
-using System.Text.Json;
-using Chippie_Lite_WPF.Computer.Components;
+﻿using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.File.Components;
-using Chippie_Lite_WPF.Computer.File.DefaultStates;
-using Chippie_Lite_WPF.Computer.Instructions;
-using Chippie_Lite_WPF.Computer.Internal.Exceptions;
-using Chippie_Lite_WPF.Computer.Internal.Exceptions.File;
 using Chippie_Lite_WPF.Computer.Utility;
+using Chippie_Lite_WPF.UI.Windows;
 
 namespace Chippie_Lite_WPF.Computer.File;
 
 public static class SaveFileManager
 {
-     public static void SaveData(string code,  string path)
+     
+     
+     public static void SaveToFile(string path, SaveOptions? options = null)
      {
-          SaveInstance save = new SaveInstance(code, SerializeConfig());
+          options ??= SaveOptions.FullOptions;
+          
+          SaveInstance save = new SaveInstance(MainWindow.MainWindowIns.GetCode(), SerializeConfig(options));
 
           JsonFileUtility.SerializeAndWrite(save, path);
      }
-     public static string LoadData(string path)
+     public static string LoadFromFile(string path, SaveOptions? options = null)
      {
+          options ??= SaveOptions.FullOptions;
+          
           SaveInstance save = JsonFileUtility.ReadAndDeserialize<SaveInstance>(path);
           
-          DeserializeConfig(save.Config);
+          DeserializeConfig(save.Config, options);
           
           return save.Code;
      }
@@ -31,17 +31,17 @@ public static class SaveFileManager
      {
           SaveInstance save = EmbeddedResourceUtility.DeserializeEmbeddedResource<SaveInstance>("Chippie_Lite_WPF.Resources.Data.Default.json");
           
-          DeserializeConfig(save.Config);
+          DeserializeConfig(save.Config, SaveOptions.FullOptions);
      }
      
-     private static EnvironmentConfig SerializeConfig()
+     private static EnvironmentConfig SerializeConfig(SaveOptions options)
      {
           return new EnvironmentConfig(
-               SerializeIO(), 
-               SerializeMemoryModules(),
-               SerializeInstructionSet(),
-               SerializeRegisters(),
-               SerializeColors());
+               options.HasFlag(SaveOptions.SaveTargets.IO) ? SerializeIO() : null, 
+               options.HasFlag(SaveOptions.SaveTargets.Memory) ? SerializeMemoryModules() : null,
+               options.HasFlag(SaveOptions.SaveTargets.InstructionSet) ? SerializeInstructionSet() : null,
+               options.HasFlag(SaveOptions.SaveTargets.Registers) ? SerializeRegisters() : null,
+               options.HasFlag(SaveOptions.SaveTargets.Colors) ? SerializeColors() : null);
      }
      private static IOSaveInstance SerializeIO()
      {
@@ -97,22 +97,24 @@ public static class SaveFileManager
           return new ColorsSaveInstance(colors.ToArray());
      }
      
-     private static void DeserializeConfig(EnvironmentConfig config)
+     private static void DeserializeConfig(EnvironmentConfig config, SaveOptions options)
      {
-          DeserializeInstructionSet(config.InstructionSet);
-          DeserializeMemory(config.MemoryModules);
-          DeserializeRegisters(config.Registers);
-          DeserializeColors(config.Colors);
-          DeserializeIO(config.IOData);
+          if (options.HasFlag(SaveOptions.SaveTargets.InstructionSet)) DeserializeInstructionSet(config.InstructionSet);
+          if (options.HasFlag(SaveOptions.SaveTargets.Memory))DeserializeMemory(config.MemoryModules);
+          if (options.HasFlag(SaveOptions.SaveTargets.Registers)) DeserializeRegisters(config.Registers);
+          if (options.HasFlag(SaveOptions.SaveTargets.Colors)) DeserializeColors(config.Colors);
+          if (options.HasFlag(SaveOptions.SaveTargets.IO)) DeserializeIO(config.IOData);
      }
-     private static void DeserializeInstructionSet(InstructionSetInstance instructionSet)
+     private static void DeserializeInstructionSet(InstructionSetInstance? instructionSet)
      {
+          if (instructionSet == null) return;
           var set = instructionSet.ToSet();
           if (!InstructionSetManager.HasSet(set)) InstructionSetManager.LoadSet(set);
           InstructionSetManager.ActiveSetIndex = InstructionSetManager.IndexOf(set);
      }
-     private static void DeserializeMemory(MemorySaveInstance[] memoryModules)
+     private static void DeserializeMemory(MemorySaveInstance[]? memoryModules)
      {
+          if (memoryModules == null) return;
           ChippieComponentManager.RemoveAllComponentsOfType<Memory>();
           foreach (var module in memoryModules)
           {
@@ -120,24 +122,27 @@ public static class SaveFileManager
                ChippieComponentManager.AddComponent(memory);
           }
      }
-     private static void DeserializeRegisters(RegisterSaveInstance[] registers)
+     private static void DeserializeRegisters(RegisterSaveInstance[]? registers)
      {
+          if (registers == null) return;
           RegisterBank.Clear();
           foreach (var instance in registers)
           {
                RegisterBank.AddRegister(instance.ToRegister());
           }
      }
-     private static void DeserializeColors(ColorsSaveInstance colors)
+     private static void DeserializeColors(ColorsSaveInstance? colors)
      {
+          if (colors == null) return;
           ColorLibrary.Clear();
           foreach (var instance in colors.Colors)
           {
                ColorLibrary.AddColor(instance.ToColor());
           }
      }
-     private static void DeserializeIO(IOSaveInstance instance)
+     private static void DeserializeIO(IOSaveInstance? instance)
      {
-          IOInterface.DisplaySize = instance.DisplaySize;
+          if (instance == null) return;
+          IOInterface.DisplaySize = instance.Value.DisplaySize;
      }
 }

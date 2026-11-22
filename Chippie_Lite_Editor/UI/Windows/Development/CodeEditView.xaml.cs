@@ -94,21 +94,19 @@ public partial class CodeEditView
     private void ConnectEvents()
     {
         InstructionSetManager.OnActiveSetChanged += OnOnActiveInstructionSetChanged;
+        InstructionSetManager.OnSetLoaded += (_, _) => UpdateSetComboBox();
+        InstructionSetManager.OnSetUnloaded += (_, _) => UpdateSetComboBox();
         RegisterBank.OnRegisterAdded += (_, _) => SetupSyntaxHighlighting();
         RegisterBank.OnRegisterRemoved += (_, _) => SetupSyntaxHighlighting();
-        InstructionSetManager.OnActiveSetChanged += InstructionSetManagerOnOnActiveSetChanged;
         InstructionSetManager.ActiveInstructionSet.OnTemplateAdded += (_, _, _) => SetupSyntaxHighlighting();
         InstructionSetManager.ActiveInstructionSet.OnTemplateRemoved += (_, _, _) => SetupSyntaxHighlighting();
-    }
-    private void InstructionSetManagerOnOnActiveSetChanged(InstructionSet set, int index)
-    {
-        SetupSyntaxHighlighting();
-        set.OnTemplateAdded += (_, _, _) => SetupSyntaxHighlighting();
-        set.OnTemplateRemoved += (_, _, _) => SetupSyntaxHighlighting();
     }
     private void OnOnActiveInstructionSetChanged(InstructionSet set, int index)
     {
         SetupSyntaxHighlighting();
+        set.OnTemplateAdded += (_, _, _) => SetupSyntaxHighlighting();
+        set.OnTemplateRemoved += (_, _, _) => SetupSyntaxHighlighting();
+        UpdateSetComboBox();
     }
     
     public void SetEditable(bool editable)
@@ -155,7 +153,7 @@ public partial class CodeEditView
         {
             if (i < InstructionSetCB.Items.Count)
             {
-                var item = InstructionSetCB.Items[i] as ComboBoxItem;
+                var item = (InstructionSetCB.Items[i] as ComboBoxItem)!;
                 item.Content = names[i];
                 InstructionSetCB.Items[i] = item;
             }

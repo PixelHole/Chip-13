@@ -4,7 +4,6 @@ using System.Windows.Input;
 using Chippie_Lite_WPF.Computer;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions.Base;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions.Interpretation;
-using Chippie_Lite_WPF.Controls;
 using Chippie_Lite_WPF.UI.Elements;
 
 namespace Chippie_Lite_WPF.UI.Windows;
@@ -24,9 +23,6 @@ public partial class MainWindow
         Control = new MainWindowControl(this);
         MainWindowIns = this;
     }
-
-
- 
     
     public void ChangeDevAreaPage(int index)
     {
@@ -80,6 +76,8 @@ public partial class MainWindow
                 break;
         }
     }
+
+    public string GetCode() => DevArea.GetInputCode();
 
     public void RunToEndButtonVisible(bool visible)
     {

@@ -4,7 +4,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Chippie_Lite_WPF.Documentation;
 using Chippie_Lite_WPF.UI.Elements;
-using Chippie_Lite_WPF.UI.Windows.Help;
 
 namespace Chippie_Lite_WPF.UI.Help;
 

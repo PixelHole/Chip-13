@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using Chippie_Lite_WPF.Computer.Components;
 
-namespace Chippie_Lite_WPF.Computer.File.DefaultStates;
+namespace Chippie_Lite_WPF.Computer.File.Components;
 
 public class RegisterSaveInstance
 {

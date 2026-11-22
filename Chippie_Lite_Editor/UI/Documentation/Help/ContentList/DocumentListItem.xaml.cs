@@ -4,7 +4,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Chippie_Lite_WPF.Documentation;
 
-namespace Chippie_Lite_WPF.UI.Windows.Help;
+namespace Chippie_Lite_WPF.UI.Help;
 
 public partial class DocumentListItem : UserControl
 {

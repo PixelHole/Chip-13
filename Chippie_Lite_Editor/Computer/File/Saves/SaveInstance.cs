@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using Chippie_Lite_WPF.Computer.Components;
-using Chippie_Lite_WPF.Computer.File.DefaultStates;
+using Chippie_Lite_WPF.Computer.File.Components;
 
 namespace Chippie_Lite_WPF.Computer.File;
 

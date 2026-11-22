@@ -1,4 +1,4 @@
-﻿namespace Chippie_Lite_WPF.UI.Cat;
+﻿namespace Chippie_Lite_WPF.UI.Cat.Cat;
 
 public class CatStateLink
 {

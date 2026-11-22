@@ -1,9 +1,9 @@
-﻿using System.Windows.Controls;
-using System.Windows.Media;
-using Chippie_Lite_WPF.Computer;
+﻿using System.Windows.Media;
 using Chippie_Lite_WPF.Computer.Components;
+using Chippie_Lite_WPF.UI.ConsoleControl.Enums;
+using Chippie_Lite_WPF.UI.ConsoleControl.Units;
 
-namespace wpf_Console;
+namespace Chippie_Lite_WPF.UI.ConsoleControl.Views;
 
 public partial class ConsoleGlyph
 {
