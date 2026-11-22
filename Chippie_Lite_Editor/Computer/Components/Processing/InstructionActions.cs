@@ -2,115 +2,53 @@
 using Chippie_Lite_WPF.Computer.Instructions;
 using Chippie_Lite_WPF.Computer.Instructions.Arguments;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions.Interpretation;
+using Chippie_Lite_WPF.Computer.Utility;
 
 namespace Chippie_Lite_WPF.Computer.Components;
 
 public static class InstructionActions
 {
+    public static List<InternalAction> Actions { get; } =
+    [
+        new("add", 3, InstructionValueActions.Add, ["Destination", "operand 1", "operand 2"]),
+        new("multiply", 4, InstructionValueActions.Multiply, ["High register", "Low register", "operand 1", "operand 2"]),
+        new("power", 4, InstructionValueActions.Power, ["High register", "Low register", "operand 1", "operand 2"]),
+        new("divide", 3, InstructionValueActions.Divide, ["Destination", "operand 1", "operand 2"]),
+        new("remainder", 3, InstructionValueActions.Remainder, ["Destination", "operand 1", "operand 2"]),
+        new("shift left logic", 3, InstructionValueActions.ShiftLeftLogic, ["Destination", "operand", "amount"]),
+        new("shift right logic", 3, InstructionValueActions.ShiftRightLogic, ["Destination", "operand", "amount"]),
+        new("shift left arithmatic", 3, InstructionValueActions.ShiftLeftArithmatic, ["Destination", "operand", "amount"]),
+        new("shift right arithmatic", 3, InstructionValueActions.ShiftRightArithmatic, ["Destination", "operand", "amount"]),
+        new("and", 3, InstructionLogicActions.And, ["Destination", "operand 1", "operand 2"]),
+        new("or", 3, InstructionLogicActions.Or, ["Destination", "operand 1", "operand 2"]),
+        new("xor", 3, InstructionLogicActions.Xor, ["Destination", "operand 1", "operand 2"]),
+        new("serial input", 1, InstructionIOActions.GetSerialInput, ["Destination"]),
+        new("key input", 1, InstructionIOActions.GetKeyInput, ["Destination"]),
+        new("serial output", 1, InstructionIOActions.SendSerialOutput, ["Content"]),
+        new("flush io buffers", 0, InstructionIOActions.FlushIOBuffers, []),
+        new("cursor background", 1, InstructionIOActions.SetCursorBackground, ["Color"]),
+        new("cursor foreground", 1, InstructionIOActions.SetCursorForeground, ["Color"]),
+        new("console background", 1, InstructionIOActions.SetConsoleBackground, ["Color"]),
+        new("console cursor", 2, InstructionIOActions.SetCursor, ["X", "Y"]),
+        new("console clear", 0, InstructionIOActions.ClearConsole, []),
+        new("wait", 1, InstructionMiscActions.Wait, ["Duration"]),
+        new("beep", 2, InstructionMiscActions.Beep, ["Frequency", "Duration"]),
+        new("audio signal", 3, InstructionMiscActions.AudioWave, ["Frequency", "Duration", "Waveform"]),
+        new("terminate", 0, _ => Terminate(), []),
+    ];
+    
     public static void ExecuteAction(InstructionAction action)
     {
-        switch (action.Header.ToLower())
-        {
-            case "add" :
-                InstructionValueActions.Add(action);
-                break;
-            
-            case "multiply" :
-                InstructionValueActions.Multiply(action);
-                break;
-            
-            case "power" :
-                InstructionValueActions.Power(action);
-                break;
-            
-            case "divide" :
-                InstructionValueActions.Divide(action);
-                break;
-            
-            case "remainder" :
-                InstructionValueActions.Remainder(action);
-                break;
-
-            case "shift left logic" :
-                InstructionValueActions.ShiftLeftLogic(action);
-                break;
-
-            case "shift right logic" :
-                InstructionValueActions.ShiftRightLogic(action);
-                break;
-            
-            case "shift left arithmatic" :
-                InstructionValueActions.ShiftLeftArithmatic(action);
-                break;
-
-            case "shift right arithmatic" :
-                InstructionValueActions.ShiftRightArithmatic(action);
-                break;
-            
-            case "and" :
-                InstructionLogicActions.And(action);
-                break;
-            
-            case "or" :
-                InstructionLogicActions.Or(action);
-                break;
-            
-            case "xor" :
-                InstructionLogicActions.Xor(action);
-                break;
-            
-            case "serial input" :
-                InstructionIOActions.GetSerialInput(action);
-                break;
-            
-            case "key input" :
-                InstructionIOActions.GetKeyInput(action);
-                break;
-            
-            case "serial output" :
-                InstructionIOActions.SendSerialOutput(action);
-                break;
-            
-            case "flush io buffers" :
-                InstructionIOActions.FlushIOBuffers(action);
-                break;
-            
-            case "cursor background" :
-                InstructionIOActions.SetCursorBackground(action);
-                break;
-            
-            case "cursor foreground" :
-                InstructionIOActions.SetCursorForeground(action);
-                break;
-            
-            case "console background" :
-                InstructionIOActions.SetConsoleBackground(action);
-                break;
-            
-            case "console cursor" :
-                InstructionIOActions.SetCursor(action);
-                break;
-            
-            case "console clear" :
-                InstructionIOActions.ClearConsole(action);
-                break;
-            
-            case "wait" :
-                InstructionMiscActions.Wait(action);
-                break;
-            
-            case "beep" :
-                InstructionMiscActions.Beep(action);
-                break;
-            
-            case "audio signal" :
-                InstructionMiscActions.AudioWave(action);
-                break;
-            
-            case "terminate" :
-                Terminate();
-                return;
-        }
+        var internalAction = FindAction(action.Header.ToLower());
+        if (internalAction == null) throw new ActionNotFoundException(action.Header);
+        ActionUtility.CheckArgumentAndActionIndexCount(action, internalAction.ExpectedArgumentCount);
+        internalAction.Action.Invoke(action);
+    }
+    
+    public static int IndexOf(string header) =>  Actions.FindIndex(action => string.Equals(action.Header, header, StringComparison.CurrentCultureIgnoreCase));
+    public static InternalAction? FindAction(string header)
+    {
+        return Actions.FirstOrDefault(action => string.Equals(action.Header, header, StringComparison.CurrentCultureIgnoreCase));
     }
     
     private static void Terminate()

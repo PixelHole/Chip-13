@@ -10,11 +10,10 @@ namespace Chippie_Lite_WPF.UI.Elements;
 public partial class ConfirmationPrompt
 {
     public bool ForceFocus { get; set; } = true;
+
+    private Action<string>? ResultAction = null; 
     
-    public delegate void ButtonSelectedAction(string choice);
-    public event ButtonSelectedAction? OnButtonSelected;
-    
-    public ConfirmationPrompt(string title, string body, IEnumerable<string>? buttons = null)
+    public ConfirmationPrompt(string title, string body, IEnumerable<string>? buttons = null, Action<string>? result = null)
     {
         InitializeComponent();
         Owner = MainWindow.MainWindowIns;
@@ -23,6 +22,7 @@ public partial class ConfirmationPrompt
         SizeToContent = SizeToContent.WidthAndHeight;
         TitleBlock.Text = title;
         BodyBlock.Text = body;
+        ResultAction = result;
         CreateButtons(buttons);
     }
     
@@ -45,7 +45,7 @@ public partial class ConfirmationPrompt
     }
     private void ButtonOnClick(SquareButton sender, MouseEventArgs e)
     {
-        OnButtonSelected?.Invoke(sender.Label);
+        ResultAction?.Invoke(sender.Label);
         Close();
     }
 

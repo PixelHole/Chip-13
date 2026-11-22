@@ -32,6 +32,7 @@ public partial class RegisterList : UserControl
         InitializeComponent();
         ConnectEvents();
         Control = new RegisterListControl(this);
+        UpdateList();
     }
     
     private void ConnectEvents()

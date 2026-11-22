@@ -49,6 +49,9 @@ public class InstructionSet
         OnTemplateRemoved?.Invoke(this, template, index);
         return true;
     }
+    
+    public bool HasTemplateWithName(string name) => FindTemplate(t => t.Name == name) != null;
+    public bool HasTemplateWithHeader(string header) => FindTemplate(t => t.Header == header) != null;
 
     public InstructionTemplate GetTemplate(int index) => Templates[IndexUtility.WrapIndex(index, Templates.Count)];
     public InstructionTemplate[] GetTemplates()

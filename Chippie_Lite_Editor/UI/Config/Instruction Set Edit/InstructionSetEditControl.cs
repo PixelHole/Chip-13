@@ -18,7 +18,7 @@ public class InstructionSetEditControl
         View = view;
     }
 
-    public void ShowEditWindow(InstructionTemplate template)
+    public void ShowEditWindow(InstructionTemplate template, bool create = false)
     {
         if (EditWindow != null)
         {
@@ -29,21 +29,30 @@ public class InstructionSetEditControl
 
         EditWindow = new InstructionTemplateEditWindow(template);
         EditWindow.Closed += (_, _) => EditWindow = null;
+        if (!create) EditWindow.OnConfirm += EditWindowOnConfirm;
+        else EditWindow.OnConfirm += CreateWindowOnConfirm;
         EditWindow.Show();
     }
-    
-    
+
     public void DeleteTemplate(InstructionTemplate template)
     {
         ConfirmationPrompt prompt = new ConfirmationPrompt("Are you sure?",
-            "Are you sure you want to delete this template?", ["Yes", "No"]);
-        prompt.OnButtonSelected += choice => PromptOnOnButtonSelected(choice, template);
-        prompt.Show();
+            "Are you sure you want to delete this template?", ["Yes", "No"],
+            s =>
+            {
+                if (s != "Yes") return;
+                View.AssignedSet?.RemoveTemplate(template);
+                View.UpdateListItems();
+            });
     }
-    private void PromptOnOnButtonSelected(string choice, InstructionTemplate template)
+    
+    private void EditWindowOnConfirm(InstructionTemplateEditWindow sender, InstructionTemplate template)
     {
-        if (choice != "Yes") return;
-        View.AssignedSet?.RemoveTemplate(template);
+        View.UpdateListItems();
+    }
+    private void CreateWindowOnConfirm(InstructionTemplateEditWindow sender, InstructionTemplate template)
+    {
+        View.AssignedSet?.AddTemplate(template);
         View.UpdateListItems();
     }
 }

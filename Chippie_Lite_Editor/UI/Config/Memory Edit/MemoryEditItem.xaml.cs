@@ -24,7 +24,7 @@ public partial class MemoryEditItem : UserControl
     }
     
     private Memory? assignedMemory = null!;
-
+    
     public Memory? AssignedMemory
     {
         get => assignedMemory;
@@ -36,16 +36,20 @@ public partial class MemoryEditItem : UserControl
         }
     }
 
+    
+    public delegate void DuplicateAction(MemoryEditItem sender, Memory memory);
+    public delegate void EditAction(MemoryEditItem sender, Memory memory);
+    public delegate void DeleteAction(MemoryEditItem sender, Memory memory);
+    public event DuplicateAction? OnDuplicateRequest;
+    public event EditAction? OnEditRequest;
+    public event DeleteAction? OnDeleteRequest;
+    
     public MemoryEditItem()
     {
         InitializeComponent();
     }
-    public MemoryEditItem(Memory memory) : this()
-    {
-        AssignedMemory = memory;
-    }
 
-    private void LoadMemoryData()
+    public void LoadMemoryData()
     {
         if (AssignedMemory == null) return;
         WPFUtility.SetContent(NameLabel, AssignedMemory.Name);
@@ -58,14 +62,13 @@ public partial class MemoryEditItem : UserControl
     {
         AttributesPanel.Children.Clear();
         if (AssignedMemory == null) return;
-        if (AssignedMemory.Permanent) AddAttributeToList("Permanent", Colors.DarkRed);
-        if (AssignedMemory.ReadOnly) AddAttributeToList("Read Only", Colors.DarkRed);
+        if (AssignedMemory.Permanent) AddAttributeToList("Permanent");
+        if (AssignedMemory.ReadOnly) AddAttributeToList("Read Only");
     }
-    private void AddAttributeToList(string attribute, Color color)
+    private void AddAttributeToList(string attribute)
     {
         MemoryAttribute attributeItem = new MemoryAttribute(attribute)
         {
-            Background = new SolidColorBrush(color),
             Margin = new Thickness(0, 0, 0, 4)
         };
         AttributesPanel.Children.Add(attributeItem);
@@ -73,15 +76,15 @@ public partial class MemoryEditItem : UserControl
 
     private void EditRequest()
     {
-        
+        if (AssignedMemory != null) OnEditRequest?.Invoke(this, AssignedMemory);
     }
     private void DuplicateRequest()
     {
-        
+        if (AssignedMemory != null) OnDuplicateRequest?.Invoke(this, AssignedMemory);
     }
     private void DeleteRequest()
     {
-        
+        if (AssignedMemory != null) OnDeleteRequest?.Invoke(this, AssignedMemory);
     }
     
     private void EditBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)

@@ -122,15 +122,6 @@ public static class ActionUtility
     
     internal static void CheckArgumentAndActionIndexCount(InstructionAction action, int expected)
     {
-        CheckActionIndexCount(action, expected);
-        CheckArgumentCount(action.Instruction.Arguments, expected);
-    }
-    private static void CheckActionIndexCount(InstructionAction action, int expected)
-    {
         if (action.Arguments.Length < expected) throw new NotEnoughActionIndicesException(action.Arguments.Length, expected);
-    }
-    private static void CheckArgumentCount(IList<InstructionArgument> arguments, int expected)
-    {
-        if (arguments.Count < expected) throw new NotEnoughActionIndicesException(arguments.Count, expected);
     }
 }

@@ -69,20 +69,19 @@ public class MainWindowControl
         if (!string.IsNullOrEmpty(FilePath) && Owner.DevArea.SourceChanged)
         {
             var prompt = new ConfirmationPrompt("Are you sure?",
-                "you have unsaved changes that will be wiped when you create a new project. are you sure you would like to proceed");
-            
-            prompt.OnButtonSelected += NewInstancePromptOnSelect;
+                "you have unsaved changes that will be wiped when you create a new project. are you sure you would like to proceed",
+                ["Cancel", "Ok"], s =>
+                {
+                    if (s == "Ok")
+                    {
+                        NewInstance();
+                    }
+                });
             
             prompt.Show();
             
             return;
         }
-        
-        NewInstance();
-    }
-    private void NewInstancePromptOnSelect(string choice)
-    {
-        if (choice != "Ok") return;
         
         NewInstance();
     }
@@ -91,20 +90,14 @@ public class MainWindowControl
         if (!string.IsNullOrEmpty(FilePath) && Owner.DevArea.SourceChanged)
         {
             var prompt = new ConfirmationPrompt("Are you sure?",
-                "you have unsaved changes that will be wiped when you load a project. are you sure you would like to proceed");
-            
-            prompt.OnButtonSelected += LoadPromptOnButtonSelected;
+                "you have unsaved changes that will be wiped when you load a project. are you sure you would like to proceed",
+                ["Cancel", "Ok"], 
+                s => { if (s == "Ok") LaunchLoadWindow(); });
             
             prompt.Show();
             
             return;
         }
-        
-        LaunchLoadWindow();
-    }
-    private void LoadPromptOnButtonSelected(string choice)
-    {
-        if (choice != "Ok") return;
         
         LaunchLoadWindow();
     }

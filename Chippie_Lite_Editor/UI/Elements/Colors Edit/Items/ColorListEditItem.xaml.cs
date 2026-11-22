@@ -46,18 +46,16 @@ public partial class ColorListEditItem : ColorsListItem
     private void DeleteRequest()
     {
         ConfirmationPrompt prompt =
-            new ConfirmationPrompt("Are you sure?", "Do you really want to delete this color?", ["Yes", "No"]);
-        prompt.OnButtonSelected += DeletePromptOnOnButtonSelected;
+            new ConfirmationPrompt("Are you sure?", "Do you really want to delete this color?", ["Yes", "No"],
+                s =>
+                {
+                    if (s == "Yes") ColorLibrary.RemoveColor(AssignedColor);
+                });
         prompt.Show();
     }
     private void DuplicateRequest()
     {
         ColorLibrary.AddColor(AssignedColor);
-    }
-    
-    private void DeletePromptOnOnButtonSelected(string choice)
-    {
-        if (choice == "Yes") ColorLibrary.RemoveColor(AssignedColor);
     }
     
     private void ColorListEditItem_OnMouseDown(object sender, MouseButtonEventArgs e)

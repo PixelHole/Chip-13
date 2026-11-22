@@ -72,7 +72,6 @@
           "actions": [
             {
               "header": "add",
-
               "arguments": [
                 "$^0",
                 "^1",
@@ -131,7 +130,6 @@
           "actions": [
             {
               "header": "divide",
-
               "arguments": [
                 "$^0",
                 "^1",
@@ -151,7 +149,6 @@
           "actions": [
             {
               "header": "remainder",
-
               "arguments": [
                 "$^0",
                 "^1",
@@ -171,7 +168,6 @@
           "actions": [
             {
               "header": "remainder",
-
               "arguments": [
                 "$^0",
                 "^1",
@@ -191,7 +187,6 @@
           "actions": [
             {
               "header": "shift left logic",
-
               "arguments": [
                 "$^0",
                 "^1",
@@ -211,7 +206,6 @@
           "actions": [
             {
               "header": "shift right logic",
-
               "arguments": [
                 "$^0",
                 "^1",
@@ -231,7 +225,6 @@
           "actions": [
             {
               "header": "shift left arithmatic",
-
               "arguments": [
                 "$^0",
                 "^1",
@@ -552,7 +545,7 @@
             {
               "header": "serial input",
               "arguments": [
-                "^0"
+                "$^0"
               ]
             }
           ]
@@ -567,7 +560,7 @@
             {
               "header": "key input",
               "arguments": [
-                "^0"
+                "$^0"
               ]
             }
           ]
@@ -582,7 +575,7 @@
             {
               "header": "serial input",
               "arguments": [
-                "^0"
+                "$^0"
               ]
             }
           ]
@@ -784,7 +777,8 @@
               "header": "add",
               "arguments": [
                 "$^0",
-                "&0|^1"
+                "&0|^1",
+                "0"
               ]
             }
           ]
@@ -801,7 +795,8 @@
               "header": "add",
               "arguments": [
                 "&0|^0",
-                "^1"
+                "^1",
+                "0"
               ]
             }
           ]

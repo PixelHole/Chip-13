@@ -6,9 +6,10 @@
              xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Config"
              mc:Ignorable="d"
              Background="Transparent"
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+             d:DesignHeight="32" d:DesignWidth="128">
+    <StackPanel Orientation="Horizontal">
+        <Label Style="{StaticResource Chippie.Label.Default}" Content="O"/>
         <Label Content="{Binding Attribute, RelativeSource={RelativeSource AncestorType=UserControl}}"
                Margin="4" Style="{StaticResource Chippie.Label.Default}"/>
-    </Grid>
+    </StackPanel>
 </UserControl>

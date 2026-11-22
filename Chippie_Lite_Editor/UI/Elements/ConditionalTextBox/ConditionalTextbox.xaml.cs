@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Chippie_Lite_WPF.Computer.Utility;
-using Chippie_Lite_WPF.Controls;
+using Timer = System.Timers.Timer;
 
 namespace Chippie_Lite_WPF.UI.Elements;
 
@@ -19,6 +19,8 @@ public partial class ConditionalTextbox
         set => validatorBuffer = new ValidatedBuffer<string>(value)!;
     }
     private ValidatedBuffer<string?> validatorBuffer { get; set; } = null!;
+
+    private Timer ConfirmTimer = new();
 
     public string Text
     {
@@ -72,10 +74,19 @@ public partial class ConditionalTextbox
         if (validatorBuffer.Set(ContentBox.Text)) TextConfirmed?.Invoke(ContentBox.Text);
         else if (!RetainText) ContentBox.Text = validatorBuffer.Get();
     }
+
+    private void StartConfirmTimer()
+    {
+        ConfirmTimer.Stop();
+        ConfirmTimer.Interval = 500d;
+        ConfirmTimer.Elapsed += (_, _) => TryConfirmText();
+        ConfirmTimer.Start();
+    }
     
     private void ContentBox_OnTextChanged(object sender, TextChangedEventArgs e)
     {
         ContentBox.Foreground = validatorBuffer.Rule.Invoke(ContentBox.Text) ? ValidTextBrush : InvalidTextBrush;
+        StartConfirmTimer();
     }
     private void ContentBox_OnKeyDown(object sender, KeyEventArgs e)
     {

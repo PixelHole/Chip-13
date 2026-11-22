@@ -34,7 +34,7 @@ public struct Instruction : IEquatable<Instruction>
     {
         foreach (var action in actions)
         {
-            action.SetInstruction(this);
+            action.Instruction = this;
             Actions.Add(action);
         }
     }

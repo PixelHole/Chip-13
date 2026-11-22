@@ -13,6 +13,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
                 
                 <Grid Margin="4">
@@ -32,7 +33,8 @@
                         <Border Grid.Column="1" MinHeight="32" 
                                 BorderThickness="4" BorderBrush="{StaticResource 'Deep Purple'}">
                             <elements:ConditionalTextbox x:Name="NameBox" Condition="NameCondition"
-                                                         Style="{StaticResource ConditionalTextbox.Default}"/>
+                                                         Style="{StaticResource ConditionalTextbox.Default}"
+                                                         TextConfirmed="NameBox_OnTextConfirmed"/>
                         </Border>
                     </Grid>
                     <Grid Grid.Row="1" Margin="0, 0, 0, 4">
@@ -51,7 +53,8 @@
                             <Border Grid.Column="1" MinHeight="32"
                                     BorderThickness="4" BorderBrush="{StaticResource 'Deep Purple'}">
                                 <elements:ConditionalTextbox x:Name="SizeBox" Condition="SizeCondition"
-                                                             Style="{StaticResource ConditionalTextbox.Default}"/>
+                                                             Style="{StaticResource ConditionalTextbox.Default}"
+                                                             TextConfirmed="SizeBox_OnTextConfirmed"/>
                             </Border>
                         </Grid>
                         
@@ -65,7 +68,8 @@
                             <Border Grid.Column="1" MinHeight="32" 
                                     BorderThickness="4" BorderBrush="{StaticResource 'Deep Purple'}">
                                 <elements:ConditionalTextbox x:Name="WordLengthBox" Condition="WordLengthCondition"
-                                                             Style="{StaticResource ConditionalTextbox.Default}"/>
+                                                             Style="{StaticResource ConditionalTextbox.Default}"
+                                                             TextConfirmed="WordLengthBox_OnTextConfirmed"/>
                             </Border>
                         </Grid>
                     </Grid>
@@ -77,7 +81,20 @@
                     
                 </Grid>
                 
-                <elements:MemoryView x:Name="MemoryView" Grid.Row="1"/>
+                <elements:MemoryView x:Name="MemoryView" Mode="Edit" Grid.Row="1" Margin="4"/>
+                
+                <StackPanel Grid.Row="2" Margin="4" HorizontalAlignment="Right" Orientation="Horizontal">
+                    <elements:SquareButton x:Name="ConfirmBtn" Margin="0" Label="Confirm"
+                                           BackgroundDefaultColor="{StaticResource 'Deep Purple'}"
+                                           BackgroundHoverColor="{StaticResource Red}"
+                                           BackgroundClickColor="{StaticResource Pink}"
+                                           Click="ConfirmBtn_OnClick"/>
+                    <elements:SquareButton x:Name="CancelBtn" Margin="4, 0" Label="Cancel"
+                                           BackgroundDefaultColor="{StaticResource 'Deep Purple'}"
+                                           BackgroundHoverColor="{StaticResource Red}"
+                                           BackgroundClickColor="{StaticResource Pink}"
+                                           Click="CancelBtn_OnClick"/>
+                </StackPanel>
             </Grid>
         </elements:TitledFrame>
     </Grid>

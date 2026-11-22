@@ -9,8 +9,6 @@ public static class InstructionValueActions
 {
     internal static void Add(InstructionAction action)
     {
-        ActionUtility.CheckArgumentAndActionIndexCount(action, 3);
-        
         var a = ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
         var b = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
         
@@ -18,8 +16,6 @@ public static class InstructionValueActions
     }
     internal static void Multiply(InstructionAction action)
     {
-        ActionUtility.CheckArgumentAndActionIndexCount(action, 2);
-        
         var a = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
         var b = ActionUtility.InterpretRead(action.Arguments[3], action.Instruction);
 
@@ -33,8 +29,6 @@ public static class InstructionValueActions
     }
     internal static void Power(InstructionAction action)
     {
-        ActionUtility.CheckArgumentAndActionIndexCount(action, 2);
-        
         var a = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
         var b = ActionUtility.InterpretRead(action.Arguments[3], action.Instruction);
 
@@ -44,12 +38,10 @@ public static class InstructionValueActions
         Register low = ActionUtility.GetRegister(action.Arguments[1], action.Instruction);
 
         low.Content = (long)result;
-        high.Content = (long)(result >> 64);
+        high.Content = (long)(result >> low.LengthLimit);
     }
     internal static void Divide(InstructionAction action)
     {
-        ActionUtility.CheckArgumentAndActionIndexCount(action, 3);
-        
         var a = ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
         var b = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
         
@@ -57,8 +49,6 @@ public static class InstructionValueActions
     }
     internal static void Remainder(InstructionAction action)
     {
-        ActionUtility.CheckArgumentAndActionIndexCount(action, 3);
-        
         var a = ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
         var b = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
         
@@ -66,8 +56,6 @@ public static class InstructionValueActions
     }
     internal static void ShiftLeftLogic(InstructionAction action)
     {
-        ActionUtility.CheckArgumentAndActionIndexCount(action, 3);
-        
         var value = ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
         var amount = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
         
@@ -75,8 +63,6 @@ public static class InstructionValueActions
     }
     internal static void ShiftRightLogic(InstructionAction action)
     {
-        ActionUtility.CheckArgumentAndActionIndexCount(action, 3);
-        
         var value = ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
         var amount = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
         
@@ -84,8 +70,6 @@ public static class InstructionValueActions
     }
     internal static void ShiftLeftArithmatic(InstructionAction action)
     {
-        ActionUtility.CheckArgumentAndActionIndexCount(action, 3);
-        
         var value = ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
         var amount = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
         
@@ -93,8 +77,6 @@ public static class InstructionValueActions
     }
     internal static void ShiftRightArithmatic(InstructionAction action)
     {
-        ActionUtility.CheckArgumentAndActionIndexCount(action, 3);
-        
         var value = ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
         var amount = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
         

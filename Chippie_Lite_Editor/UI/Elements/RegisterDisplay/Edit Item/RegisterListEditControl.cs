@@ -57,8 +57,11 @@ public class RegisterListEditControl
     public void DeleteRegister()
     {
         ConfirmationPrompt deletePrompt = new ConfirmationPrompt("Are you sure?", "Do you want to permanently delete this register?" +
-            " this will remove the register from Chip-13's Register Bank", ["Yes", "No"]);
-        deletePrompt.OnButtonSelected += DeletePromptOnOnButtonSelected;
+            " this will remove the register from Chip-13's Register Bank", ["Yes", "No"],
+            s =>
+            {
+                if (s == "Yes" && View.AssignedRegister != null) RegisterBank.RemoveRegister(View.AssignedRegister);
+            });
         deletePrompt.Show();
     }
 
@@ -69,10 +72,5 @@ public class RegisterListEditControl
     private void CenterEditWindow()
     {
         if (EditWindow != null) WPFUtility.CenterWindow(EditWindow);
-    }
-    
-    private void DeletePromptOnOnButtonSelected(string choice)
-    {
-        if (choice == "Yes" && View.AssignedRegister != null) RegisterBank.RemoveRegister(View.AssignedRegister);
     }
 }

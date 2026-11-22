@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="Chippie_Lite_WPF.UI.Config.Edit_Window.ActionListItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Config.Edit_Window"
+             xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
+             mc:Ignorable="d"
+             BorderBrush="{StaticResource 'Deep Purple'}"
+             BorderThickness="4"
+             d:DesignHeight="96" d:DesignWidth="300">
+    <Grid Margin="4">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox x:Name="ActionTypeBox" Grid.Row="0" Style="{StaticResource Chippie.ComboBox}"
+                      Margin="0, 0, 0, 4" SelectionChanged="ActionTypeBox_OnSelectionChanged"/>
+            
+            <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="16, 0">
+                <elements:SquareButton x:Name="DuplicateBtn" Width="26" Height="26" Icon="../../../../Resources/Images/Icons/Duplicate.png"
+                                       Click="DuplicateBtn_OnClick"/>
+                <elements:SquareButton x:Name="DeleteBtn" Width="26" Height="26" Icon="../../../../Resources/Images/Icons/Trash.png"
+                                       Click="DeleteBtn_OnClick"/>
+            </StackPanel>
+        </Grid>
+        
+        <Grid Grid.Row="1" Margin="0, 0, 0, 4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Label Style="{StaticResource Chippie.Label.Default}" Content="Condition"/>
+            <elements:ConditionalTextbox x:Name="ConditionBox" Grid.Column="1" Style="{StaticResource ConditionalTextbox.Default}"
+                                         BorderBrush="{StaticResource 'Deep Purple'}" BorderThickness="4"
+                                         Condition="ActionCondition" TextConfirmed="ConditionBox_OnTextConfirmed"
+                                         InvalidTextBrush="{StaticResource Red}" 
+                                         ValidTextBrush="{StaticResource White}"/>
+        </Grid>
+        
+        <Grid x:Name="TextboxGrid" Grid.Row="2"/>
+    </Grid>
+</UserControl>

@@ -41,8 +41,29 @@ public partial class RegisterEditWindow : Window
         ValueBox.Text = AssignedRegister.DefaultValue.ToString();
         LengthLimitBox.Text = AssignedRegister.LengthLimit.ToString();
     }
-    private void FinalizeEdit()
+    private bool FinalizeEdit()
     {
+        if (string.IsNullOrEmpty(NameBox.Text))
+        {
+            ErrorBox.Pop("the register must have a name!", "the register name cannot be empty");
+            return false;
+        }
+        if (string.IsNullOrEmpty(IdBox.Text))
+        {
+            ErrorBox.Pop("the register must have an Id!", "the register id cannot be empty");
+            return false;
+        }
+        if (string.IsNullOrEmpty(ValueBox.Text))
+        {
+            ErrorBox.Pop("the register must have a value!", "the registers value cannot be empty");
+            return false;
+        }
+        if (string.IsNullOrEmpty(LengthLimitBox.Text))
+        {
+            ErrorBox.Pop("the register must have a length limit!", "the registers Length Limit cannot be empty");
+            return false;
+        }
+        
         string name = NameBox.Text,
             id = IdBox.Text,
             val = ValueBox.Text,
@@ -54,6 +75,7 @@ public partial class RegisterEditWindow : Window
         AssignedRegister.LengthLimit = (byte)NumberUtility.ParseNumber(length);
         
         OnEditOk?.Invoke(this, AssignedRegister);
+        return true;
     }
     
     private bool NumberBoxCondition(string s)
@@ -83,8 +105,7 @@ public partial class RegisterEditWindow : Window
     }
     private void OkBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
-        FinalizeEdit();
-        Close();
+        if (FinalizeEdit()) Close();
     }
     private void CancelBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {

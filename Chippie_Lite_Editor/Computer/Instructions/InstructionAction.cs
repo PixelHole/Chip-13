@@ -3,15 +3,15 @@ using System.Text.Json.Serialization;
 
 namespace Chippie_Lite_WPF.Computer.Instructions;
 
-public struct InstructionAction : IEquatable<InstructionAction>
+public class InstructionAction : IEquatable<InstructionAction>
 {
     [JsonIgnore]
-    public Instruction Instruction { get; private set; }
-    public string Header { get; }
-    public string Condition { get; }
+    public Instruction Instruction { get; set; }
+    public string Header { get; set; }
+    public string Condition { get; set; }
     public string[] Arguments { get; }
 
-
+    
     [JsonConstructor]
     public InstructionAction(string header, string[] arguments, string condition = "")
     {
@@ -19,8 +19,7 @@ public struct InstructionAction : IEquatable<InstructionAction>
         Condition = condition;
         Arguments = arguments;
     }
-
-    public void SetInstruction(Instruction ins) => Instruction = ins;
+    public void ClearArguments() => Array.Clear(Arguments, 0, Arguments.Length);
 
     public bool Equals(InstructionAction other)
     {

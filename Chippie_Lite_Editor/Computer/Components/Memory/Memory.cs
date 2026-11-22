@@ -4,15 +4,47 @@ namespace Chippie_Lite_WPF.Computer.Components;
 
 public class Memory : ChippieComponent
 {
-    public string Name { get; set; }
+    private string name = "Memory";
+    private int size = 8192;
+    private byte lengthLimit = 32;
+
+
+    public string Name
+    {
+        get => name;
+        set
+        {
+            if (name == value) return;
+            name = value;
+            OnNameChanged?.Invoke(this, name);
+        }
+    }
     
     internal readonly int BlockAddRange;
     private List<MemoryBlock> RuntimeStorage { get; set; } = [];
     private List<MemoryBlock> InitialStorage { get; set; } = [];
-    public bool ReadOnly { get; private set; }
+    public bool ReadOnly { get; set; }
 
-    public int Size { get; set; }
-    public byte LengthLimit { get; set; }
+    public int Size
+    {
+        get => size;
+        set
+        {
+            if (size == value) return;
+            size = value;
+            OnSizeChanged?.Invoke(this, size);
+        }
+    }
+    public byte LengthLimit
+    {
+        get => lengthLimit;
+        set
+        {
+            if (lengthLimit == value) return;
+            lengthLimit = value;
+            OnLengthLimitChanged?.Invoke(this, lengthLimit);
+        }
+    }
     public bool Permanent { get; set; } = false;
 
     public double SizeInBytes => Size * LengthLimit / 8d;
@@ -28,11 +60,17 @@ public class Memory : ChippieComponent
 
     private readonly Semaphore accessPool = new Semaphore(1, 1);
 
+    public delegate void NameChangeAction(Memory sender, string name);
+    public delegate void SizeChangeAction(Memory sender, int size);
+    public delegate void LengthLimitChangeAction(Memory sender, byte lengthLimit);
     public delegate void StorageUpdateAction(int index, long data);
-    public event StorageUpdateAction? OnStorageUpdated;
-    
     public delegate void InitialStorageUpdateAction(int index);
+    
+    public event StorageUpdateAction? OnStorageUpdated;
     public event InitialStorageUpdateAction? OnInitialStorageUpdated;
+    public event NameChangeAction? OnNameChanged;
+    public event SizeChangeAction? OnSizeChanged;
+    public event LengthLimitChangeAction? OnLengthLimitChanged;
 
 
     public Memory(string name = "Memory", int blockAddRange = 3, bool readOnly = false, bool permanent = false, int size = 8192, byte lengthLimit = 32)
@@ -192,6 +230,13 @@ public class Memory : ChippieComponent
     private bool IsIndexInRange(int index) => index >= 0 && index < Size;
     private bool IsIndexOutOfHardRange(int index) => index < 0 || index >= Size;
 
+    public Memory Clone()
+    {
+        var clone = new Memory(Name, BlockAddRange, ReadOnly, Permanent, Size, LengthLimit);
+        clone.LoadInitialBlocks(GetAllInitialBlocks());
+        return clone;
+    }
+    
     public string GetSizeString()
     {
         int index = 0;
@@ -204,5 +249,39 @@ public class Memory : ChippieComponent
         }
 
         return size.ToString(CultureInfo.InvariantCulture) + labels[index];
+    }
+
+    protected bool Equals(Memory other)
+    {
+        return name == other.name &&
+               size == other.size &&
+               lengthLimit == other.lengthLimit &&
+               BlockAddRange == other.BlockAddRange &&
+               RuntimeStorage.SequenceEqual(other.RuntimeStorage) &&
+               InitialStorage.SequenceEqual(other.InitialStorage) &&
+               ReadOnly == other.ReadOnly &&
+               Permanent == other.Permanent;
+    }
+    public override bool Equals(object? obj)
+    {
+        if (obj is null) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != GetType()) return false;
+        return Equals((Memory)obj);
+    }
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(name, size, lengthLimit, BlockAddRange, RuntimeStorage, InitialStorage, ReadOnly, Permanent);
+    }
+
+    public static bool operator ==(Memory? a, Memory? b)
+    {
+        if (a is null && b is null) return true;
+        if (a is null || b is null) return false;
+        return a.Equals(b);
+    }
+    public static bool operator !=(Memory? a, Memory? b)
+    {
+        return !(a == b);
     }
 }

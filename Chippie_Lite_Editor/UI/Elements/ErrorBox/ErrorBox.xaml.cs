@@ -18,8 +18,10 @@ public partial class ErrorBox
 
     public static ErrorBox Pop(string title = "Error", string msg = "An error has occured", Point point = default)
     {
-        ErrorBox box = new ErrorBox();
-        box.Owner = MainWindow.MainWindowIns;
+        ErrorBox box = new ErrorBox
+        {
+            Owner = MainWindow.MainWindowIns
+        };
         box.SetMessage(title, msg);
         
         box.Show();

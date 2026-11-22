@@ -96,8 +96,8 @@ public partial class InstructionSetEdit : UserControl
     public void DuplicateRequest(InstructionSetListItem sender, InstructionTemplate template)
     {
         if (AssignedSet == null) return;
-        var newTemp = new InstructionTemplate(template.Name + " Copy", template.Header + "d", template.ArgumentTypes,
-            template.Actions);
+        var newTemp = new InstructionTemplate(template.Name + " Copy", template.Header + "d", template.ArgumentTypes.ToArray(),
+            template.Actions.ToArray());
         AssignedSet.AddTemplate(newTemp);
         UpdateListItems();
     }
@@ -172,7 +172,7 @@ public partial class InstructionSetEdit : UserControl
     
     private void AddBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
-        
+        Control.ShowEditWindow(new InstructionTemplate("", "", [], []), true);
     }
     private void InstructionSetSelect_OnSelected(object sender, RoutedEventArgs e)
     {

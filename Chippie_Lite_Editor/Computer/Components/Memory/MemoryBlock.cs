@@ -88,4 +88,29 @@ public class MemoryBlock
         return index >= StartIndex - offset && index <= EndIndex + offset;
     }
     private int MemoryToInternalIndex(int memIndex) => memIndex - StartIndex;
+
+    protected bool Equals(MemoryBlock other)
+    {
+        return StartIndex == other.StartIndex && Data.SequenceEqual(other.Data) && FilledCells == other.FilledCells;
+    }
+    public override bool Equals(object? obj)
+    {
+        if (obj is null) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != GetType()) return false;
+        return Equals((MemoryBlock)obj);
+    }
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(StartIndex, Data, FilledCells);
+    }
+    
+    public static bool operator ==(MemoryBlock? left, MemoryBlock? right)
+    {
+        return Equals(left, right);
+    }
+    public static bool operator !=(MemoryBlock? left, MemoryBlock? right)
+    {
+        return !(left == right);
+    }
 }

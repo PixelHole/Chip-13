@@ -10,8 +10,6 @@ public static class InstructionMiscActions
 {
     public static void Beep(InstructionAction action)
     {
-        ActionUtility.CheckArgumentAndActionIndexCount(action, 2);
-        
         int freq = (int)ActionUtility.InterpretRead(action.Arguments[0], action.Instruction);
         int dur = (int)ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
         
@@ -19,8 +17,6 @@ public static class InstructionMiscActions
     }
     public static void Wait(InstructionAction action)
     {
-        ActionUtility.CheckArgumentAndActionIndexCount(action, 1);
-        
         int dur = (int)ActionUtility.InterpretRead(action.Arguments[0], action.Instruction);
         
         Thread.Sleep(dur);
@@ -28,8 +24,6 @@ public static class InstructionMiscActions
 
     public static void AudioWave(InstructionAction action)
     {
-        ActionUtility.CheckArgumentAndActionIndexCount(action, 2);
-        
         int freq = (int)ActionUtility.InterpretRead(action.Arguments[0], action.Instruction);
         int dur = (int)ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
         SignalGeneratorType type = (SignalGeneratorType)(ActionUtility.InterpretRead(action.Arguments[2], action.Instruction) % 7);

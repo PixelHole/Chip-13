@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace Chippie_Lite_WPF.UI.Config;
 
-public partial class MemoryAttribute : UserControl
+public partial class MemoryAttribute
 {
     public static readonly DependencyProperty AttributeProperty = DependencyProperty.Register(
         nameof(Attribute),

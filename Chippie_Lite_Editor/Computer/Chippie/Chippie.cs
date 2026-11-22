@@ -4,7 +4,9 @@ using Chippie_Lite_WPF.Computer.File;
 using Chippie_Lite_WPF.Computer.File.InstructionSets;
 using Chippie_Lite_WPF.Computer.Instructions;
 using Chippie_Lite_WPF.Computer.Internal.Exceptions;
+using Chippie_Lite_WPF.Computer.Utility;
 using Chippie_Lite_WPF.UI.Elements;
+using Chippie_Lite_WPF.UI.Windows;
 
 namespace Chippie_Lite_WPF.Computer;
 
@@ -63,8 +65,9 @@ public static class Chippie
 
     public static void Initialize()
     {
-        InstructionSetFileManager.LoadSets();
+        // InstructionSetFileManager.LoadSets();
         SaveFileManager.LoadDefaultData();
+        InstructionSetFileManager.SaveSets();
     }
     
     public static void CompileAndRunAssembly(string raw)
@@ -183,7 +186,7 @@ public static class Chippie
         catch (Exception e)
         {
             HaltOperation();
-            ErrorBox.Pop("Error running instruction", e.Message);
+            WPFUtility.DoUiAction(MainWindow.MainWindowIns, () => ErrorBox.Pop("Error running instruction", e.Message));
         }
 
         if (!IsRunning) return;

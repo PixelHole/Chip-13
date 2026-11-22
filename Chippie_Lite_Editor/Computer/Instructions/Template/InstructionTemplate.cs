@@ -4,10 +4,10 @@ namespace Chippie_Lite_WPF.Computer.Instructions;
 
 public class InstructionTemplate
 {
-    public string Name { get; private set; }
-    public string Header { get; private set; }
-    public InstructionArgumentType[] ArgumentTypes { get; private set; }
-    public InstructionAction[] Actions { get; private set; }
+    public string Name { get; set; }
+    public string Header { get; set; }
+    public InstructionArgumentType[] ArgumentTypes { get; set; }
+    public InstructionAction[] Actions { get; set; }
 
 
     

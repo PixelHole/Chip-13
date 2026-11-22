@@ -14,7 +14,8 @@
             <Grid Margin="4, 4">
                 
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
-                    <ComboBox x:Name="ModuleSelect" Style="{StaticResource Chippie.ComboBox}"/>
+                    <ComboBox x:Name="ModuleSelect" Style="{StaticResource Chippie.ComboBox}" SelectionChanged="ModuleSelect_OnSelectionChanged"/>
+                    <Label x:Name="ModuleNameLabel" Style="{StaticResource Chippie.Label.Default}"/>
                     
                     <elements:SquareButton x:Name="PageDownBtn" Click="PageDownBtn_OnClick" Margin="32, 0, 0, 0"
                                            Icon="/Resources/Images/Icons/ThumbLeft.png"
@@ -25,9 +26,11 @@
                                                  Style="{StaticResource ConditionalTextbox.Default}"
                                                  ValidTextBrush="{StaticResource White}"
                                                  InvalidTextBrush="{StaticResource Red}"
+                                                 RetainText="True"
                                                  Condition="PageIndexCondition"
                                                  LostFocus="PageIndexBox_OnLostFocus"
-                                                 KeyDown="PageIndexBox_OnKeyDown"/>
+                                                 KeyDown="PageIndexBox_OnKeyDown"
+                                                 TextConfirmed="PageIndexBox_OnTextConfirmed"/>
                 
                     <TextBlock x:Name="PageCountBlock" Text=" / 00"
                                FontSize="18" FontFamily="{StaticResource TextFont}"

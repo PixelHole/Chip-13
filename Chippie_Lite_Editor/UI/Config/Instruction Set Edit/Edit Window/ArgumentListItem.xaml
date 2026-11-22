@@ -40,10 +40,10 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         
-        <ComboBox Style="{StaticResource Chippie.ComboBox}" Selected="Selector_OnSelected">
+        <ComboBox x:Name="TypeBox" Style="{StaticResource Chippie.ComboBox}" SelectionChanged="Selector_OnSelected">
             <ComboBoxItem Content="Value"/>
             <ComboBoxItem Content="Register"/>
-            <ComboBoxItem Content="Register & Value"/>
+            <ComboBoxItem Content="Register And Value"/>
         </ComboBox>
         
         <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="16, 0">

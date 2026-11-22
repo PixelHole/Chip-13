@@ -7,56 +7,94 @@
         xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
         mc:Ignorable="d"
         WindowStyle="None"
-        ResizeMode="NoResize"
-        Background="Transparent"
-        Height="450" Width="800">
+        AllowsTransparency="True"
+        Background="{StaticResource 'Dark Blue'}"
+        Height="700" Width="600">
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="32" ResizeBorderThickness="4" CornerRadius="0"/>
     </WindowChrome.WindowChrome>
     
-    <elements:TitledFrame Title="{Binding FrameTitle, RelativeSource={RelativeSource AncestorType=local:InstructionTemplateEditWindow}}"
-                          Style="{StaticResource Chippie.TitledFrame.Default}"
-                          BorderBrush="{StaticResource 'Dark Blue'}" BorderThickness="2"
-                          Background="{StaticResource 'Dark Blue'}">
-        <elements:TitledFrame.TopContent>
-            <Grid HorizontalAlignment="Right" WindowChrome.IsHitTestVisibleInChrome="True">
-                <elements:WindowRibbon VisibleButtons="1"/>
-            </Grid>
-        </elements:TitledFrame.TopContent>
+    <Border BorderThickness="2" BorderBrush="{StaticResource 'Dark Blue'}">
+        <elements:TitledFrame Title="{Binding FrameTitle, RelativeSource={RelativeSource AncestorType=local:InstructionTemplateEditWindow}}"
+                              Style="{StaticResource Chippie.TitledFrame.Default}"
+                              Background="{StaticResource 'Dark Blue'}">
+            <elements:TitledFrame.TopContent>
+                <Grid HorizontalAlignment="Right" WindowChrome.IsHitTestVisibleInChrome="True">
+                    <elements:WindowRibbon VisibleButtons="1"/>
+                </Grid>
+            </elements:TitledFrame.TopContent>
         
-        <Grid>
-            
-            <StackPanel Margin="4">
-            <Grid Height="32">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Label Style="{StaticResource Chippie.Label.Default}" Content="Name"/>
-                <elements:ConditionalTextbox x:Name="NameBox" Grid.Column="1" Style="{StaticResource ConditionalTextbox.Default}"
-                                             BorderBrush="{StaticResource 'Deep Purple'}" BorderThickness="4"
-                                             Condition="NameCondition" TextConfirmed="NameBox_OnTextConfirmed"
-                                             InvalidTextBrush="{StaticResource Red}" 
-                                             ValidTextBrush="{StaticResource White}"/>
-                <Label Grid.Column="2" Style="{StaticResource Chippie.Label.Default}" Content="Header"/>
-                <elements:ConditionalTextbox x:Name="HeaderBox" Grid.Column="3" Style="{StaticResource ConditionalTextbox.Default}"
-                                             BorderBrush="{StaticResource 'Deep Purple'}" BorderThickness="4"
-                                             Condition="HeaderCondition" TextConfirmed="HeaderBox_OnTextConfirmed"
-                                             InvalidTextBrush="{StaticResource Red}" 
-                                             ValidTextBrush="{StaticResource White}"/>
+            <Grid Margin="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                              Style="{StaticResource Chippie.ScrollViewer}">
+                    <StackPanel>
+                        <elements:TitledFrame Title="Properties" Style="{StaticResource Chippie.TitledFrame.Default}"
+                                              MinHeight="64">
+                            <Grid Height="36" Margin="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Style="{StaticResource Chippie.Label.Default}" Content="Name"/>
+                                <elements:ConditionalTextbox x:Name="NameBox" Grid.Column="1" Style="{StaticResource ConditionalTextbox.Default}"
+                                                             BorderBrush="{StaticResource 'Deep Purple'}" BorderThickness="4"
+                                                             Condition="NameCondition" TextConfirmed="NameBox_OnTextConfirmed"
+                                                             InvalidTextBrush="{StaticResource Red}" 
+                                                             ValidTextBrush="{StaticResource White}"/>
+                                <Label Grid.Column="2" Style="{StaticResource Chippie.Label.Default}" Content="Header"/>
+                                <elements:ConditionalTextbox x:Name="HeaderBox" Grid.Column="3" Style="{StaticResource ConditionalTextbox.Default}"
+                                                             BorderBrush="{StaticResource 'Deep Purple'}" BorderThickness="4"
+                                                             Condition="HeaderCondition" TextConfirmed="HeaderBox_OnTextConfirmed"
+                                                             InvalidTextBrush="{StaticResource Red}" 
+                                                             ValidTextBrush="{StaticResource White}"/>
+                            </Grid>
+                        </elements:TitledFrame>
+                        <elements:TitledFrame Title="Argument Types" Style="{StaticResource Chippie.TitledFrame.Default}"
+                                              MinHeight="64" Margin="0, 4, 0, 0">
+                            <elements:TitledFrame.TopContent>
+                                <Grid HorizontalAlignment="Right">
+                                    <elements:SquareButton x:Name="ArgumentAddBtn" Margin="4" 
+                                                           Icon="../../../../Resources/Images/Icons/plus.png"
+                                                           BackgroundDefaultColor="{StaticResource 'Deep Purple'}"
+                                                           BackgroundHoverColor="{StaticResource Red}"
+                                                           BackgroundClickColor="{StaticResource Pink}"
+                                                           Click="ArgumentAddBtn_OnClick"/>
+                                </Grid>
+                            </elements:TitledFrame.TopContent>
+                            <StackPanel x:Name="ArgumentTypePanel" Orientation="Vertical"/>
+                        </elements:TitledFrame>
+                        <elements:TitledFrame Title="Action" Style="{StaticResource Chippie.TitledFrame.Default}"
+                                              MinHeight="64" Margin="0, 4, 0, 0">
+                            <elements:TitledFrame.TopContent>
+                                <Grid HorizontalAlignment="Right">
+                                    <elements:SquareButton x:Name="ActionAddBtn" Margin="4" 
+                                                           Icon="../../../../Resources/Images/Icons/plus.png"
+                                                           BackgroundDefaultColor="{StaticResource 'Deep Purple'}"
+                                                           BackgroundHoverColor="{StaticResource Red}"
+                                                           BackgroundClickColor="{StaticResource Pink}"
+                                                           Click="ActionAddBtn_OnClick"/>
+                                </Grid>
+                            </elements:TitledFrame.TopContent>
+                            <StackPanel x:Name="ActionsPanel" Orientation="Vertical" Margin="4, 0, 4, 4"/>
+                        </elements:TitledFrame>
+                    </StackPanel>
+                </ScrollViewer>
+                
+                <Grid Grid.Row="1" Margin="0, 4, 0, 0">
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <elements:SquareButton x:Name="CancelBtn" Label="Cancel" 
+                                               Margin="0, 0, 4, 0" Click="CancelBtn_OnClick"/>
+                        <elements:SquareButton x:Name="OkBtn" Label="Ok" Width="64" Click="OkBtn_OnClick"/>
+                    </StackPanel>
+                </Grid>
             </Grid>
-            <elements:TitledFrame Title="Argument Types" Style="{StaticResource Chippie.TitledFrame.Default}"
-                                  MinHeight="64" Margin="0, 0, 0, 4">
-                <StackPanel x:Name="ArgumentTypePanel" Orientation="Vertical"/>
-            </elements:TitledFrame>
-            <elements:TitledFrame Title="Action" Style="{StaticResource Chippie.TitledFrame.Default}"
-                                  MinHeight="64">
-                <StackPanel x:Name="ActionsPanel" Orientation="Vertical"/>
-            </elements:TitledFrame>
-        </StackPanel>
-        </Grid>
-        
-    </elements:TitledFrame>
+        </elements:TitledFrame>
+    </Border>
 </Window>

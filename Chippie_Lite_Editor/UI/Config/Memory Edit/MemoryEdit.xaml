@@ -9,7 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <elements:TitledFrame x:Name="MemoryList" Title="Memory List" Style="{StaticResource Chippie.TitledFrame.Default}"
-                              Visibility="Collapsed">
+                              Visibility="Visible">
             <elements:TitledFrame.TopContent>
                 <Grid HorizontalAlignment="Right">
                     <elements:SquareButton x:Name="AddBtn" Margin="4" 
@@ -23,6 +23,6 @@
             <StackPanel x:Name="MemoryPanel" Orientation="Vertical"/>
         </elements:TitledFrame>
         
-        <local:MemoryProperties Visibility="Visible"/>
+        <local:MemoryProperties x:Name="PropertiesEdit" Visibility="Collapsed"/>
     </Grid>
 </UserControl>

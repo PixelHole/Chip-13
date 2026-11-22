@@ -8,8 +8,6 @@ public static class InstructionLogicActions
 {
     internal static void And(InstructionAction action)
     {
-        ActionUtility.CheckArgumentAndActionIndexCount(action, 3);
-        
         var a = ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
         var b = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
         
@@ -17,8 +15,6 @@ public static class InstructionLogicActions
     }
     internal static void Or(InstructionAction action)
     {
-        ActionUtility.CheckArgumentAndActionIndexCount(action, 3);
-        
         var a = ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
         var b = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
         
@@ -26,8 +22,6 @@ public static class InstructionLogicActions
     }
     internal static void Xor(InstructionAction action)
     {
-        ActionUtility.CheckArgumentAndActionIndexCount(action, 3);
-        
         var a = ActionUtility.InterpretRead(action.Arguments[1], action.Instruction);
         var b = ActionUtility.InterpretRead(action.Arguments[2], action.Instruction);
         

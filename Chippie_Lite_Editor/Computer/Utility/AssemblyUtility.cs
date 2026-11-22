@@ -64,6 +64,13 @@ namespace Chippie_Lite_WPF.Computer.Utility
                 return new RegisterNumberArgument(null, num);
             }
             
+            if (arg.StartsWith('@'))
+            {
+                var label = AssemblyLabelDatabase.GetLabel(arg[1..]);
+                if (label == null) throw new InvalidInstructionException("Invalid label name", 0);
+                return new RegisterNumberArgument(null, label.Value);
+            }
+            
             var register = ParseRegister(body);
 
             string offset = ExtractOffset(arg);

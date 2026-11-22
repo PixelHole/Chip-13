@@ -15,40 +15,15 @@ public partial class CodeEditView
     
     public string InputText
     {
-        get
-        {
-            string text = "";
-
-            if (InputBox.CheckAccess())
-            {
-                text = InputBox.Text;
-            }
-            else
-            {
-                InputBox.Dispatcher.Invoke(() => text = InputBox.Text);
-            }
-
-            return text;
-        }
-        set
-        {
-            if (InputBox.CheckAccess())
-            {
-                InputBox.Text = value;
-            }
-            else
-            {
-                InputBox.Dispatcher.Invoke(() => InputBox.Text = value);
-            }
-        }
+        get => WPFUtility.GetText(InputBox);
+        set => WPFUtility.SetText(InputBox, value);
     }
     public new double FontSize
     {
         get => fontSize;
         set
         {
-            bool same = Math.Abs(fontSize - value) < 0.1d;
-            if (same || value < 8) return;
+            if (Math.Abs(fontSize - value) < 0.1d || value < 8) return;
             fontSize = value;
             if (CheckAccess())
             {
@@ -78,6 +53,8 @@ public partial class CodeEditView
     }
     private void SetupSyntaxHighlighting()
     {
+        SyntaxBox.GetSyntaxDrivers(InputBox).Clear();
+        
         var headers = InstructionSetManager.ActiveInstructionSet.GetHeadersCsv();
         
         KeywordRule headersRule = new KeywordRule
@@ -117,12 +94,23 @@ public partial class CodeEditView
     private void ConnectEvents()
     {
         InstructionSetManager.OnActiveSetChanged += OnOnActiveInstructionSetChanged;
+        RegisterBank.OnRegisterAdded += (_, _) => SetupSyntaxHighlighting();
+        RegisterBank.OnRegisterRemoved += (_, _) => SetupSyntaxHighlighting();
+        InstructionSetManager.OnActiveSetChanged += InstructionSetManagerOnOnActiveSetChanged;
+        InstructionSetManager.ActiveInstructionSet.OnTemplateAdded += (_, _, _) => SetupSyntaxHighlighting();
+        InstructionSetManager.ActiveInstructionSet.OnTemplateRemoved += (_, _, _) => SetupSyntaxHighlighting();
+    }
+    private void InstructionSetManagerOnOnActiveSetChanged(InstructionSet set, int index)
+    {
+        SetupSyntaxHighlighting();
+        set.OnTemplateAdded += (_, _, _) => SetupSyntaxHighlighting();
+        set.OnTemplateRemoved += (_, _, _) => SetupSyntaxHighlighting();
     }
     private void OnOnActiveInstructionSetChanged(InstructionSet set, int index)
     {
         SetupSyntaxHighlighting();
     }
-
+    
     public void SetEditable(bool editable)
     {
         WPFUtility.DoUiAction(InputBox, () => InputBox.IsEnabled = editable);
