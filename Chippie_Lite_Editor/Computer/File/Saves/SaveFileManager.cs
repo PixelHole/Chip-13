@@ -1,31 +1,98 @@
-﻿using Chippie_Lite_WPF.Computer.Components;
+﻿using System.ComponentModel;
+using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.File.Components;
 using Chippie_Lite_WPF.Computer.Utility;
 using Chippie_Lite_WPF.UI.Windows;
+using Microsoft.Win32;
 
 namespace Chippie_Lite_WPF.Computer.File;
 
 public static class SaveFileManager
 {
+     public delegate void FileSavedAction(SaveInstance file, string path, SaveOptions options);
+     public delegate void FileLoadedAction(SaveInstance file, string path, SaveOptions options);
+
+     public static event FileSavedAction? OnFileSaved;
+     public static event FileLoadedAction? OnFileLoaded;
      
+     
+     private static void LaunchLoadWindow()
+     {
+          OpenFileDialog fileDialog = new OpenFileDialog()
+          {
+               Multiselect = false,
+               Filter = "json files (*.json)|*.json|All files (*.*)|*.*"
+          };
+        
+          fileDialog.FileOk += LoadDialogOk;
+        
+          fileDialog.ShowDialog();
+     }
+     private static void LaunchSaveWindow()
+     {
+          SaveFileDialog fileDialog = new SaveFileDialog()
+          {
+               CreatePrompt = false,
+               OverwritePrompt = true,
+               Filter = "json files (*.json)|*.json|All files (*.*)|*.*"
+          };
+        
+          fileDialog.FileOk += SaveDialogOk;
+        
+          fileDialog.ShowDialog();
+     }
+     private static void LoadDialogOk(object? sender, CancelEventArgs e)
+     {
+          var fileDialog = sender as OpenFileDialog;
+          fileDialog!.FileOk -= LoadDialogOk;
+        
+          string path = fileDialog.FileName;
+
+          LoadFromFile(path);
+     }
+     private static void SaveDialogOk(object? sender, CancelEventArgs e)
+     {
+          var fileDialog = sender as SaveFileDialog;
+          fileDialog!.FileOk -= SaveDialogOk;
+
+          string path = fileDialog.FileName;
+
+          SaveToFile(path);
+     }
      
      public static void SaveToFile(string path, SaveOptions? options = null)
      {
           options ??= SaveOptions.FullOptions;
+
+          if (string.IsNullOrEmpty(path))
+          {
+               LaunchSaveWindow();
+               return;
+          }
           
-          SaveInstance save = new SaveInstance(MainWindow.MainWindowIns.GetCode(), SerializeConfig(options));
+          SaveInstance save = GetSaveInstance(InstructionSetManager.ActiveInstructionSet, options);
 
           JsonFileUtility.SerializeAndWrite(save, path);
+          
+          OnFileSaved?.Invoke(save, path, options);
      }
-     public static string LoadFromFile(string path, SaveOptions? options = null)
+     public static void LoadFromFile(string path, SaveOptions? options = null)
      {
           options ??= SaveOptions.FullOptions;
+
+          if (string.IsNullOrEmpty(path))
+          {
+               LaunchLoadWindow();
+               return;
+          }
           
           SaveInstance save = JsonFileUtility.ReadAndDeserialize<SaveInstance>(path);
           
           DeserializeConfig(save.Config, options);
           
-          return save.Code;
+          MainWindow.MainWindowIns.DevArea.SetInputCode(save.Code);
+          
+          OnFileLoaded?.Invoke(save, path, options);
      }
      public static void LoadDefaultData()
      {
@@ -33,13 +100,18 @@ public static class SaveFileManager
           
           DeserializeConfig(save.Config, SaveOptions.FullOptions);
      }
+
+     public static SaveInstance GetSaveInstance(InstructionSet set, SaveOptions options)
+     {
+          return new SaveInstance(MainWindow.MainWindowIns.GetCode(), SerializeConfig(set, options));
+     }
      
-     private static EnvironmentConfig SerializeConfig(SaveOptions options)
+     private static EnvironmentConfig SerializeConfig(InstructionSet set, SaveOptions options)
      {
           return new EnvironmentConfig(
                options.HasFlag(SaveOptions.SaveTargets.IO) ? SerializeIO() : null, 
                options.HasFlag(SaveOptions.SaveTargets.Memory) ? SerializeMemoryModules() : null,
-               options.HasFlag(SaveOptions.SaveTargets.InstructionSet) ? SerializeInstructionSet() : null,
+               options.HasFlag(SaveOptions.SaveTargets.InstructionSet) ? SerializeInstructionSet(set) : null,
                options.HasFlag(SaveOptions.SaveTargets.Registers) ? SerializeRegisters() : null,
                options.HasFlag(SaveOptions.SaveTargets.Colors) ? SerializeColors() : null);
      }
@@ -72,10 +144,9 @@ public static class SaveFileManager
 
           return memoryModules.ToArray();
      }
-     private static InstructionSetInstance SerializeInstructionSet()
+     private static InstructionSetInstance SerializeInstructionSet(InstructionSet set)
      {
-          var activeSet = InstructionSetManager.ActiveInstructionSet;
-          return new InstructionSetInstance(activeSet.Name, activeSet.GetTemplates());
+          return new InstructionSetInstance(set.Name, set.GetTemplates());
      }
      private static RegisterSaveInstance[] SerializeRegisters()
      {

@@ -1,4 +1,11 @@
-﻿namespace Chippie_Lite_WPF.Computer.Components;
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+using Chippie_Lite_WPF.Computer.File;
+using Chippie_Lite_WPF.Computer.Internal.Exceptions.Instruction_Sets;
+using Chippie_Lite_WPF.Computer.Utility;
+using Chippie_Lite_WPF.UI.Elements;
+
+namespace Chippie_Lite_WPF.Computer.Components;
 
 public static class InstructionSetManager
 {
@@ -27,6 +34,11 @@ public static class InstructionSetManager
     public delegate void ActiveSetChangedAction(InstructionSet set, int index);
     public static event ActiveSetChangedAction? OnActiveSetChanged;
 
+    public static InstructionSet DuplicateSet(InstructionSet set)
+    {
+        InstructionSet dupe = new InstructionSet(GenerateNewName(set.Name), set.GetTemplates(), false);
+        return dupe;
+    }
     public static void LoadSet(InstructionSet set)
     {
         LoadedSets.Add(set);
@@ -39,6 +51,8 @@ public static class InstructionSetManager
         OnSetUnloaded?.Invoke(set, index);
     }
 
+    public static InstructionSet? FindWithName(string name) => LoadedSets.Find(set => set.Name == name);
+    public static InstructionSet GetSet(int index) => LoadedSets[index];
     public static InstructionSet[] GetSets() => LoadedSets.ToArray();
 
     public static string[] GetSetNames()
@@ -53,6 +67,22 @@ public static class InstructionSetManager
         return names;
     }
 
+    public static void SetActive(string name)
+    {
+        var set = FindWithName(name);
+        if (set == null) return;
+        ActiveSetIndex = IndexOf(set);
+    }
+    public static void SetActive(InstructionSet set) => ActiveSetIndex = IndexOf(set);
+    
     public static bool HasSet(InstructionSet set) => LoadedSets.Contains(set);
     public static int IndexOf(InstructionSet set) => LoadedSets.IndexOf(set);
+
+    public static string GenerateNewName(string baseName = "")
+    {
+        string name = string.IsNullOrEmpty(baseName) ? "Instruction set" : baseName;
+        if (FindWithName(name) == null) return name;
+        for (int i = 1; i <= 1000; i++) if (FindWithName(name + i) == null) return name + i;
+        throw new TooManyInstructionSetsException($"You have too many instructions that start with the name {name}. please delete some. for your own good");
+    }
 }

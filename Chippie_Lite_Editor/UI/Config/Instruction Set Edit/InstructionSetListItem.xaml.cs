@@ -1,10 +1,10 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using Chippie_Lite_WPF.Computer.Components;
-using Chippie_Lite_WPF.Computer.Instructions;
+using Chippie_Lite_WPF.Computer.File.InstructionSets;
 using Chippie_Lite_WPF.Computer.Utility;
 using Chippie_Lite_WPF.UI.Elements;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace Chippie_Lite_WPF.UI.Config;
 
@@ -23,44 +23,73 @@ public partial class InstructionSetListItem : UserControl
         set => SetValue(IsPressedProperty, value);
     }
     
-    private InstructionTemplate? template;
-
-    public InstructionSetEdit View;
-    public new InstructionTemplate? Template
+    private InstructionSetList List;
+    
+    private InstructionSet? assignedSet;
+    public InstructionSet? AssignedSet
     {
-        get => template;
+        get => assignedSet;
         set
         {
-            template = value;
-            LoadTemplateData();
+            assignedSet = value;
+            OnSetChanged();
         }
     }
     
-    public InstructionSetListItem(InstructionSetEdit view)
+    
+    public InstructionSetListItem(InstructionSetList list)
     {
+        List = list;
         InitializeComponent();
-        View = view;
     }
 
-    private void LoadTemplateData()
+    private void OnSetChanged()
     {
-        WPFUtility.SetContent(NameLabel, Template?.Name ?? "Name");
-        WPFUtility.SetContent(HeaderLabel, Template?.Header ?? "Header");
+        EditBtn.Visibility = AssignedSet != null && (AssignedSet.ReadOnly || AssignedSet.Name == "Chip-13") ? Visibility.Collapsed : Visibility.Visible;
+        DeleteBtn.Visibility = AssignedSet != null && (AssignedSet.ReadOnly || AssignedSet.Name == "Chip-13") ? Visibility.Collapsed : Visibility.Visible;
+        WPFUtility.SetContent(NameLabel, AssignedSet?.Name ?? "Instruction set");
+        WPFUtility.SetContent(CountLabel, AssignedSet == null ? "0" : AssignedSet.Count + " Instructions");
     }
     
-    private void EditBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
+    private void ExportBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
-        if (Template != null) View.EditRequest(this, Template);
-    }
-    private void DuplicateBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
-    {
-        if (Template != null) View.DuplicateRequest(this, Template);
+        if (AssignedSet != null) InstructionSetFileManager.ExportToFile(AssignedSet, "");
     }
     private void DeleteBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
-        if (Template != null) View.DeleteRequest(this, Template);
+        if (AssignedSet == null) return;
+        ConfirmationPrompt prompt = new ConfirmationPrompt("Are you sure?",
+            "Are you sure you want to delete this instruction set? there will be no way to recover it. consider exporting it if you might need it later",
+            ["Export & Delete", "Cancel", "Delete"],
+            DeletePromptResult);
+        prompt.Show();
+    }
+    private void DeletePromptResult(string choice)
+    {
+        if (choice == "Cancel" || AssignedSet == null) return;
+        if (choice == "Delete") InstructionSetManager.UnloadSet(AssignedSet);
+        else
+        {
+            InstructionSetFileManager.ExportToFile(AssignedSet, "");
+            InstructionSetManager.UnloadSet(AssignedSet!);
+        }
     }
     
+    private void DuplicateBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
+    {
+        try
+        {
+            if (AssignedSet != null) InstructionSetManager.LoadSet(InstructionSetManager.DuplicateSet(AssignedSet));
+        }
+        catch (Exception exception)
+        {
+            ErrorBox.Pop("Error!", exception.Message);
+        }
+    }
+    private void EditBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
+    {
+        if (AssignedSet != null) List.EditSet(AssignedSet);
+    }
     private void InstructionSetListItem_OnMouseDown(object sender, MouseButtonEventArgs e)
     {
         IsPressed = true;
@@ -72,9 +101,5 @@ public partial class InstructionSetListItem : UserControl
     private void InstructionSetListItem_OnMouseLeave(object sender, MouseEventArgs e)
     {
         IsPressed = false;
-    }
-    private void InstructionSetListItem_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
-    {
-        if (Template != null) View.EditRequest(this, Template);
     }
 }

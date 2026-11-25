@@ -7,11 +7,15 @@
              xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
              mc:Ignorable="d"
              d:DesignHeight="32" d:DesignWidth="300"
+             BorderBrush="{StaticResource 'Deep Purple'}"
+             BorderThickness="0, 0, 0, 4"
+             ToolTip="Double click to edit"
              MouseDown="InstructionSetListItem_OnMouseDown" MouseUp="InstructionSetListItem_OnMouseUp"
-             MouseLeave="InstructionSetListItem_OnMouseLeave" MouseDoubleClick="InstructionSetListItem_OnMouseDoubleClick">
+             MouseLeave="InstructionSetListItem_OnMouseLeave">
     <UserControl.Style>
         <Style TargetType="local:InstructionSetListItem">
             <Setter Property="Background" Value="{StaticResource 'Dark Blue'}"/>
+            
             <Style.Triggers>
                 <MultiTrigger>
                     <MultiTrigger.Conditions>
@@ -34,40 +38,39 @@
         </Style>
     </UserControl.Style>
     
-    <Border BorderThickness="0, 0, 0, 4" BorderBrush="{StaticResource 'Deep Purple'}">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            
-            <StackPanel Orientation="Horizontal">
-                <Label x:Name="NameLabel" Style="{StaticResource Chippie.Label.Default}"
-                       FontSize="20"/>
-                <Label x:Name="HeaderLabel" Style="{StaticResource Chippie.Label.Default}"
-                       IsEnabled="False"/>
-            </StackPanel>
-            
-            <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="16, 0">
-                <StackPanel.Style>
-                    <Style TargetType="StackPanel">
-                        <Setter Property="Visibility" Value="Hidden"/>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel Orientation="Horizontal">
+            <Label x:Name="NameLabel" Style="{StaticResource Chippie.Label.Default}" FontSize="20" ToolTip="Instruction set name"/>
+            <Label x:Name="CountLabel" Style="{StaticResource Chippie.Label.Default}" IsEnabled="False" ToolTip="Number of templates"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="4">
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Hidden"/>
 
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Style>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
             
-                <elements:SquareButton x:Name="EditBtn" Width="26" Height="26" Icon="../../../../Resources/Images/Icons/edit.png"
-                                    Click="EditBtn_OnClick"/>
-                <elements:SquareButton x:Name="DuplicateBtn" Width="26" Height="26" Icon="../../../../Resources/Images/Icons/Duplicate.png"
-                                       Click="DuplicateBtn_OnClick"/>
-                <elements:SquareButton x:Name="DeleteBtn" Width="26" Height="26" Icon="../../../../Resources/Images/Icons/Trash.png"
-                                       Click="DeleteBtn_OnClick"/>
-            </StackPanel>
-        </Grid>
-    </Border>
+            <elements:SquareButton x:Name="EditBtn" Width="26" Height="26" Icon="../../../../Resources/Images/Icons/edit.png"
+                                Click="EditBtn_OnClick" ToolTip="Edit"/>
+            <elements:SquareButton x:Name="DuplicateBtn" Width="26" Height="26" Icon="../../../../Resources/Images/Icons/Duplicate.png"
+                                   Click="DuplicateBtn_OnClick" ToolTip="Duplicate"/>
+            <elements:SquareButton x:Name="ExportBtn" Width="26" Height="26" Icon="../../../../Resources/Images/Icons/Floppy.png"
+                                   Click="ExportBtn_OnClick" ToolTip="Export"/>
+            <elements:SquareButton x:Name="DeleteBtn" Width="26" Height="26" Icon="../../../../Resources/Images/Icons/Trash.png"
+                                   Click="DeleteBtn_OnClick" ToolTip="Delete"/>
+        </StackPanel>
+        
+    </Grid>
 </UserControl>

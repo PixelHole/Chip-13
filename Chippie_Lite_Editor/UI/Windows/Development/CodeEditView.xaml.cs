@@ -48,7 +48,6 @@ public partial class CodeEditView
     {
         InitializeComponent();
         SetupSyntaxHighlighting();
-        UpdateSetComboBox();
         ConnectEvents();
     }
     private void SetupSyntaxHighlighting()
@@ -94,8 +93,6 @@ public partial class CodeEditView
     private void ConnectEvents()
     {
         InstructionSetManager.OnActiveSetChanged += OnOnActiveInstructionSetChanged;
-        InstructionSetManager.OnSetLoaded += (_, _) => UpdateSetComboBox();
-        InstructionSetManager.OnSetUnloaded += (_, _) => UpdateSetComboBox();
         RegisterBank.OnRegisterAdded += (_, _) => SetupSyntaxHighlighting();
         RegisterBank.OnRegisterRemoved += (_, _) => SetupSyntaxHighlighting();
         InstructionSetManager.ActiveInstructionSet.OnTemplateAdded += (_, _, _) => SetupSyntaxHighlighting();
@@ -106,7 +103,6 @@ public partial class CodeEditView
         SetupSyntaxHighlighting();
         set.OnTemplateAdded += (_, _, _) => SetupSyntaxHighlighting();
         set.OnTemplateRemoved += (_, _, _) => SetupSyntaxHighlighting();
-        UpdateSetComboBox();
     }
     
     public void SetEditable(bool editable)
@@ -140,37 +136,6 @@ public partial class CodeEditView
     {
         int count = lines.Count(line => !string.IsNullOrEmpty(line) && !string.IsNullOrWhiteSpace(line) && !line.StartsWith('#'));
         WPFUtility.SetContent(LineCountDisplay, $"LOC : {count}");
-    }
-    private void UpdateSetComboBox()
-    {
-        WPFUtility.DoUiAction(InstructionSetCB, UpdateComboBoxAction);
-    }
-    private void UpdateComboBoxAction()
-    {
-        var names = InstructionSetManager.GetSetNames();
-
-        for (int i = 0; i < names.Length; i++)
-        {
-            if (i < InstructionSetCB.Items.Count)
-            {
-                var item = (InstructionSetCB.Items[i] as ComboBoxItem)!;
-                item.Content = names[i];
-                InstructionSetCB.Items[i] = item;
-            }
-            else
-            {
-                ComboBoxItem item = new ComboBoxItem
-                {
-                    Content = names[i]
-                };
-                InstructionSetCB.Items.Add(item);
-            }
-        }
-
-        for (int i = names.Length; i < InstructionSetCB.Items.Count; i++)
-        {
-            InstructionSetCB.Items.RemoveAt(InstructionSetCB.Items.Count - 1);
-        }
     }
 
     public string[] GetInputLines()
@@ -214,9 +179,5 @@ public partial class CodeEditView
     private void InputBox_OnKeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == ZoomResetKey && Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftShift)) ResetZoom();
-    }
-    private void InstructionSetSelector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        
     }
 }

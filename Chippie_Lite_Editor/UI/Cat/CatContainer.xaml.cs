@@ -6,7 +6,7 @@ namespace Chippie_Lite_WPF.UI.Cat;
 public partial class CatContainer : UserControl
 {
     public CatContainerControl Control { get; }
-    public double MaxWidth { get; private set; }
+    public new double MaxWidth { get; private set; }
     
     public CatContainer()
     {

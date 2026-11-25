@@ -1,9 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.Instructions;
-using Chippie_Lite_WPF.Computer.Utility;
 using Chippie_Lite_WPF.UI.Elements;
 using Chippie_Lite_WPF.UI.Windows;
 

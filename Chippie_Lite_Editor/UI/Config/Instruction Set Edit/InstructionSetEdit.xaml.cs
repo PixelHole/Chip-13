@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
 using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.Instructions;
@@ -7,8 +6,13 @@ using Chippie_Lite_WPF.UI.Elements;
 
 namespace Chippie_Lite_WPF.UI.Config;
 
-public partial class InstructionSetEdit : UserControl
+public partial class InstructionSetEdit
 {
+    public delegate void EditCancelAction(InstructionSetEdit sender, InstructionSet? assignedSet);
+    public delegate void EditConfirmAction(InstructionSetEdit sender, InstructionSet? assignedSet);
+    public event EditCancelAction? OnCancel;
+    public event EditConfirmAction OnConfirm;
+    
     private InstructionSetEditControl Control;
     
     private InstructionSet? assignedSet;
@@ -47,12 +51,13 @@ public partial class InstructionSetEdit : UserControl
     {
         InstructionSetManager.OnActiveSetChanged += (set, index) => AssignedSet = set;
     }
-
+    
     public bool SearchCondition(string s) => true;
     
     private void OnSetChanged()
     {
         UpdateTitle();
+        NameBox.Text = AssignedSet?.Name ?? "";
         UpdateListItems();
     }
     private void UpdateTitle()
@@ -72,12 +77,12 @@ public partial class InstructionSetEdit : UserControl
         while (TemplatesPanel.Children.Count != set.Length)
         {
             if (TemplatesPanel.Children.Count > set.Length) TemplatesPanel.Children.RemoveAt(TemplatesPanel.Children.Count - 1);
-            else TemplatesPanel.Children.Add(new InstructionSetListItem(this));
+            else TemplatesPanel.Children.Add(new TemplateListItem(this));
         }
 
         for (int i = 0; i < TemplatesPanel.Children.Count; i++)
         {
-            var item = TemplatesPanel.Children[i] as InstructionSetListItem;
+            var item = TemplatesPanel.Children[i] as TemplateListItem;
             item!.Template = set[i];
         }
     }
@@ -87,13 +92,13 @@ public partial class InstructionSetEdit : UserControl
         if (!string.IsNullOrWhiteSpace(SearchTerm)) result = SortBySimilarity(result);
         return result;
     }
-
-    public void DeleteRequest(InstructionSetListItem sender, InstructionTemplate template)
+    
+    public void DeleteRequest(TemplateListItem sender, InstructionTemplate template)
     {
         if (AssignedSet == null) return;
         Control.DeleteTemplate(template);
     }
-    public void DuplicateRequest(InstructionSetListItem sender, InstructionTemplate template)
+    public void DuplicateRequest(TemplateListItem sender, InstructionTemplate template)
     {
         if (AssignedSet == null) return;
         var newTemp = new InstructionTemplate(template.Name + " Copy", template.Header + "d", template.ArgumentTypes.ToArray(),
@@ -101,7 +106,7 @@ public partial class InstructionSetEdit : UserControl
         AssignedSet.AddTemplate(newTemp);
         UpdateListItems();
     }
-    public void EditRequest(InstructionSetListItem sender, InstructionTemplate template)
+    public void EditRequest(TemplateListItem sender, InstructionTemplate template)
     {
         Control.ShowEditWindow(template);
     }
@@ -170,13 +175,18 @@ public partial class InstructionSetEdit : UserControl
         return previousRow[m];
     }
     
+    public bool NameCondition(string s)
+    {
+        if (AssignedSet == null) return true;
+        if (string.IsNullOrWhiteSpace(s) || string.IsNullOrEmpty(s)) return false;
+        InstructionSet? match = InstructionSetManager.FindWithName(s);
+        if (match != null && match != AssignedSet) return false;
+        return true;
+    }
+    
     private void AddBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
         Control.ShowEditWindow(new InstructionTemplate("", "", [], []), true);
-    }
-    private void InstructionSetSelect_OnSelected(object sender, RoutedEventArgs e)
-    {
-        
     }
     private void SearchBox_OnTextConfirmed(string text)
     {
@@ -186,12 +196,18 @@ public partial class InstructionSetEdit : UserControl
     {
         SearchBox.Text = "";
     }
-    private void ImportBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
+    private void NameBox_OnTextConfirmed(string text)
     {
-        
+        if (AssignedSet != null) AssignedSet.Name = text;
     }
-    private void ExportBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
+    
+    private void CancelBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
     {
-        
+        OnCancel?.Invoke(this, AssignedSet);
+    }
+    private void ConfirmBtn_OnClick(SquareButton sender, MouseButtonEventArgs e)
+    {
+        if (string.IsNullOrEmpty(NameBox.Text)) return;
+        OnConfirm?.Invoke(this, AssignedSet);
     }
 }

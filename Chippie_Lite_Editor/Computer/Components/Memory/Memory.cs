@@ -242,7 +242,7 @@ public class Memory : ChippieComponent
         int index = 0;
         string[] labels = ["Bs", "KBs", "MBs", "GBs"];
         double size = SizeInBytes;
-        while (size > 1024)
+        while (size >= 1024)
         {
             index++;
             size /= 1024;

@@ -1,9 +1,7 @@
-﻿using System.Windows;
-using Chippie_Lite_WPF.Computer.Instructions;
+﻿using Chippie_Lite_WPF.Computer.Instructions;
 using Chippie_Lite_WPF.Computer.Utility;
 using Chippie_Lite_WPF.UI.Config.Edit_Window;
 using Chippie_Lite_WPF.UI.Elements;
-using Chippie_Lite_WPF.UI.Windows;
 
 namespace Chippie_Lite_WPF.UI.Config;
 
@@ -44,6 +42,7 @@ public class InstructionSetEditControl
                 View.AssignedSet?.RemoveTemplate(template);
                 View.UpdateListItems();
             });
+        prompt.Show();
     }
     
     private void EditWindowOnConfirm(InstructionTemplateEditWindow sender, InstructionTemplate template)

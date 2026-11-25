@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.Json.Serialization;
 using Chippie_Lite_WPF.Computer.Instructions;
 using Chippie_Lite_WPF.Computer.Utility;
 
@@ -6,8 +7,9 @@ namespace Chippie_Lite_WPF.Computer.Components;
 
 public class InstructionSet
 {
-    public string Name { get; }
+    public string Name { get; set; }
     private List<InstructionTemplate> Templates { get; } = [];
+    public bool ReadOnly { get; set; }
     public int Count => Templates.Count;
 
     public delegate void TemplateAddedAction(InstructionSet set, InstructionTemplate template, int index);
@@ -15,14 +17,19 @@ public class InstructionSet
 
     public event TemplateAddedAction? OnTemplateAdded;
     public event TemplateRemovedAction? OnTemplateRemoved;
-    
-    
 
-
+    [JsonConstructor]
+    public InstructionSet(string name, IEnumerable<InstructionTemplate> templates, bool readOnly)
+    {
+        Name = name;
+        AddTemplates(templates);
+        ReadOnly = readOnly;
+    }
     public InstructionSet(string name, IEnumerable<InstructionTemplate> templates)
     {
         Name = name;
         AddTemplates(templates);
+        ReadOnly = false;
     }
 
     public void FlushTemplates() => Templates.Clear();
@@ -84,9 +91,9 @@ public class InstructionSet
         return csv.ToString();
     }
 
-    protected bool Equals(InstructionSet other)
+    protected bool Equals(InstructionSet? other)
     {
-        return Templates.SequenceEqual(other.Templates);
+        return other is not null && Templates.SequenceEqual(other.Templates) && string.Equals(Name, other.Name, StringComparison.Ordinal);
     }
     public override bool Equals(object? obj)
     {
@@ -98,5 +105,16 @@ public class InstructionSet
     public override int GetHashCode()
     {
         return Templates.GetHashCode();
+    }
+
+    public static bool operator ==(InstructionSet? a, InstructionSet? b)
+    {
+        if (a is null && b is null) return true;
+        if (a is null || b is null) return false;
+        return a.Equals(b);
+    }
+    public static bool operator !=(InstructionSet? a, InstructionSet? b)
+    {
+        return !(a == b);
     }
 }

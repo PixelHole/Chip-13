@@ -922,7 +922,8 @@
             }
           ]
         }
-      ]
+      ],
+      "readOnly": true
     },
     "registers": [
       {

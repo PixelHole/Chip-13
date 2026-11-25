@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:syntax="clr-namespace:UI.SyntaxBox;assembly=UI.SyntaxBox"
+             xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
              mc:Ignorable="d"
              SnapsToDevicePixels="True"
              Background="Transparent"
@@ -65,7 +66,7 @@
                    FontFamily="{StaticResource TextFontAlt}" FontSize="16"
                    Content="LOC : 0"/>
             
-            <ComboBox x:Name="InstructionSetCB" Style="{StaticResource Chippie.ComboBox}" SelectedIndex="0" SelectionChanged="InstructionSetSelector_OnSelectionChanged"/>
+            <elements:SetSelectBox/>
         </StackPanel>
         
     </Grid>

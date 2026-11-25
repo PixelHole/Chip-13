@@ -19,9 +19,9 @@ public partial class RegisterList : UserControl
         get => mode;
         set
         {
-            bool changed = mode != value;
+            if (mode == value) return;
             mode = value;
-            if (!changed) return;
+            RegisterListGrid.Children.Clear();
             UpdateList();
         }
     }

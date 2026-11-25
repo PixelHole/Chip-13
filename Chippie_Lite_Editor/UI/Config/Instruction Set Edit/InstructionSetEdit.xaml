@@ -6,83 +6,87 @@
              xmlns:local="clr-namespace:Chippie_Lite_WPF.UI.Config"
              xmlns:elements="clr-namespace:Chippie_Lite_WPF.UI.Elements"
              mc:Ignorable="d"
-             Background="Transparent"
-             d:DesignHeight="300" d:DesignWidth="400">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid x:Name="EditGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
         
-        <elements:TitledFrame Grid.Row="0" Style="{StaticResource Chippie.TitledFrame.Default}" Title="Properties">
-            <Grid Margin="4">
+            <elements:TitledFrame Grid.Row="0" Style="{StaticResource Chippie.TitledFrame.Default}" Title="Properties">
+                <Grid Margin="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+            
+                    <Label Style="{StaticResource Chippie.Label.Default}" Content="Name"/>
+                    <elements:ConditionalTextbox x:Name="NameBox" Grid.Column="1" Margin="4, 0, 0 ,0" Style="{StaticResource ConditionalTextbox.Default}"
+                                                 InvalidTextBrush="{StaticResource Red}" 
+                                                 ValidTextBrush="{StaticResource White}"
+                                                 BorderBrush="{StaticResource 'Deep Purple'}"
+                                                 RetainText="True"
+                                                 BorderThickness="4"
+                                                 Condition="NameCondition"
+                                                 TextConfirmed="NameBox_OnTextConfirmed"/>
+            
+                </Grid>
+            </elements:TitledFrame>
+        
+            <elements:TitledFrame Grid.Row="1" x:Name="Frame" Title="Templates" Margin="0, 4, 0, 0" 
+                                  Style="{StaticResource Chippie.TitledFrame.Default}">
+                <elements:TitledFrame.TopContent>
+                    <Grid Margin="32, 4, 4, 4">
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                        
+                            <elements:SquareButton x:Name="AddBtn" Margin="4, 0"
+                                                   Icon="../../../Resources/Images/Icons/plus.png"
+                                                   BackgroundDefaultColor="{StaticResource 'Deep Purple'}"
+                                                   BackgroundHoverColor="{StaticResource Red}"
+                                                   BackgroundClickColor="{StaticResource Pink}"
+                                                   ToolTip="Add an Instruction"
+                                                   Click="AddBtn_OnClick"/>
+                        
+                            <elements:ConditionalTextbox Grid.Column="1" x:Name="SearchBox"
+                                                         Style="{StaticResource ConditionalTextbox.Default}"
+                                                         Condition="SearchCondition"
+                                                         Background="{StaticResource 'Dark Blue'}"
+                                                         Placeholder="Search..."
+                                                         TextConfirmed="SearchBox_OnTextConfirmed"/>
+                            <elements:SquareButton Grid.Column="2" x:Name="ClearBtn"
+                                                   Icon="../../../Resources/Images/Icons/strike_invert.png"
+                                                   BackgroundDefaultColor="{StaticResource 'Deep Purple'}"
+                                                   BackgroundHoverColor="{StaticResource Red}"
+                                                   BackgroundClickColor="{StaticResource Pink}"
+                                                   ToolTip="Add an Instruction"
+                                                   Click="ClearBtn_OnClick"/>
+                        </Grid>
+                    </Grid>
+                </elements:TitledFrame.TopContent>
+        
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                              Style="{StaticResource Chippie.ScrollViewer}">
+                    <StackPanel x:Name="TemplatesPanel"/>
+                </ScrollViewer>
+        
+            </elements:TitledFrame>
+        
+            <Grid Grid.Row="2" HorizontalAlignment="Right">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-            
-                <Label Style="{StaticResource Chippie.Label.Default}" Content="Name"/>
-                <elements:ConditionalTextbox Grid.Column="1" Margin="4, 0, 0 ,0" Style="{StaticResource ConditionalTextbox.Default}"
-                                             InvalidTextBrush="{StaticResource Red}" 
-                                             ValidTextBrush="{StaticResource White}"
-                                             BorderBrush="{StaticResource 'Deep Purple'}"
-                                             BorderThickness="4"/>
-            
+                
+                <elements:SquareButton x:Name="CancelBtn" Grid.Column="1" Label="Cancel" Margin="0, 4, 4, 4" Click="CancelBtn_OnClick"/>
+                <elements:SquareButton x:Name="ConfirmBtn" Grid.Column="2" Label="Confirm" Margin="0, 4, 4, 4" Click="ConfirmBtn_OnClick"/>
             </Grid>
-        </elements:TitledFrame>
         
-        <elements:TitledFrame Grid.Row="1" x:Name="Frame" Title="Templates" Style="{StaticResource Chippie.TitledFrame.Default}">
-            <elements:TitledFrame.TopContent>
-                <Grid Margin="32, 4, 4, 4">
-                    <Grid HorizontalAlignment="Stretch">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        
-                        <elements:SquareButton x:Name="AddBtn" Margin="4, 0"
-                                               Icon="../../../Resources/Images/Icons/plus.png"
-                                               BackgroundDefaultColor="{StaticResource 'Deep Purple'}"
-                                               BackgroundHoverColor="{StaticResource Red}"
-                                               BackgroundClickColor="{StaticResource Pink}"
-                                               ToolTip="Add an Instruction"
-                                               Click="AddBtn_OnClick"/>
-                        
-                        <elements:ConditionalTextbox Grid.Column="1" x:Name="SearchBox"
-                                                     Style="{StaticResource ConditionalTextbox.Default}"
-                                                     Condition="SearchCondition"
-                                                     Background="{StaticResource 'Dark Blue'}"
-                                                     Placeholder="Search..."
-                                                     TextConfirmed="SearchBox_OnTextConfirmed"/>
-                        <elements:SquareButton Grid.Column="2" x:Name="ClearBtn"
-                                               Icon="../../../Resources/Images/Icons/strike_invert.png"
-                                               BackgroundDefaultColor="{StaticResource 'Deep Purple'}"
-                                               BackgroundHoverColor="{StaticResource Red}"
-                                               BackgroundClickColor="{StaticResource Pink}"
-                                               ToolTip="Add an Instruction"
-                                               Click="ClearBtn_OnClick"/>
-                    </Grid>
-                </Grid>
-            </elements:TitledFrame.TopContent>
-        
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
-                          Style="{StaticResource Chippie.ScrollViewer}">
-                <StackPanel x:Name="TemplatesPanel"/>
-            </ScrollViewer>
-        
-        </elements:TitledFrame>
-        
-        <Grid Grid.Row="2" HorizontalAlignment="Right">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            
-            <elements:SquareButton x:Name="ExportBtn" Grid.Column="0" Label="Export" Margin="0, 4, 4, 4" Click="ExportBtn_OnClick"/>
-            <elements:SquareButton x:Name="ImportBtn" Grid.Column="1" Label="Import" Margin="0, 4, 4, 4" Click="ImportBtn_OnClick"/>
         </Grid>
-        
-    </Grid>
 </UserControl>

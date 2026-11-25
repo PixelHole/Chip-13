@@ -23,6 +23,6 @@ public partial class App
     }
     private void App_OnExit(object sender, ExitEventArgs e)
     {
-        Chippie.HaltOperation();
+        Chippie.ShutdownProcedure();
     }
 }

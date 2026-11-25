@@ -1,6 +1,7 @@
 ﻿using Chippie_Lite_WPF.Computer.Components;
 using Chippie_Lite_WPF.Computer.File.Components;
 using Chippie_Lite_WPF.Computer.Utility;
+using Chippie_Lite_WPF.UI.Elements;
 
 namespace Chippie_Lite_WPF.Computer.File.InstructionSets;
 
@@ -28,5 +29,32 @@ public static class InstructionSetFileManager
         }
         
         JsonFileUtility.SerializeAndWrite(instances, "Data/InstructionSets.json");
+    }
+    
+    public static void ExportToFile(InstructionSet set, string path)
+    {
+        try
+        {
+            var serialized = SaveFileManager.GetSaveInstance(set, SaveOptions.InstructionSetOptions);
+            JsonFileUtility.SerializeAndWrite(serialized, path);
+        }
+        catch (Exception e)
+        {
+            ErrorBox.Pop("Error!", e.Message);
+        }
+    }
+    public static void ImportFromFile(string path)
+    {
+        try
+        {
+            var instance = JsonFileUtility.ReadAndDeserialize<SaveInstance>(path);
+            var set = instance.Config.InstructionSet?.ToSet() ?? throw new NullReferenceException();
+            InstructionSetManager.LoadSet(set);
+            InstructionSetManager.ActiveSetIndex = InstructionSetManager.IndexOf(set);
+        }
+        catch (Exception e)
+        {
+            ErrorBox.Pop("Error!", e.Message);
+        }
     }
 }

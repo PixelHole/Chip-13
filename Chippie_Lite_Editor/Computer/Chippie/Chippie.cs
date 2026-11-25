@@ -65,8 +65,12 @@ public static class Chippie
 
     public static void Initialize()
     {
-        // InstructionSetFileManager.LoadSets();
+        InstructionSetFileManager.LoadSets();
         SaveFileManager.LoadDefaultData();
+    }
+    public static void ShutdownProcedure()
+    {
+        HaltOperation();
         InstructionSetFileManager.SaveSets();
     }
     

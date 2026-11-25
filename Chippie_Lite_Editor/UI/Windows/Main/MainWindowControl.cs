@@ -27,6 +27,18 @@ public class MainWindowControl
         Chippie.OnRunStarted += ChippieOnOnRunStarted;
         Chippie.OnRunFinished += ChippieOnOnRunFinished;
         Chippie.OnSingleStepChanged += OnSingleChanged;
+        SaveFileManager.OnFileLoaded += SaveFileManagerOnOnFileLoaded;
+        SaveFileManager.OnFileSaved += SaveFileManagerOnOnFileSaved;
+    }
+    private void SaveFileManagerOnOnFileSaved(SaveInstance file, string path, SaveOptions options)
+    {
+        if (options != SaveOptions.FullOptions) return;
+        FilePath = path;
+    }
+    private void SaveFileManagerOnOnFileLoaded(SaveInstance file, string path, SaveOptions options)
+    {
+        if (options != SaveOptions.FullOptions) return;
+        FilePath = path;
     }
 
     public void RunScript(string script)
@@ -90,72 +102,21 @@ public class MainWindowControl
             var prompt = new ConfirmationPrompt("Are you sure?",
                 "you have unsaved changes that will be wiped when you load a project. are you sure you would like to proceed",
                 ["Cancel", "Ok"], 
-                s => { if (s == "Ok") LaunchLoadWindow(); });
+                s => { if (s == "Ok") LoadInstance(FilePath); });
             
             prompt.Show();
-            
             return;
         }
         
-        LaunchLoadWindow();
+        LoadInstance(FilePath);
     }
     public void RequestSaveAs()
     {
-        LaunchSaveWindow();
+        SaveInstance("");
     }
     public void RequestSave()
     {
-        if (!string.IsNullOrEmpty(FilePath))
-        {
-            SaveInstance(FilePath);
-            return;
-        }
-        
-        LaunchSaveWindow();
-    }
-    
-    private void LaunchLoadWindow()
-    {
-        OpenFileDialog fileDialog = new OpenFileDialog()
-        {
-            Multiselect = false,
-            Filter = "json files (*.json)|*.json|All files (*.*)|*.*"
-        };
-        
-        fileDialog.FileOk += LoadDialogOk;
-        
-        fileDialog.ShowDialog();
-    }
-    private void LoadDialogOk(object? sender, CancelEventArgs e)
-    {
-        var fileDialog = sender as OpenFileDialog;
-        fileDialog!.FileOk -= LoadDialogOk;
-        
-        string path = fileDialog.FileName;
-        
-        LoadInstance(path);
-    }
-    private void LaunchSaveWindow()
-    {
-        SaveFileDialog fileDialog = new SaveFileDialog()
-        {
-            CreatePrompt = false,
-            OverwritePrompt = true,
-            Filter = "json files (*.json)|*.json|All files (*.*)|*.*"
-        };
-        
-        fileDialog.FileOk += SaveDialogOk;
-        
-        fileDialog.ShowDialog();
-    }
-    private void SaveDialogOk(object? sender, CancelEventArgs e)
-    {
-        var fileDialog = sender as SaveFileDialog;
-        fileDialog!.FileOk -= SaveDialogOk;
-
-        string path = fileDialog.FileName;
-        
-        SaveInstance(path);
+        SaveInstance(FilePath);
     }
 
     private void SaveInstance(string path)
@@ -172,18 +133,15 @@ public class MainWindowControl
     }
     private void LoadInstance(string path)
     {
-        string code = "";
-        
         try
         {
-            code = SaveFileManager.LoadFromFile(path);
+            SaveFileManager.LoadFromFile(path);
         }
         catch (Exception e)
         {
             SaveFileExceptionHandler.HandleLoadException(e);
         }
         
-        Owner.DevArea.SetInputCode(code);
         FilePath = path;
         Owner.DevArea.SourceChanged = false;
     }
